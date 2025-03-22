@@ -5,3 +5,9 @@
 # Data
 data_raw/
 data_clean/
+
+# Graphs
+graphs/
+
+# Models
+models/
