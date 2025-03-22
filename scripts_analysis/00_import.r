@@ -15,8 +15,10 @@
 # Load packages
 library(arrow)
 library(ggeffects)
+library(janitor)
 library(jtools)
 library(lme4)
+library(patchwork)
 library(tidyverse)
 
 # Load data
