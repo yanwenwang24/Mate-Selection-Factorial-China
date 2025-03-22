@@ -1,3 +1,7 @@
 # System files
 .DS_Store
 .vscode/
+
+# Data
+data_raw/
+data_clean/
