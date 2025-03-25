@@ -33,7 +33,7 @@ ip_address = select(
 rename!(data_behavior, "\ufeffid" => "id")
 
 # Duration for demographic questions
-demo_behavior = select(data_behavior, :id, r"^page([2-9]|1[0-5])_duration$")
+demo_behavior = select(data_behavior, :id, r"^page([1-9]|1[0-7])_duration$")
 
 # Total duration
 demo_behavior.demo_duration = [sum(row) for row in eachrow(demo_behavior[:, 2:end])]
@@ -42,18 +42,18 @@ select!(demo_behavior, :id, :demo_duration)
 
 # 3 Duration for vignettes ------------------------------------------------
 
-vignette_behavior = select(data_behavior, :id, r"^page(1[6-9]|2[0-1])_duration$")
+vignette_behavior = select(data_behavior, :id, r"^page(1[8-9]|2[0-3])_duration$")
 
 # Rename
 rename!(
     vignette_behavior,
     Dict(
-        "page16_duration" => "v1_duration",
-        "page17_duration" => "v2_duration",
-        "page18_duration" => "v3_duration",
-        "page19_duration" => "v4_duration",
-        "page20_duration" => "v5_duration",
-        "page21_duration" => "v6_duration"
+        "page18_duration" => "v1_duration",
+        "page19_duration" => "v2_duration",
+        "page20_duration" => "v3_duration",
+        "page21_duration" => "v4_duration",
+        "page22_duration" => "v5_duration",
+        "page23_duration" => "v6_duration"
     )
 )
 
@@ -62,7 +62,7 @@ vignette_behavior.vignette_duration = [sum(row) for row in eachrow(vignette_beha
 
 # 4 Post-vignette questions -----------------------------------------------
 
-post_behavior = select(data_behavior, :id, :page22_duration => :post_duration)
+post_behavior = select(data_behavior, :id, :page24_duration => :post_duration)
 
 # 5 Merge -----------------------------------------------------------------
 
