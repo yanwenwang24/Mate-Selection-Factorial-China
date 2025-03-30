@@ -1,7 +1,7 @@
 ## ------------------------------------------------------------------------
 ##
-## Script name: 04_model.r
-## Purpose: Model the data
+## Script name: 04_model_null.r
+## Purpose: Fit null models
 ## Author: Yanwen Wang
 ## Date Created: 2025-03-21
 ## Email: yanwenwang@u.nus.edu
