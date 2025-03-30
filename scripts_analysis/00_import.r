@@ -15,6 +15,7 @@
 # Load packages
 library(arrow)
 library(ggeffects)
+library(ggtext)
 library(janitor)
 library(jtools)
 library(lme4)
