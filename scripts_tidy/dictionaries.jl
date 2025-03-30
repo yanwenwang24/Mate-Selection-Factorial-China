@@ -31,13 +31,15 @@ city_dict = Dict(
     "北京" => "Beijing",
     "上海" => "Shanghai",
     "广州" => "Guangzhou",
-    "深圳" => "Shenzhen"
+    "深圳" => "Shenzhen",
+    missing => "Other"
 )
 
 # Nativity (Q5)
 nativity_dict = Dict(
     1 => "local",
-    2 => "non-local"
+    2 => "non-local",
+    missing => missing
 )
 
 # Marital status (Q6)
@@ -68,7 +70,8 @@ agemar_dict = Dict(
     2 => "28-30",
     3 => "31-35",
     4 => "36-40",
-    5 => "above 40"
+    5 => "above 40",
+    6 => "against marraige"
 )
 
 # Hukou at age 12 (Q10)
@@ -133,54 +136,63 @@ oldest_dict = Dict(
 v_age_dict = Dict(
     "比您大5岁" => "older",
     "与您年龄相仿" => "same",
-    "比您小5岁" => "younger"
+    "比您小5岁" => "younger",
+    missing => missing
 )
 
 v_educ_dict = Dict(
     "高中文凭" => "low",
     "大学本科" => "middle",
-    "硕士学位" => "high"
+    "硕士学位" => "high",
+    missing => missing
 )
 
 v_income_dict = Dict(
     "薪资低于平均水平，职业发展空间有限" => "low",
     "薪资处于平均水平，具备基本职业保障" => "middle",
-    "薪资高于平均水平，职业晋升通道明确" => "high"
+    "薪资高于平均水平，职业晋升通道明确" => "high",
+    missing => missing
 )
 
 v_nativity_dict = Dict(
     "在本地出生、长大" => "local",
-    "不在本地出生、长大" => "non-local"
+    "不在本地出生、长大" => "non-local",
+    missing => missing
 )
 
 v_appearance_dict = Dict(
     "低于大众平均颜值" => "ugly",
     "处于大众平均颜值" => "average",
-    "高于大众平均颜值" => "pretty"
+    "高于大众平均颜值" => "pretty",
+    missing => missing
 )
 
 v_housework_dict = Dict(
     "认为家务主要由女性承担" => "women",
     "认为家务由双方平等承担" => "equal",
-    "认为家务主要由男性承担" => "men"
+    "认为家务主要由男性承担" => "men",
+    missing => missing
 )
 
 v_career_dict = Dict(
     "对伴侣的事业抱负和发展支持较少" => "low",
     "对伴侣的事业抱负和发展支持一般" => "middle",
-    "对伴侣的事业抱负和发展支持较多" => "high"
+    "对伴侣的事业抱负和发展支持较多" => "high",
+    missing => missing
 )
 
 v_emotion_dict = Dict(
     "情绪价值较低，较少主动关心伴侣情绪" => "low",
     "情绪价值一般，能回应伴侣的情感需求" => "middle",
-    "情绪价值较高，能察觉并回应伴侣的情感需求" => "high"
+    "情绪价值较高，能察觉并回应伴侣的情感需求" => "high",
+    missing => missing
 )
 
 v_fertility_dict = Dict(
     "明确表示不要孩子" => "no",
     "尚未就是否生育做出决定" => "uncertain",
-    "有生育意愿和规划" => "yes"
+    "有生育意愿和规划" => "yes",
+    missing => missing
 )
 
 # Post-vignette assessment ------------------------------------------------
