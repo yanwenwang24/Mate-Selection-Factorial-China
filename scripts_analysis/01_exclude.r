@@ -12,7 +12,28 @@
 ##
 ## ------------------------------------------------------------------------
 
+# 1 Check source ----------------------------------------------------------
+
+# Only keep respondents from 调研家社区
+drop_source <- data_behavior %>%
+  filter(source != "调研家社区") %>%
+  select(id) %>%
+  pull()
+
 # 1 Check response duration -----------------------------------------------
+
+# Summary statistics
+duration_summary <- data_behavior %>%
+  summarise(
+    vignette_mean = mean(vignette_duration, na.rm = TRUE),
+    vignette_median = median(vignette_duration, na.rm = TRUE),
+    vignette_sd = sd(vignette_duration, na.rm = TRUE),
+    total_mean = mean(total_duration, na.rm = TRUE),
+    total_median = median(total_duration, na.rm = TRUE),
+    total_sd = sd(total_duration, na.rm = TRUE)
+  )
+
+print(duration_summary)
 
 # Define duration threshold
 vignette_duration_threshold <- 50
@@ -62,12 +83,25 @@ duplicated_vignettes <- data_answer %>%
 
 sample_answer <- data_answer %>%
   filter(
+    !id %in% drop_source,
     !id %in% drop_duration,
     !id %in% drop_straight_lining
   )
 
 sample_behavior <- data_behavior %>%
   filter(
+    !id %in% drop_source,
     !id %in% drop_duration,
     !id %in% drop_straight_lining
   )
+
+# Number of respondents excluded
+data_answer %>%
+  filter(
+    id %in% drop_source |
+      id %in% drop_duration |
+      id %in% drop_straight_lining
+  ) %>%
+  select(id) %>%
+  distinct() %>%
+  nrow()
