@@ -32,16 +32,17 @@ ip_address = select(
 # ID
 rename!(data_behavior, "\ufeffid" => "id")
 
-# Duration for demographic questions
+# Duration for demographic questions (pages 1-17)
 demo_behavior = select(data_behavior, :id, r"^page([1-9]|1[0-7])_duration$")
 
 # Total duration
-demo_behavior.demo_duration = [sum(row) for row in eachrow(demo_behavior[:, 2:end])]
+demo_behavior.demo_duration = [sum(skipmissing(row)) for row in eachrow(demo_behavior[:, 2:end])]
 
 select!(demo_behavior, :id, :demo_duration)
 
 # 3 Duration for vignettes ------------------------------------------------
 
+# Duration for vignettes (pages 18-23)
 vignette_behavior = select(data_behavior, :id, r"^page(1[8-9]|2[0-3])_duration$")
 
 # Rename
@@ -58,11 +59,16 @@ rename!(
 )
 
 # Total duration
-vignette_behavior.vignette_duration = [sum(row) for row in eachrow(vignette_behavior[:, 2:end])]
+vignette_behavior.vignette_duration = [sum(skipmissing(row)) for row in eachrow(vignette_behavior[:, 2:end])]
 
 # 4 Post-vignette questions -----------------------------------------------
 
-post_behavior = select(data_behavior, :id, :page24_duration => :post_duration)
+# Duration for post-vignette and social media assessments (pages 24-25)
+post_behavior = select(data_behavior, :id, r"^page(2[4-5])_duration$")
+
+post_behavior.post_duration = [sum(skipmissing(row)) for row in eachrow(post_behavior[:, 2:end])]
+
+select!(post_behavior, :id, :post_duration)
 
 # 5 Merge -----------------------------------------------------------------
 
