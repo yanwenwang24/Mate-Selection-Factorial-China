@@ -55,7 +55,7 @@ transform!(data_answer, :Q8 => ByRow(x -> cohabit_dict[x]) => :cohabit)
 
 # Ideal age of marriage (Q9)
 transform!(data_answer, :Q9 => ByRow(x -> agemar_dict[x]) => :agemar)
-data_answer.agemar = categorical(data_answer.agemar, levels = ["27 and below", "28-30", "31-35", "36-40", "above 40"])
+data_answer.agemar = categorical(data_answer.agemar, levels = ["27 and below", "28-30", "31-35", "36-40", "above 40", "against marraige"])
 
 # Hukou at age 12 (Q10)
 transform!(data_answer, :Q10 => ByRow(x -> hukou_dict[x]) => :hukou)
@@ -114,9 +114,9 @@ data_answer.housework_scale = data_answer.Q24
 
 transform!(data_answer, [:gender, :housework_scale] => ByRow( (g, s) ->
     if g == "men"
-        s <= 2 ? "women" : s >= 6 ? "men" : "equal"
+        s <= 3 ? "women" : s >= 5 ? "men" : "equal"
     else
-        s <= 2 ? "men" : s >= 6 ? "women" : "equal"
+        s <= 3 ? "men" : s >= 5 ? "women" : "equal"
     end
 ) => :housework_cat)
 
@@ -126,7 +126,7 @@ data_answer.housework_cat = categorical(data_answer.housework_cat, levels = ["eq
 data_answer.career_scale = data_answer.Q25_1
 
 transform!(data_answer, :career_scale => ByRow(x ->
-    x <= 2 ? "low" : x >= 6 ? "high" : "middle"
+    x <= 4 ? "low" : x >= 6 ? "high" : "middle"
 ) => :career_cat)
 
 data_answer.career_cat = categorical(data_answer.career_cat, levels = ["low", "middle", "high"])
@@ -135,7 +135,7 @@ data_answer.career_cat = categorical(data_answer.career_cat, levels = ["low", "m
 data_answer.emotion_scale = data_answer.Q25_2
 
 transform!(data_answer, :emotion_scale => ByRow(x ->
-    x <= 2 ? "low" : x >= 6 ? "high" : "middle"
+    x <= 4 ? "low" : x >= 6 ? "high" : "middle"
 ) => :emotion_cat)
 
 data_answer.emotion_cat = categorical(data_answer.emotion_cat, levels = ["low", "middle", "high"])
@@ -148,6 +148,19 @@ data_answer.fertility = categorical(data_answer.fertility, levels = ["uncertain"
 transform!(data_answer, :Q27 => ByRow(x -> pv_appearance_dict[x]) => :appearance)
 data_answer.appearance = categorical(data_answer.appearance, levels = ["average", "ugly", "pretty"])
 
+# Media time per day (S1)
+data_answer.media_time = data_answer.S1
+
+# Media compare (S2)
+data_answer.media_compare_income = data_answer.S2_1
+data_answer.media_compare_appearance = data_answer.S2_2
+data_answer.media_compare_educ = data_answer.S2_3
+
+# Media mobility (S3)
+data_answer.media_mobility_income = data_answer.S4
+data_answer.media_mobility_appearance = data_answer.S5
+data_answer.media_mobility_educ = data_answer.S6
+
 pv_df = select(
     data_answer,
     :id,
@@ -158,7 +171,14 @@ pv_df = select(
     :emotion_scale,
     :emotion_cat,
     :fertility,
-    :appearance
+    :appearance,
+    :media_time,
+    :media_compare_income,
+    :media_compare_appearance,
+    :media_compare_educ,
+    :media_mobility_income,
+    :media_mobility_appearance,
+    :media_mobility_educ
 )
 
 # 3 Vignettes -------------------------------------------------------------
