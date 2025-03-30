@@ -23,8 +23,15 @@ for (dim in dim_cols) {
   cat("=======================================\n")
   cat("Randomization check for dimension:", dim, "\n")
 
+  # Remove NA values and ensure proper factor levels
+  clean_data <- sample_vignette[
+    !is.na(sample_vignette$vignette) & !is.na(sample_vignette[[dim]]),
+  ]
+  clean_data$vignette <- factor(clean_data$vignette)
+  clean_data[[dim]] <- factor(clean_data[[dim]])
+
   # Create a contingency table between vignette order and current dimension
-  tab <- table(sample_vignette$vignette, sample_vignette[[dim]])
+  tab <- table(clean_data$vignette, clean_data[[dim]])
   print(tab)
 
   # Run chi-square test
@@ -44,8 +51,15 @@ for (pair in dim_pairs) {
   cat("=======================================\n")
   cat("Checking independence between:", dim1, "and", dim2, "\n")
 
+  # Remove NA values and ensure proper factor levels
+  clean_data <- sample_vignette[
+    !is.na(sample_vignette[[dim1]]) & !is.na(sample_vignette[[dim2]]),
+  ]
+  clean_data[[dim1]] <- factor(clean_data[[dim1]])
+  clean_data[[dim2]] <- factor(clean_data[[dim2]])
+
   # Construct contingency table
-  tab_pair <- table(sample_vignette[[dim1]], sample_vignette[[dim2]])
+  tab_pair <- table(clean_data[[dim1]], clean_data[[dim2]])
   print(tab_pair)
 
   # Perform chi-square test
@@ -64,6 +78,15 @@ for (pair in dim_pairs) {
 }
 
 # Review significant pairs
+total_pairs <- length(dim_pairs)
+sig_pairs <- length(flag_pairs)
+cat(
+  sprintf(
+    "Found %d significant pairs out of %d total pairs tested.\n\n",
+    sig_pairs, total_pairs
+  )
+)
+
 if (length(flag_pairs) > 0) {
   cat("Summary of significant pairs with full results:\n")
   for (pair_name in names(flag_pairs)) {
@@ -85,18 +108,18 @@ sample_vignette$vignette <- as.factor(sample_vignette$vignette)
 order_date <- ggplot(sample_vignette, aes(x = vignette, y = r_date)) +
   geom_boxplot(fill = "lightblue") +
   labs(
-    title = "Dating response by vignette order",
+    title = "Dating rating by vignette order",
     x = "Vignette order",
-    y = "Dating response"
+    y = "Dating rating"
   ) +
   theme_minimal()
 
 order_marriage <- ggplot(sample_vignette, aes(x = vignette, y = r_marriage)) +
   geom_boxplot(fill = "lightgreen") +
   labs(
-    title = "Marriage response by vignette order",
+    title = "Marriage rating by vignette order",
     x = "Vignette order",
-    y = "Marriage response"
+    y = "Marriage rating"
   ) +
   theme_minimal()
 
@@ -125,9 +148,9 @@ time_date <- ggplot(sample_vignette, aes(x = duration, y = r_date)) +
   geom_point(alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE) +
   labs(
-    title = "Dating response by response time",
+    title = "Dating rating by response time",
     x = "Response time (seconds)",
-    y = "Dating response"
+    y = "Dating rating"
   ) +
   theme_minimal()
 
@@ -135,9 +158,9 @@ time_marriage <- ggplot(sample_vignette, aes(x = duration, y = r_marriage)) +
   geom_point(alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE) +
   labs(
-    title = "Marriage response by response time",
+    title = "Marriage rating by response time",
     x = "Response time (seconds)",
-    y = "Marriage response"
+    y = "Marriage rating"
   ) +
   theme_minimal()
 
