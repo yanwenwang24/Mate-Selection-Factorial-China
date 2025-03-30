@@ -13,18 +13,19 @@
 ##
 ## ------------------------------------------------------------------------
 
-# 1 IP address ------------------------------------------------------------
+# 1 IP address and source -------------------------------------------------
 
 # ID
 rename!(data_answer, "\ufeffid" => "id")
 
-# IP address
+# IP address & source
 ip_address = select(
     data_answer,
     :id,
     :ip_country,
     :ip_province,
-    :ip_city
+    :ip_city,
+    :send_type => :source
 )
 
 # 2 Duration for demographic questions ------------------------------------
