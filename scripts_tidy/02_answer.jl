@@ -40,7 +40,7 @@ data_answer.city = categorical(data_answer.city, levels = ["Beijing", "Shanghai"
 
 # Nativity (Q5)
 transform!(data_answer, :Q5 => ByRow(x -> nativity_dict[x]) => :nativity)
-data_answer.nativity = categorical(data_answer.nativity, levels = ["local", "non-local"])
+data_answer.nativity = categorical(data_answer.nativity, levels = ["local", "migrant"])
 
 # Marital status (Q6)
 transform!(data_answer, :Q6 => ByRow(x -> marst_dict[x]) => :marst)
@@ -114,31 +114,31 @@ data_answer.housework_scale = data_answer.Q24
 
 transform!(data_answer, [:gender, :housework_scale] => ByRow( (g, s) ->
     if g == "men"
-        s <= 3 ? "women" : s >= 5 ? "men" : "equal"
+        s <= 3 ? "women do more" : s >= 5 ? "men do more" : "equal"
     else
-        s <= 3 ? "men" : s >= 5 ? "women" : "equal"
+        s <= 3 ? "men do more" : s >= 5 ? "women do more" : "equal"
     end
 ) => :housework_cat)
 
-data_answer.housework_cat = categorical(data_answer.housework_cat, levels = ["equal", "women", "men"])
+data_answer.housework_cat = categorical(data_answer.housework_cat, levels = ["equal", "women do more", "men do more"])
 
 # Career support(Q25_1)
 data_answer.career_scale = data_answer.Q25_1
 
 transform!(data_answer, :career_scale => ByRow(x ->
-    x <= 4 ? "low" : x >= 6 ? "high" : "middle"
+    x <= 4 ? "low" : x >= 6 ? "strong" : "moderate"
 ) => :career_cat)
 
-data_answer.career_cat = categorical(data_answer.career_cat, levels = ["low", "middle", "high"])
+data_answer.career_cat = categorical(data_answer.career_cat, levels = ["moderate", "low", "strong"])
 
 # Emotional support (Q25_2)
 data_answer.emotion_scale = data_answer.Q25_2
 
 transform!(data_answer, :emotion_scale => ByRow(x ->
-    x <= 4 ? "low" : x >= 6 ? "high" : "middle"
+    x <= 4 ? "low" : x >= 6 ? "strong" : "moderate"
 ) => :emotion_cat)
 
-data_answer.emotion_cat = categorical(data_answer.emotion_cat, levels = ["low", "middle", "high"])
+data_answer.emotion_cat = categorical(data_answer.emotion_cat, levels = ["moderate", "low", "strong"])
 
 # Fertility (Q26)
 transform!(data_answer, :Q26 => ByRow(x -> pv_fertility_dict[x]) => :fertility)
@@ -146,7 +146,7 @@ data_answer.fertility = categorical(data_answer.fertility, levels = ["uncertain"
 
 # Appearance (Q27)
 transform!(data_answer, :Q27 => ByRow(x -> pv_appearance_dict[x]) => :appearance)
-data_answer.appearance = categorical(data_answer.appearance, levels = ["average", "ugly", "pretty"])
+data_answer.appearance = categorical(data_answer.appearance, levels = ["average", "below average", "above average"])
 
 # Media time per day (S1)
 data_answer.media_time = data_answer.S1
@@ -223,14 +223,14 @@ transform!(long_dims, :v_emotion => ByRow(x -> v_emotion_dict[x]) => :v_emotion)
 transform!(long_dims, :v_fertility => ByRow(x -> v_fertility_dict[x]) => :v_fertility)
 
 # Categorize the dimensions
-long_dims.v_age = categorical(long_dims.v_age, levels = ["same", "older", "younger"])
-long_dims.v_educ = categorical(long_dims.v_educ, levels = ["low", "middle", "high"])
-long_dims.v_income = categorical(long_dims.v_income, levels = ["low", "middle", "high"])
-long_dims.v_nativity = categorical(long_dims.v_nativity, levels = ["local", "non-local"])
-long_dims.v_appearance = categorical(long_dims.v_appearance, levels = ["average", "ugly", "pretty"])
-long_dims.v_housework = categorical(long_dims.v_housework, levels = ["equal", "women", "men"])
-long_dims.v_career = categorical(long_dims.v_career, levels = ["low", "middle", "high"])
-long_dims.v_emotion = categorical(long_dims.v_emotion, levels = ["low", "middle", "high"])
+long_dims.v_age = categorical(long_dims.v_age, levels = ["similar", "older", "younger"])
+long_dims.v_educ = categorical(long_dims.v_educ, levels = ["secondary", "bachelor", "graduate"])
+long_dims.v_income = categorical(long_dims.v_income, levels = ["average", "below average", "above average"])
+long_dims.v_nativity = categorical(long_dims.v_nativity, levels = ["local", "migrant"])
+long_dims.v_appearance = categorical(long_dims.v_appearance, levels = ["average", "below average", "above average"])
+long_dims.v_housework = categorical(long_dims.v_housework, levels = ["equal", "women do more", "men do more"])
+long_dims.v_career = categorical(long_dims.v_career, levels = ["moderate", "low", "strong"])
+long_dims.v_emotion = categorical(long_dims.v_emotion, levels = ["moderate", "low", "strong"])
 long_dims.v_fertility = categorical(long_dims.v_fertility, levels = ["uncertain", "yes", "no"])
 
 # 3.2 Responses -----------------------------------------------------------
