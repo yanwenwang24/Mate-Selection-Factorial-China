@@ -9,6 +9,10 @@
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
+## 1. Sample size
+## 2. Demographic information
+## 3. Post-vignette information
+## 4. Vignettes (dating and marriage)
 ##
 ## ------------------------------------------------------------------------
 
@@ -34,6 +38,7 @@ sample_demo <- sample_answer %>%
     peduc,
     educ,
     empstat,
+    fulltime,
     income,
     sibling,
     oldest
@@ -53,6 +58,14 @@ sample_demo %>%
   summarise(
     mean_age = mean(age, na.rm = TRUE),
     sd_age   = sd(age, na.rm = TRUE)
+  )
+
+ggplot(sample_demo, aes(x = age, fill = gender)) +
+  geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +
+  labs(
+    x = "Age",
+    y = "Count",
+    fill = "Gender"
   )
 
 # City
@@ -127,11 +140,11 @@ tabyl(sample_demo, income, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
-# Employment status
-tabyl(sample_demo, empstat) %>%
+# Employment (full-time) status
+tabyl(sample_demo, fulltime) %>%
   adorn_pct_formatting(2)
 
-tabyl(sample_demo, empstat, gender) %>%
+tabyl(sample_demo, fulltime, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
@@ -140,14 +153,6 @@ tabyl(sample_demo, sibling) %>%
   adorn_pct_formatting(2)
 
 tabyl(sample_demo, sibling, gender) %>%
-  adorn_percentages("col") %>%
-  adorn_pct_formatting(2)
-
-# Oldest child
-tabyl(sample_demo, oldest) %>%
-  adorn_pct_formatting(2)
-
-tabyl(sample_demo, oldest, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
@@ -324,29 +329,6 @@ sample_pv %>%
 
 # 4 Vignettes -------------------------------------------------------------
 
-sample_vignette <- sample_answer %>%
-  select(
-    id,
-    gender,
-    starts_with("v"),
-    starts_with("r")
-  )
-
-response_time_df <- sample_behavior %>%
-  pivot_longer(
-    cols = matches("^v\\d+_duration$"),
-    names_to = "vignette",
-    values_to = "duration"
-  ) %>%
-  mutate(vignette = str_extract(vignette, "\\d+")) %>%
-  select(id, vignette, duration)
-
-# Merge with sample_vignette
-sample_vignette <- merge(
-  sample_vignette, response_time_df,
-  by = c("id", "vignette")
-)
-
 # Response time
 mean(sample_vignette$duration)
 sd(sample_vignette$duration)
@@ -381,7 +363,6 @@ p_r_date <- ggplot(sample_vignette, aes(x = r_date, fill = gender)) +
     y = "Count",
     fill = "Gender"
   ) +
-  theme_minimal() +
   theme(
     legend.position = "none"
   )
@@ -390,11 +371,10 @@ p_r_date <- ggplot(sample_vignette, aes(x = r_date, fill = gender)) +
 p_r_marriage <- ggplot(sample_vignette, aes(x = r_marriage, fill = gender)) +
   geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +
   labs(
-    x = "Rating for Marriage", 
-    y = "Count", 
+    x = "Rating for Marriage",
+    y = "Count",
     fill = "Gender"
-  ) +
-  theme_minimal()
+  )
 
 # Combine plots
 p_r_date + p_r_marriage

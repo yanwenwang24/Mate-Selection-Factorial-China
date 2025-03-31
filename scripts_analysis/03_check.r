@@ -9,6 +9,9 @@
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
+## 1. Check randomization
+## 2. Check order effect
+## 3. Check response time effect
 ##
 ## ------------------------------------------------------------------------
 
@@ -105,30 +108,28 @@ if (length(flag_pairs) > 0) {
 sample_vignette$vignette <- as.factor(sample_vignette$vignette)
 
 # Visualize by vignette order
-order_date <- ggplot(sample_vignette, aes(x = vignette, y = r_date)) +
+p_order_date <- ggplot(sample_vignette, aes(x = vignette, y = r_date)) +
   geom_boxplot(fill = "lightblue") +
   labs(
     title = "Dating rating by vignette order",
     x = "Vignette order",
     y = "Dating rating"
-  ) +
-  theme_minimal()
+  )
 
-order_marriage <- ggplot(sample_vignette, aes(x = vignette, y = r_marriage)) +
+p_order_marriage <- ggplot(sample_vignette, aes(x = vignette, y = r_marriage)) +
   geom_boxplot(fill = "lightgreen") +
   labs(
     title = "Marriage rating by vignette order",
     x = "Vignette order",
     y = "Marriage rating"
-  ) +
-  theme_minimal()
+  )
 
-order_response <- order_date + order_marriage
+p_check_order <- p_order_date + p_order_marriage
 
 # Save
 ggsave(
-  "graphs/order_response.png",
-  order_response,
+  "graphs/check_order.png",
+  p_check_order,
   width = 12,
   height = 8,
   dpi = 300
@@ -144,7 +145,10 @@ summary(anova_marriage)
 
 # 3 Check response time ---------------------------------------------------
 
-time_date <- ggplot(sample_vignette, aes(x = duration, y = r_date)) +
+p_time_date <- ggplot(
+  sample_vignette %>% filter(duration < 150),
+  aes(x = duration, y = r_date)
+) +
   geom_point(alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE) +
   labs(
@@ -154,7 +158,10 @@ time_date <- ggplot(sample_vignette, aes(x = duration, y = r_date)) +
   ) +
   theme_minimal()
 
-time_marriage <- ggplot(sample_vignette, aes(x = duration, y = r_marriage)) +
+p_time_marriage <- ggplot(
+  sample_vignette %>% filter(duration < 150),
+  aes(x = duration, y = r_marriage)
+) +
   geom_point(alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE) +
   labs(
@@ -164,20 +171,26 @@ time_marriage <- ggplot(sample_vignette, aes(x = duration, y = r_marriage)) +
   ) +
   theme_minimal()
 
-time_response <- time_date + time_marriage
+p_check_time <- p_time_date + p_time_marriage
 
 # Save
 ggsave(
-  "graphs/time_response.png",
-  time_response,
+  "graphs/check_time.png",
+  p_check_time,
   width = 12,
   height = 8,
   dpi = 300
 )
 
 # Regression
-lm_date <- lm(r_date ~ duration, data = sample_vignette)
+lm_date <- lm(
+  r_date ~ duration,
+  data = sample_vignette %>% filter(duration < 150)
+)
 summary(lm_date)
 
-lm_marriage <- lm(r_marriage ~ duration, data = sample_vignette)
+lm_marriage <- lm(
+  r_marriage ~ duration,
+  data = sample_vignette %>% filter(duration < 150)
+)
 summary(lm_marriage)
