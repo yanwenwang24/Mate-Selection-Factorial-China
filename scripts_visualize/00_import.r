@@ -27,7 +27,7 @@ library(patchwork)
 library(tidyverse)
 
 # Set theme
-theme_set(theme_light())
+theme_set(theme_classic())
 position_dodge <- position_dodge(width = 0.75)
 
 # 2 Load samples ----------------------------------------------------------
@@ -67,3 +67,10 @@ mod_dating_educ <- mods_dating_inter$mod_educ
 mods_long <- readRDS("models/mods_long.rds")
 mod_long_gender <- mods_long$mod_gender
 mod_long_type <- mods_long$mod_type
+
+# 4 Source scripts --------------------------------------------------------
+
+source("scripts_visualize/01_importance.r")
+source("scripts_visualize/02_main.r")
+source("scripts_visualize/03_gender.r")
+source("scripts_visualize/04_educ.r")
