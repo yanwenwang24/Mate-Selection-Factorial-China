@@ -30,7 +30,7 @@ f_dating <- as.formula(
 
 # Train model (men evaluating fictional women)
 mod_marriage_men <- lmer(
-  f,
+  f_marriage,
   data = sample_answer %>% filter(gender == "men")
 )
 
@@ -41,7 +41,7 @@ mod_dating_men <- lmer(
 
 # Train model (women evaluating fictional men)
 mod_marriage_women <- lmer(
-  f,
+  f_marriage,
   data = sample_answer %>% filter(gender == "women")
 )
 
