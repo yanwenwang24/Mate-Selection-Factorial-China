@@ -48,13 +48,13 @@ ref_levels <- tibble(
     row_num = row_number() # For ordering
   )
 
-# 2 Prepare data -----------------------------------------------------------
+# 2 Prepare data ----------------------------------------------------------
 
-# 2.1 Marriage -------------------------------------------------------------
+# 2.1 Marriage ------------------------------------------------------------
 
 # Coefficients and CIs for vignette dimensions
 coef_marriage_df <- tidy(
-  mod_marriage_main,
+  mod_marriage_pooled,
   conf.int = TRUE,
   effects = "fixed"
 ) %>%
@@ -113,11 +113,11 @@ forest_marriage_df <- bind_rows(coef_marriage_df, ref_levels) %>%
 # Custom labels
 custom_labels <- forest_marriage_df$level
 
-# 3.2.2 Dating ------------------------------------------------------------
+# 2.2 Dating --------------------------------------------------------------
 
 # Coefficients and CIs for vignette dimensions
 coef_dating_df <- tidy(
-  mod_dating_main,
+  mod_dating_pooled,
   conf.int = TRUE,
   effects = "fixed"
 ) %>%
@@ -213,10 +213,10 @@ p_marriage <- ggplot(
 
 # Save
 ggsave(
-  "graphs/marriage_main.png",
+  "graphs/marriage_pooled.png",
   p_marriage,
   width = 8,
-  height = 10,
+  height = 12,
   dpi = 300
 )
 
@@ -254,10 +254,10 @@ p_dating <- ggplot(
 
 # Save
 ggsave(
-  "graphs/dating_main.png",
+  "graphs/dating_pooled.png",
   p_dating,
   width = 8,
-  height = 10,
+  height = 12,
   dpi = 300
 )
 
@@ -303,9 +303,9 @@ p_combined <- ggplot(
 
 # Save
 ggsave(
-  "graphs/long_main.png",
+  "graphs/compare_pooled.png",
   p_combined,
   width = 8,
-  height = 10,
+  height = 12,
   dpi = 300
 )
