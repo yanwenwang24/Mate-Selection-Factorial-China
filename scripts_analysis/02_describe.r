@@ -61,7 +61,7 @@ sample_demo %>%
   )
 
 ggplot(sample_demo, aes(x = age, fill = gender)) +
-  geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +
+  geom_histogram(binwidth = 1, alpha = 0.5, position = "dodge") +
   labs(
     x = "Age",
     y = "Count",
@@ -357,7 +357,7 @@ sample_vignette %>%
 
 # Visualize distributions for dating
 p_r_date <- ggplot(sample_vignette, aes(x = r_date, fill = gender)) +
-  geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +
+  geom_histogram(binwidth = 1, alpha = 0.5, position = "dodge") +
   labs(
     x = "Rating for Dating",
     y = "Count",
@@ -369,7 +369,7 @@ p_r_date <- ggplot(sample_vignette, aes(x = r_date, fill = gender)) +
 
 # Visualize distributions for marriage
 p_r_marriage <- ggplot(sample_vignette, aes(x = r_marriage, fill = gender)) +
-  geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +
+  geom_histogram(binwidth = 1, alpha = 0.5, position = "dodge") +
   labs(
     x = "Rating for Marriage",
     y = "Count",
