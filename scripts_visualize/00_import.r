@@ -83,13 +83,16 @@ cat("Visualizing data...\n")
 source("scripts_visualize/01_importance.r")
 cat("✓ Relative importance visualized\n")
 
-source("scripts_visualize/02_main.r")
-cat("✓ Main effects visualized\n")
+source("scripts_visualize/02_pooled.r")
+cat("✓ Pooled effects visualized\n")
 
 source("scripts_visualize/03_gender.r")
-cat("✓ Gender effects visualized\n")
+cat("✓ Gender-specific effects visualized\n")
 
-source("scripts_visualize/04_educ.r")
+source("scripts_visualize/04_gender_diff.r")
+cat("✓ Gender difference visualized\n")
+
+source("scripts_visualize/05_educ.r")
 cat("✓ Education effects visualized\n")
 
 cat("✓ Visualization completed\n")
