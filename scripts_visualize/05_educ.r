@@ -54,7 +54,7 @@ ref_levels <- tibble(
 # 2.1 Marriage -------------------------------------------------------------
 
 coef_marriage_educ_df <- tidy(
-  mod_marriage_educ,
+  mod_marriage_pooled_educ,
   effects = "fixed",
   conf.int = TRUE
 ) %>%
@@ -130,7 +130,7 @@ forest_marriage_educ_df <- forest_marriage_educ_df %>%
 # 2.2 Dating --------------------------------------------------------------
 
 coef_dating_educ_df <- tidy(
-  mod_dating_educ,
+  mod_dating_pooled_educ,
   effects = "fixed",
   conf.int = TRUE
 ) %>%
@@ -256,7 +256,7 @@ ggsave(
   "graphs/marriage_educ.png",
   p_marriage_educ,
   width = 8,
-  height = 10,
+  height = 12,
   dpi = 300
 )
 
@@ -311,7 +311,7 @@ ggsave(
   "graphs/dating_educ.png",
   p_marriage_educ,
   width = 8,
-  height = 10,
+  height = 12,
   dpi = 300
 )
 
