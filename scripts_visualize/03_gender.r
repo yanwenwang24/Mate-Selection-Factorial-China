@@ -341,7 +341,7 @@ p_marriage <- ggplot(
   ) +
   scale_y_discrete(labels = rev(custom_labels)) +
   labs(
-    x = "Rating",
+    x = "Marriage rating",
     y = NULL
   ) +
   theme(
@@ -390,7 +390,7 @@ p_dating <- ggplot(
   ) +
   scale_y_discrete(labels = rev(custom_labels)) +
   labs(
-    x = "Rating",
+    x = "Dating rating",
     y = NULL
   ) +
   theme(
