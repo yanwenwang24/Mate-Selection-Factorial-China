@@ -42,25 +42,31 @@ sample_full <- samples$sample_full
 
 # 3.1 Marriage ------------------------------------------------------------
 
-# Main model
-mods_marriage_main <- readRDS("models/mods_marriage_main.rds")
-mod_marriage_main <- mods_marriage_main$mod_main_2
+# Pooled models
+mods_marriage <- readRDS("models/mods_marriage.rds")
+mod_marriage_pooled <- mods_marriage$mod_pooled
+mod_marriage_pooled_gender <- mods_marriage$mod_pooled_gender # Interaction
+mod_marriage_pooled_educ <- mods_marriage$mod_pooled_educ # Interaction
 
-# Interaction model
-mods_marriage_inter <- readRDS("models/mods_marriage_inter.rds")
-mod_marriage_gender <- mods_marriage_inter$mod_gender
-mod_marriage_educ <- mods_marriage_inter$mod_educ
+# Gender models
+mod_marriage_men <- mods_marriage$mod_men
+mod_marriage_women <- mods_marriage$mod_women
+mod_marriage_men_educ <- mods_marriage$mod_men_educ # Interaction
+mod_marriage_women_educ <- mods_marriage$mod_women_educ # Interaction
 
 # 3.2 Dating --------------------------------------------------------------
 
-# Main model
-mods_dating_main <- readRDS("models/mods_dating_main.rds")
-mod_dating_main <- mods_dating_main$mod_main_2
+# Pooled models
+mods_dating <- readRDS("models/mods_dating.rds")
+mod_dating_pooled <- mods_dating$mod_pooled
+mod_dating_pooled_gender <- mods_dating$mod_pooled_gender # Interaction
+mod_dating_pooled_educ <- mods_dating$mod_pooled_educ # Interaction
 
-# Interaction model
-mods_dating_inter <- readRDS("models/mods_dating_inter.rds")
-mod_dating_gender <- mods_dating_inter$mod_gender
-mod_dating_educ <- mods_dating_inter$mod_educ
+# Gender models
+mod_dating_men <- mods_dating$mod_men
+mod_dating_women <- mods_dating$mod_women
+mod_dating_men_educ <- mods_dating$mod_men_educ # Interaction
+mod_dating_women_educ <- mods_dating$mod_women_educ # Interaction
 
 # 3.3 Long model ----------------------------------------------------------
 
