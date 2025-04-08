@@ -1,15 +1,18 @@
 ##
 ## Script name: 08_model_predict.r
-## Purpose: Predict the rating of marriage and dating based on respondents'
-##          own characteristics
+## Purpose: Predict marriage and dating ratings based on respondent info
 ## Author: Yanwen Wang
 ## Date Created: 2025-04-01
 ## Email: yanwenwang@u.nus.edu
 ##
 ## ------------------------------------------------------------------------
 ##
-## Notes: Use post-vignette assessments data to re-fit models and predict the
-##        rating of marriage and dating, respectively.
+## Notes:
+## 1. Load post-vignette assessment data
+## 2. Fit separate models for men and women
+## 3. Create prediction dataset from respondent characteristics
+## 4. Generate predictions for marriage and dating ratings
+## 5. Visualize results with violin plots
 ##
 ## ------------------------------------------------------------------------
 
