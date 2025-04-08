@@ -92,11 +92,16 @@ duplicated_vignettes <- data_answer %>%
 
 # 4 Exclude these respondents ---------------------------------------------
 
-# Number of respondents excluded
+# Drop source first
+data_answer <- data_answer %>%
+  filter(
+    !id %in% drop_source
+  )
+
+# Number of respondents excluded (after dropping source)
 data_answer %>%
   filter(
-    id %in% drop_source |
-      id %in% drop_duration |
+    id %in% drop_duration |
       id %in% drop_straight_lining
   ) %>%
   select(id) %>%
@@ -106,7 +111,6 @@ data_answer %>%
 # Sample answer (for modeling)
 sample_answer <- data_answer %>%
   filter(
-    !id %in% drop_source,
     !id %in% drop_duration,
     !id %in% drop_straight_lining
   )
