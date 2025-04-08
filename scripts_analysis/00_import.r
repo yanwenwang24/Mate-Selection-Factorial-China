@@ -27,19 +27,33 @@ theme_set(theme_classic())
 data_behavior <- read_feather("data_clean/data_behavior.arrow")
 data_answer <- read_feather("data_clean/data_answer.arrow")
 
-# Load samples
-samples <- readRDS("data_clean/samples.rds")
-sample_answer <- samples$sample_answer
-sample_behavior <- samples$sample_behavior
-sample_vignette <- samples$sample_vignette
-sample_long <- samples$sample_long
+cat("✓ Import completed\n")
 
 # Source scripts
+cat("Analyzing data...\n")
+
 source("scripts_analysis/01_exclude.r")
+cat("✓ Sample selection completed\n")
+
 source("scripts_analysis/02_describe.r")
+cat("✓ Data description completed\n")
+
 source("scripts_analysis/03_check.r")
+cat("✓ Data check completed\n")
+
 source("scripts_analysis/04_model_null.r")
+cat("✓ Null models completed\n")
+
 source("scripts_analysis/05_model_marriage.r")
+cat("✓ Marriage models completed\n")
+
 source("scripts_analysis/06_model_dating.r")
+cat("✓ Dating models completed\n")
+
 source("scripts_analysis/07_model_long.r")
+cat("✓ Long models completed\n")
+
 source("scripts_analysis/08_model_predict.r")
+cat("✓ Predictions completed\n")
+
+cat("\nAll analysis scripts completed successfully!\n")

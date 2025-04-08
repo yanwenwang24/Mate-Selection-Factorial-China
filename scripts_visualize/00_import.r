@@ -68,9 +68,22 @@ mods_long <- readRDS("models/mods_long.rds")
 mod_long_gender <- mods_long$mod_gender
 mod_long_type <- mods_long$mod_type
 
+cat("✓ Data and models loaded\n")
+
 # 4 Source scripts --------------------------------------------------------
 
+cat("Visualizing data...\n")
+
 source("scripts_visualize/01_importance.r")
+cat("✓ Relative importance visualized\n")
+
 source("scripts_visualize/02_main.r")
+cat("✓ Main effects visualized\n")
+
 source("scripts_visualize/03_gender.r")
+cat("✓ Gender effects visualized\n")
+
 source("scripts_visualize/04_educ.r")
+cat("✓ Education effects visualized\n")
+
+cat("✓ Visualization completed\n")
