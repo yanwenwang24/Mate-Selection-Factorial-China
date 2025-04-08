@@ -1,68 +1,49 @@
 ## ------------------------------------------------------------------------
 ##
-## Script name: 06_model_dating.r
+## Script name: 05_model_dating.r
 ## Purpose: Fit models for dating
 ## Author: Yanwen Wang
-## Date Created: 2025-03-30
+## Date Created: 2025-03-21
 ## Email: yanwenwang@u.nus.edu
 ##
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
-## 1. Fit main models
-## 2. Fit interaction models
-##   - Gender
-##   - Education
+## 1. Fit models pooled with both genders
+##    - Main models
+##    - Interaction models (with gender and education)
+## 2. Fit models stratified by gender
+##    - Main models
+##    - Interaction models (with education)
+## 3. Save models
 ##
 ## ------------------------------------------------------------------------
 
-# 1 Main models -----------------------------------------------------------
+# 1 Both genders ----------------------------------------------------------
 
-# 1.1 Define formula ------------------------------------------------------
+# 1.1 Main models ---------------------------------------------------------
 
-f_main_1 <- as.formula(
+# Define formula
+f_pooled <- as.formula(
   "r_date ~ v_age + v_educ + v_income + v_nativity + v_appearance +
-    v_housework + v_career + v_emotion + v_fertility +
-    (1 | id)"
-)
-
-f_main_2 <- as.formula(
-  "r_date ~ v_age + v_educ + v_income + v_nativity +v_appearance +
     v_housework + v_career + v_emotion + v_fertility +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
     (1 | id)"
 )
 
-# 1.2 Fit models -----------------------------------------------------------
-
 # Fit model
-mod_main_1 <- lmer(
-  f_main_1,
+mod_pooled <- lmer(
+  f_pooled,
   data = sample_answer
 )
 
-summ(mod_main_1)
+summ(mod_pooled)
 
-mod_main_2 <- lmer(
-  f_main_2,
-  data = sample_answer
-)
+# 1.2 Interaction models --------------------------------------------------
 
-summ(mod_main_2)
-
-# 1.3 Save models -----------------------------------------------------------
-
-saveRDS(
-  list(mod_main_1 = mod_main_1, mod_main_2 = mod_main_2),
-  file = "models/mods_dating_main.rds"
-)
-
-# 2 Interaction models ----------------------------------------------------
-
-# 2.1 Define formula ------------------------------------------------------
-
-f_gender <- as.formula(
+# Define formula
+f_pooled_gender <- as.formula(
   "r_date ~ gender * (v_age + v_educ + v_income + v_nativity +
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     gender + age + city + nativity + romance + cohabit + agemar +
@@ -70,7 +51,7 @@ f_gender <- as.formula(
     (1 | id)"
 )
 
-f_educ <- as.formula(
+f_pooled_educ <- as.formula(
   "r_date ~ educ * (v_age + v_educ + v_income + v_nativity +
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     gender + age + city + nativity + romance + cohabit + agemar +
@@ -78,28 +59,85 @@ f_educ <- as.formula(
     (1 | id)"
 )
 
-# 2.2 Fit models -----------------------------------------------------------
-
-mod_gender <- lmer(
-  f_gender,
+# Fit models
+mod_pooled_gender <- lmer(
+  f_pooled_gender,
   data = sample_answer
 )
 
-summ(mod_gender)
+summ(mod_pooled_gender)
 
-mod_educ <- lmer(
+mod_pooled_educ <- lmer(
+  f_pooled_educ,
+  data = sample_answer
+)
+
+summ(mod_pooled_educ)
+
+# 2 By gender -------------------------------------------------------------
+
+# 2.1 Main models ---------------------------------------------------------
+
+# Define formula
+f <- as.formula(
+  "r_date ~ v_age + v_educ + v_income + v_nativity + v_appearance +
+    v_housework + v_career + v_emotion + v_fertility +
+    age + city + nativity + romance + cohabit + agemar +
+    hukou + peduc + educ + fulltime + income + sibling +
+    (1 | id)"
+)
+
+# Fit models
+mod_men <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "men")
+)
+
+mod_women <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "women")
+)
+
+summ(mod_men)
+summ(mod_women)
+
+# 2.2 Interaction models --------------------------------------------------
+
+f_educ <- as.formula(
+  "r_date ~ educ * (v_age + v_educ + v_income + v_nativity +
+    v_appearance + v_housework + v_career + v_emotion + v_fertility) +
+    age + city + nativity + romance + cohabit + agemar +
+    hukou + peduc + educ + fulltime + income + sibling +
+    (1 | id)"
+)
+
+# Fit models
+mod_men_educ <- lmer(
   f_educ,
-  data = sample_answer
+  data = sample_answer %>% filter(gender == "men")
 )
 
-summ(mod_educ)
+mod_women_educ <- lmer(
+  f_educ,
+  data = sample_answer %>% filter(gender == "women")
+)
 
-# 2.3 Save models ---------------------------------------------------------
+summ(mod_men_educ)
+summ(mod_women_educ)
+
+# 3 Save models -----------------------------------------------------------
 
 saveRDS(
   list(
-    mod_gender = mod_gender,
-    mod_educ = mod_educ
+    mod_pooled = mod_pooled,
+    mod_pooled_gender = mod_pooled_gender,
+    mod_pooled_educ = mod_pooled_educ,
+    mod_men = mod_men,
+    mod_women = mod_women,
+    mod_men_educ = mod_men_educ,
+    mod_women_educ = mod_women_educ
   ),
-  file = "models/mods_dating_inter.rds"
+  file = "models/mods_dating.rds"
 )
