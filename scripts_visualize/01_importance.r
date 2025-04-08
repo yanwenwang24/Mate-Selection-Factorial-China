@@ -16,7 +16,7 @@
 # 1 Marriage --------------------------------------------------------------
 
 r2_marriage_full <- partR2(
-  mod_marriage_main,
+  mod_marriage_pooled,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
   data = sample_answer
 )
@@ -44,7 +44,7 @@ p_marriage <- ggplot(
 # 2 Dating ----------------------------------------------------------------
 
 r2_dating_full <- partR2(
-  mod_dating_main,
+  mod_dating_pooled,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
   data = sample_answer
 )
