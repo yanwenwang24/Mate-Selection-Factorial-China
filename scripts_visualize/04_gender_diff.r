@@ -92,7 +92,7 @@ coef_marriage_gender_df <- tidy(
   ) %>%
   mutate(
     dim = str_to_title(dim),
-    row_num = row_number() + 9 # Add 9 to account for reference levels
+    row_num = row_number() + nrow(ref_levels) # For ordering
   ) %>%
   select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
 
@@ -154,7 +154,7 @@ coef_dating_gender_df <- tidy(
   ) %>%
   mutate(
     dim = str_to_title(dim),
-    row_num = row_number() + 9 # Add 9 to account for reference levels
+    row_num = row_number() + nrow(ref_levels) # For ordering
   ) %>%
   select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
 
