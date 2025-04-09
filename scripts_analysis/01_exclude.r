@@ -44,8 +44,6 @@ duration_summary <- data_behavior %>%
     total_sd = sd(total_duration, na.rm = TRUE)
   )
 
-print(duration_summary)
-
 # Define duration threshold
 vignette_duration_threshold <- 50
 total_duration_threshold <- 100
