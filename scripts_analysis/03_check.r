@@ -21,11 +21,12 @@
 dim_cols <- grep("^v_", colnames(sample_vignette), value = TRUE)
 dim_cols <- setdiff(dim_cols, "vignette")
 
+# Initialize storage for randomization results
+randomization_results <- list()
+order_dimension_results <- list()
+
 # Check independence between vignette order and dimension
 for (dim in dim_cols) {
-  cat("=======================================\n")
-  cat("Randomization check for dimension:", dim, "\n")
-
   # Remove NA values and ensure proper factor levels
   clean_data <- sample_vignette[
     !is.na(sample_vignette$vignette) & !is.na(sample_vignette[[dim]]),
@@ -35,13 +36,15 @@ for (dim in dim_cols) {
 
   # Create a contingency table between vignette order and current dimension
   tab <- table(clean_data$vignette, clean_data[[dim]])
-  print(tab)
 
   # Run chi-square test
   chi_test <- chisq.test(tab)
-  print(chi_test)
 
-  cat("\n\n")
+  # Store results
+  order_dimension_results[[dim]] <- list(
+    contingency_table = tab,
+    chi_square_test = chi_test
+  )
 }
 
 # Check pairwise independence between dimensions
@@ -51,8 +54,6 @@ flag_pairs <- list() # to store significant pairs
 for (pair in dim_pairs) {
   dim1 <- pair[1]
   dim2 <- pair[2]
-  cat("=======================================\n")
-  cat("Checking independence between:", dim1, "and", dim2, "\n")
 
   # Remove NA values and ensure proper factor levels
   clean_data <- sample_vignette[
@@ -63,55 +64,50 @@ for (pair in dim_pairs) {
 
   # Construct contingency table
   tab_pair <- table(clean_data[[dim1]], clean_data[[dim2]])
-  print(tab_pair)
 
   # Perform chi-square test
   chi_test_pair <- chisq.test(tab_pair)
-  print(chi_test_pair)
+
+  # Store results
+  pair_name <- paste(dim1, dim2, sep = "-")
+  randomization_results[[pair_name]] <- list(
+    contingency_table = tab_pair,
+    chi_square_test = chi_test_pair
+  )
 
   # Check for significant p-value
   if (chi_test_pair$p.value < 0.05) {
-    cat("Significant association found (p-value:", chi_test_pair$p.value, ")\n")
-    flag_pairs[[paste(dim1, dim2, sep = "-")]] <- chi_test_pair
-  } else {
-    cat("No significant association (p-value:", chi_test_pair$p.value, ")\n")
+    flag_pairs[[pair_name]] <- chi_test_pair
   }
-
-  cat("\n\n")
 }
 
-# Review significant pairs
-total_pairs <- length(dim_pairs)
-sig_pairs <- length(flag_pairs)
-cat(
-  sprintf(
-    "Found %d significant pairs out of %d total pairs tested.\n\n",
-    sig_pairs, total_pairs
-  )
+# Store summary statistics
+randomization_summary <- list(
+  total_pairs = length(dim_pairs),
+  significant_pairs = length(flag_pairs),
+  significant_pair_names = names(flag_pairs)
 )
 
-if (length(flag_pairs) > 0) {
-  cat("Summary of significant pairs with full results:\n")
-  for (pair_name in names(flag_pairs)) {
-    cat("***************************************\n")
-    cat("Association for pair:", pair_name, "\n")
-    print(flag_pairs[[pair_name]])
-    cat("***************************************\n\n")
-  }
-} else {
-  cat("No significant associations found.\n")
-}
+count(sample_vignette, v_age)
+count(sample_vignette, v_educ)
+count(sample_vignette, v_income)
+count(sample_vignette, v_nativity)
+count(sample_vignette, v_appearance)
+count(sample_vignette, v_housework)
+count(sample_vignette, v_career)
+count(sample_vignette, v_emotion)
+count(sample_vignette, v_fertility)
 
 # 2 Check order -----------------------------------------------------------
 
 # Factorize vignette order
 sample_vignette$vignette <- as.factor(sample_vignette$vignette)
 
-# Visualize by vignette order
+# Create plots but don't display them
 p_order_date <- ggplot(sample_vignette, aes(x = vignette, y = r_date)) +
   geom_boxplot(fill = "lightblue") +
   labs(
-    title = "Dating rating by vignette order",
+    title = "Dating rating",
     x = "Vignette order",
     y = "Dating rating"
   )
@@ -119,7 +115,7 @@ p_order_date <- ggplot(sample_vignette, aes(x = vignette, y = r_date)) +
 p_order_marriage <- ggplot(sample_vignette, aes(x = vignette, y = r_marriage)) +
   geom_boxplot(fill = "lightgreen") +
   labs(
-    title = "Marriage rating by vignette order",
+    title = "Marriage rating",
     x = "Vignette order",
     y = "Marriage rating"
   )
@@ -137,11 +133,19 @@ ggsave(
 
 # ANOVA to test if vignette order predicts r_date
 anova_date <- aov(r_date ~ vignette, data = sample_vignette)
-summary(anova_date)
+anova_date_summary <- summary(anova_date)
 
 # ANOVA to test if vignette order predicts r_marriage
 anova_marriage <- aov(r_marriage ~ vignette, data = sample_vignette)
-summary(anova_marriage)
+anova_marriage_summary <- summary(anova_marriage)
+
+# Store order effect results
+order_effect_results <- list(
+  anova_date = anova_date,
+  anova_date_summary = anova_date_summary,
+  anova_marriage = anova_marriage,
+  anova_marriage_summary = anova_marriage_summary
+)
 
 # 3 Check response time ---------------------------------------------------
 
@@ -150,9 +154,9 @@ p_time_date <- ggplot(
   aes(x = duration, y = r_date)
 ) +
   geom_point(alpha = 0.7) +
-  geom_smooth(method = "lm", se = TRUE) +
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE) +
   labs(
-    title = "Dating rating by response time",
+    title = "Dating rating",
     x = "Response time (seconds)",
     y = "Dating rating"
   ) +
@@ -163,9 +167,9 @@ p_time_marriage <- ggplot(
   aes(x = duration, y = r_marriage)
 ) +
   geom_point(alpha = 0.7) +
-  geom_smooth(method = "lm", se = TRUE) +
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE) +
   labs(
-    title = "Marriage rating by response time",
+    title = "Marriage rating",
     x = "Response time (seconds)",
     y = "Marriage rating"
   ) +
@@ -187,10 +191,67 @@ lm_date <- lm(
   r_date ~ duration,
   data = sample_vignette %>% filter(duration < 150)
 )
-summary(lm_date)
+lm_date_summary <- summary(lm_date)
 
 lm_marriage <- lm(
   r_marriage ~ duration,
   data = sample_vignette %>% filter(duration < 150)
 )
-summary(lm_marriage)
+lm_marriage_summary <- summary(lm_marriage)
+
+# Store response time results
+response_time_results <- list(
+  lm_date = lm_date,
+  lm_date_summary = lm_date_summary,
+  lm_marriage = lm_marriage,
+  lm_marriage_summary = lm_marriage_summary
+)
+
+# Store all results in a single list for easy access
+all_check_results <- list(
+  randomization = list(
+    order_dimension = order_dimension_results,
+    pairwise = randomization_results,
+    summary = randomization_summary
+  ),
+  order_effect = order_effect_results,
+  response_time = response_time_results
+)
+
+# Function to get a summary of significant findings
+get_significant_findings <- function(results) {
+  # Extract significant randomization pairs
+  sig_pairs <- results$randomization$summary$significant_pair_names
+
+  # Extract significant order effects
+  sig_order_date <- results$order_effect$anova_date_summary[[1]][
+    "vignette", "Pr(>F)"
+  ] < 0.05
+  sig_order_marriage <- results$order_effect$anova_marriage_summary[[1]][
+    "vignette", "Pr(>F)"
+  ] < 0.05
+
+  # Extract significant response time effects
+  sig_time_date <- results$response_time$lm_date_summary$coefficients[
+    "duration", "Pr(>|t|)"
+  ] < 0.05
+  sig_time_marriage <- results$response_time$lm_marriage_summary$coefficients[
+    "duration", "Pr(>|t|)"
+  ] < 0.05
+
+  # Return summary
+  list(
+    significant_randomization_pairs = sig_pairs,
+    significant_order_effects = list(
+      dating = sig_order_date,
+      marriage = sig_order_marriage
+    ),
+    significant_time_effects = list(
+      dating = sig_time_date,
+      marriage = sig_time_marriage
+    )
+  )
+}
+
+# Create summary of significant findings
+significant_findings <- get_significant_findings(all_check_results)
