@@ -336,7 +336,7 @@ p_marriage <- ggplot(
       "women" = "#7eb0d5"
     ),
     breaks = c("women", "men"),
-    labels = c("women", "men"),
+    labels = c("Women", "Men"),
     name = "Gender"
   ) +
   scale_y_discrete(labels = rev(custom_labels)) +
@@ -385,7 +385,7 @@ p_dating <- ggplot(
       "women" = "#7eb0d5"
     ),
     breaks = c("women", "men"),
-    labels = c("women", "men"),
+    labels = c("Women", "Men"),
     name = "Gender"
   ) +
   scale_y_discrete(labels = rev(custom_labels)) +
@@ -406,7 +406,7 @@ p_dating <- ggplot(
 # Save
 ggsave(
   "graphs/dating_gender.png",
-  p_marriage,
+  p_dating,
   width = 8,
   height = 12,
   dpi = 300
