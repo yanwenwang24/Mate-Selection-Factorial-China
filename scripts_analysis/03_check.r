@@ -88,15 +88,7 @@ randomization_summary <- list(
   significant_pair_names = names(flag_pairs)
 )
 
-count(sample_vignette, v_age)
-count(sample_vignette, v_educ)
-count(sample_vignette, v_income)
-count(sample_vignette, v_nativity)
-count(sample_vignette, v_appearance)
-count(sample_vignette, v_housework)
-count(sample_vignette, v_career)
-count(sample_vignette, v_emotion)
-count(sample_vignette, v_fertility)
+map(sample_vignette %>% select(starts_with("v_")), tabyl)
 
 # 2 Check order -----------------------------------------------------------
 
