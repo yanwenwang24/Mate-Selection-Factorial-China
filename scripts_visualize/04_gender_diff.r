@@ -16,6 +16,8 @@
 
 # 1 Set levels ------------------------------------------------------------
 
+message("Plotting gender difference...")
+
 # Define vignette variables
 vignette_dims <- c(
   "age",
@@ -310,3 +312,5 @@ ggsave(
   height = 12,
   dpi = 300
 )
+
+message("✓ Gender difference plotted\n")

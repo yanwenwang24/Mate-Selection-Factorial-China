@@ -14,18 +14,35 @@
 
 # 1 Load packages ---------------------------------------------------------
 
-library(arrow)
-library(broom.mixed)
-library(ggeffects)
-library(ggtext)
-library(ggthemes)
-library(janitor)
-library(jtools)
-library(lme4)
-library(partR2)
-library(patchwork)
-library(tidytext)
-library(tidyverse)
+message("Loading required libraries...")
+
+# List of packages to check/install
+packages_to_install <- c(
+  "arrow",
+  "broom.mixed",
+  "ggeffects",
+  "ggtext",
+  "ggthemes",
+  "janitor",
+  "jtools",
+  "lme4",
+  "patchwork",
+  "partR2",
+  "tidytext",
+  "tidyverse"
+)
+
+# Install if needed
+for (pkg in packages_to_install) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+    message(sprintf("Installed package: %s", pkg))
+  }
+}
+
+# Load packages after installation
+invisible(lapply(packages_to_install, library, character.only = TRUE))
+message("Libraries loaded successfully.")
 
 # Set theme
 theme_set(theme_classic())
@@ -33,13 +50,19 @@ position_dodge <- position_dodge(width = 0.75)
 
 # 2 Load samples ----------------------------------------------------------
 
+message("Loading samples...")
+
 samples <- readRDS("data_clean/samples.rds")
 sample_answer <- samples$sample_answer
 sample_behavior <- samples$sample_behavior
 sample_vignette <- samples$sample_vignette
 sample_long <- samples$sample_long
 
+message("✓ Samples loaded\n")
+
 # 3 Load models -----------------------------------------------------------
+
+message("Loading models...")
 
 # 3.1 Marriage ------------------------------------------------------------
 
@@ -75,25 +98,25 @@ mods_long <- readRDS("models/mods_long.rds")
 mod_long_gender <- mods_long$mod_gender
 mod_long_type <- mods_long$mod_type
 
-message("✓ Data and models loaded\n")
+message("✓ Models loaded\n")
 
 # 4 Source scripts --------------------------------------------------------
 
 message("\n--- Visualizing data... ---\n")
 
+# Relative importance
 source("scripts_visualize/01_importance.r")
-message("✓ Relative importance visualized\n")
 
+# Pooled effects
 source("scripts_visualize/02_pooled.r")
-message("✓ Pooled effects visualized\n")
 
+# Gender-specific effects
 source("scripts_visualize/03_gender.r")
-message("✓ Gender-specific effects visualized\n")
 
+# Gender difference
 source("scripts_visualize/04_gender_diff.r")
-message("✓ Gender difference visualized\n")
 
+# Education-specific effects
 source("scripts_visualize/05_educ.r")
-message("✓ Education effects visualized\n")
 
 message("\n--- Visualization completed ---\n")

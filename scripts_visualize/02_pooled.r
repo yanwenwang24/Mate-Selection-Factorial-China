@@ -15,6 +15,8 @@
 
 # 1 Set levels ------------------------------------------------------------
 
+message("Plotting pooled effects...")
+
 # Define vignette variables
 vignette_dims <- c(
   "age",
@@ -309,3 +311,5 @@ ggsave(
   height = 12,
   dpi = 300
 )
+
+message("✓ Pooled effects plotted\n")

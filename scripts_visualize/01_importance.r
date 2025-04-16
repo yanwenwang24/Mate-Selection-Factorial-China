@@ -17,6 +17,8 @@
 
 # 1.1 Marriage ------------------------------------------------------------
 
+message("Calculating R² for marriages...")
+
 r2_marriage_full <- partR2(
   mod_marriage_pooled,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
@@ -35,7 +37,11 @@ r2_marriage <- r2_marriage_full$R2 %>%
     type = "Marriage"
   )
 
+message("✓ R² for marriages calculated\n")
+
 # 1.2 Dating --------------------------------------------------------------
+
+message("Calculating R² for dating...")
 
 r2_dating_full <- partR2(
   mod_dating_pooled,
@@ -59,6 +65,8 @@ r2_df <- bind_rows(r2_marriage, r2_dating) %>%
   mutate(
     type = factor(type, levels = c("Marriage", "Dating"))
   )
+
+message("✓ R² for dating calculated\n")
 
 # 2 Visualize -------------------------------------------------------------
 
@@ -96,3 +104,5 @@ ggsave(
   height = 8,
   dpi = 300
 )
+
+message("✓ Importance plot saved\n")
