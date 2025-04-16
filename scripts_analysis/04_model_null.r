@@ -14,6 +14,8 @@
 
 # 1 Null model ------------------------------------------------------------
 
+message("Fitting null models...")
+
 # Marriage
 mod_marriage_null <- lmer(
   r_marriage ~ 1 + (1 | id),
@@ -36,10 +38,12 @@ saveRDS(
 )
 
 # Read models
-mods_null <- readRDS("models/mods_null.rds")
-mod_marriage_null <- mods_null$mod_marriage_null
-mod_date_null <- mods_null$mod_date_null
+# mods_null <- readRDS("models/mods_null.rds") # nolint
+# mod_marriage_null <- mods_null$mod_marriage_null # nolint
+# mod_date_null <- mods_null$mod_date_null # nolint
 
 # Output
 summ(mod_marriage_null)
 summ(mod_date_null)
+
+message("✓ Null models fitted.\n")

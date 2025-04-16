@@ -17,6 +17,8 @@
 
 # 1 Check randomization ---------------------------------------------------
 
+message("Checking randomization...")
+
 # Select dimension columns
 dim_cols <- grep("^v_", colnames(sample_vignette), value = TRUE)
 dim_cols <- setdiff(dim_cols, "vignette")
@@ -247,3 +249,5 @@ get_significant_findings <- function(results) {
 
 # Create summary of significant findings
 significant_findings <- get_significant_findings(all_check_results)
+
+message("✓ Checks completed\n")

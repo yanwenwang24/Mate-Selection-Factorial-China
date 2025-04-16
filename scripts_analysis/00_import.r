@@ -12,48 +12,69 @@
 ##
 ## ------------------------------------------------------------------------
 
-# Load packages
-library(arrow)
-library(janitor)
-library(jtools)
-library(lme4)
-library(patchwork)
-library(tidyverse)
+# Load packages -----------------------------------------------------------
+
+message("Loading required libraries...")
+
+# List of packages to check/install
+packages_to_install <- c(
+  "arrow",
+  "janitor",
+  "jtools",
+  "lme4",
+  "patchwork",
+  "tidyverse"
+)
+
+# Install if needed
+for (pkg in packages_to_install) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+    message(sprintf("Installed package: %s", pkg))
+  }
+}
+
+# Load packages after installation
+invisible(lapply(packages_to_install, library, character.only = TRUE))
+message("Libraries loaded successfully.")
 
 # Set theme
 theme_set(theme_classic())
 
-# Load data
+# Load data ---------------------------------------------------------------
+
+message("Loading data...")
 data_behavior <- read_feather("data_clean/data_behavior.arrow")
 data_answer <- read_feather("data_clean/data_answer.arrow")
 
-message("✓ Import completed\n")
+message("✓ Data loaded.\n")
 
-# Source scripts
+# Source scripts -----------------------------------------------------------
+
 message("\n--- Analyzing data... ---\n")
 
+# Select samples
 source("scripts_analysis/01_exclude.r")
-message("✓ Sample selection completed\n")
 
+# Describe samples
 source("scripts_analysis/02_describe.r")
-message("✓ Data description completed\n")
 
+# Check randomization
 source("scripts_analysis/03_check.r")
-message("✓ Data check completed\n")
 
+# Fit null models
 source("scripts_analysis/04_model_null.r")
-message("✓ Null models completed\n")
 
+# Fit models for marriages
 source("scripts_analysis/05_model_marriage.r")
-message("✓ Marriage models completed\n")
 
+# Fit models for dating
 source("scripts_analysis/06_model_dating.r")
-message("✓ Dating models completed\n")
 
+# Fit models for comparing marriage and dating
 source("scripts_analysis/07_model_long.r")
-message("✓ Long models completed\n")
 
+# Predict with real data
 source("scripts_analysis/08_model_predict.r")
-message("✓ Predictions completed\n")
 
 message("\n--- All analysis scripts completed successfully! ---\n")

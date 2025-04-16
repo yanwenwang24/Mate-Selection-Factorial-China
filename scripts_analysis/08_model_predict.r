@@ -18,6 +18,8 @@
 
 # 1 Train models ----------------------------------------------------------
 
+message("Predicting with real data...")
+
 # Define formula
 f_marriage <- as.formula(
   "r_marriage ~ v_age + v_educ + v_income + v_nativity + v_appearance +
@@ -214,3 +216,5 @@ ggsave(
   height = 8,
   dpi = 300
 )
+
+message("✓ Predictions saved.\n")

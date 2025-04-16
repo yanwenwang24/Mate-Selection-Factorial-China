@@ -25,6 +25,8 @@
 
 # 1 Check source ----------------------------------------------------------
 
+message("Selecting samples...")
+
 # Only keep respondents from 调研家社区
 drop_source <- data_behavior %>%
   filter(source != "调研家社区") %>%
@@ -96,8 +98,13 @@ data_answer <- data_answer %>%
     !id %in% drop_source
   )
 
+data_behavior <- data_behavior %>%
+  filter(
+    !id %in% drop_source
+  )
+
 # Number of respondents excluded (after dropping source)
-data_answer %>%
+n_dropped <- data_answer %>%
   filter(
     id %in% drop_duration |
       id %in% drop_straight_lining
@@ -105,6 +112,10 @@ data_answer %>%
   select(id) %>%
   distinct() %>%
   nrow()
+
+message(sprintf("Dropped %d respondents", n_dropped))
+
+# Make samples ------------------------------------------------------------
 
 # Sample answer (for modeling)
 sample_answer <- data_answer %>%
@@ -178,7 +189,6 @@ sample_answer <- sample_answer %>%
 # Sample behavior
 sample_behavior <- data_behavior %>%
   filter(
-    !id %in% drop_source,
     !id %in% drop_duration,
     !id %in% drop_straight_lining
   )
@@ -228,3 +238,5 @@ saveRDS(
   ),
   file = "data_clean/samples.rds"
 )
+
+message("✓ Samples saved.\n")

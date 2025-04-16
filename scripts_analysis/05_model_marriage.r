@@ -23,6 +23,8 @@
 
 # 1.1 Main models ---------------------------------------------------------
 
+message("Fitting models for marriages...")
+
 # Define formula
 f_pooled <- as.formula(
   "r_marriage ~ v_age + v_educ + v_income + v_nativity + v_appearance +
@@ -141,3 +143,5 @@ saveRDS(
   ),
   file = "models/mods_marriage.rds"
 )
+
+message("✓ Models for marriage saved.\n")

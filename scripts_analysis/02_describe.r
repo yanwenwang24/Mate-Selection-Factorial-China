@@ -18,6 +18,8 @@
 
 # 1 Sample size -----------------------------------------------------------
 
+message("Describing samples...")
+
 length(unique(sample_answer$id)) # Num of respondents
 nrow(sample_answer) # Num of observations
 nrow(sample_answer) / length(unique(sample_answer$id)) # Num of obs per resp
@@ -378,3 +380,5 @@ p_r_marriage <- ggplot(sample_vignette, aes(x = r_marriage, fill = gender)) +
 
 # Combine plots
 p_r_date + p_r_marriage
+
+message("✓ Data description completed\n")

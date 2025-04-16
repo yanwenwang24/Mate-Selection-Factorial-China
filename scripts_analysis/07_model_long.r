@@ -16,6 +16,8 @@
 
 # 1.1 Define formula ------------------------------------------------------
 
+message("Fitting models for comparing marriage and dating...")
+
 f_type <- as.formula(
   "rate ~ type * (v_age + v_educ + v_income + v_nativity +
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
@@ -57,3 +59,5 @@ saveRDS(
   ),
   file = "models/mods_long.rds"
 )
+
+message("✓ Models for comparing marriage and dating saved.\n")
