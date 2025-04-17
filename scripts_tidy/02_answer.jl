@@ -265,4 +265,4 @@ data_answer = innerjoin(innerjoin(demo_df, pv_df, on = :id), vignette_df, on = :
 sort!(data_answer, [:id, :vignette])
 
 # Save
-Arrow.write("data_clean/data_answer.arrow", data_answer)
+Arrow.write("data/processed/data_answer.arrow", data_answer)

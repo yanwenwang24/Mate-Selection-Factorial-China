@@ -25,8 +25,8 @@ using FreqTables
 include("dictionaries.jl")
 
 # Load data
-data_behavior = CSV.read("data_raw/data_behavior.csv", DataFrame)
-data_answer = CSV.read("data_raw/data_answer.csv", DataFrame)
+data_behavior = CSV.read("data/raw/data_behavior.csv", DataFrame)
+data_answer = CSV.read("data/raw/data_answer.csv", DataFrame)
 
 # Source scripts
 include("01_behavior.jl")

@@ -3,8 +3,7 @@
 .vscode/
 
 # Data
-data_raw/
-data_clean/
+data/
 
 # Graphs
 graphs/

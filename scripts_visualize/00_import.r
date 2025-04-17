@@ -52,7 +52,7 @@ position_dodge <- position_dodge(width = 0.75)
 
 message("Loading samples...")
 
-samples <- readRDS("data_clean/samples.rds")
+samples <- readRDS("data/processed/samples.rds")
 sample_answer <- samples$sample_answer
 sample_behavior <- samples$sample_behavior
 sample_vignette <- samples$sample_vignette

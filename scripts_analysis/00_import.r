@@ -44,8 +44,8 @@ theme_set(theme_classic())
 # Load data ---------------------------------------------------------------
 
 message("Loading data...")
-data_behavior <- read_feather("data_clean/data_behavior.arrow")
-data_answer <- read_feather("data_clean/data_answer.arrow")
+data_behavior <- read_feather("data/processed/data_behavior.arrow")
+data_answer <- read_feather("data/processed/data_answer.arrow")
 
 message("✓ Data loaded.\n")
 

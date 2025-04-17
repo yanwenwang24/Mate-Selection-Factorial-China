@@ -80,4 +80,4 @@ data_behavior = innerjoin(data_behavior, post_behavior, on = :id)
 data_behavior.total_duration = data_behavior.demo_duration + data_behavior.vignette_duration + data_behavior.post_duration
 
 # Save
-Arrow.write("data_clean/data_behavior.arrow", data_behavior)
+Arrow.write("data/processed/data_behavior.arrow", data_behavior)

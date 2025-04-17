@@ -236,7 +236,7 @@ saveRDS(
     sample_vignette = sample_vignette,
     sample_long = sample_long
   ),
-  file = "data_clean/samples.rds"
+  file = "data/processed/samples.rds"
 )
 
 message("✓ Samples saved.\n")
