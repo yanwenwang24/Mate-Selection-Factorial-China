@@ -1,7 +1,7 @@
 ## ------------------------------------------------------------------------
 ##
 ## Script name: 03_check.r
-## Purpose: Check randomization, vignette order, and response time
+## Purpose: Check randomization
 ## Author: Yanwen Wang
 ## Date Created: 2025-03-21
 ## Email: yanwenwang@u.nus.edu
@@ -12,6 +12,7 @@
 ## 1. Check randomization
 ## 2. Check order effect
 ## 3. Check response time effect
+## 4. Check respondent characteristics
 ##
 ## ------------------------------------------------------------------------
 
@@ -201,6 +202,51 @@ response_time_results <- list(
   lm_marriage_summary = lm_marriage_summary
 )
 
+# 4 Check respondent characteristics --------------------------------------
+
+# Initialize storage for respondent characteristic results
+respondent_results <- list()
+
+# Check age correlations with vignette dimensions
+for (dim in dim_cols) {
+  # Remove NA values
+  clean_data <- sample_answer[
+    !is.na(sample_answer$age) & !is.na(sample_answer[[dim]]),
+  ]
+
+  # Run ANOVA
+  anova_result <- aov(age ~ get(dim), data = clean_data)
+  anova_summary <- summary(anova_result)
+
+  # Store results
+  respondent_results[[paste0("age_", dim)]] <- list(
+    anova = anova_result,
+    anova_summary = anova_summary
+  )
+}
+
+# Check education correlations with vignette dimensions
+for (dim in dim_cols) {
+  # Remove NA values and ensure proper factor levels
+  clean_data <- sample_answer[
+    !is.na(sample_answer$educ) & !is.na(sample_answer[[dim]]),
+  ]
+  clean_data$educ <- factor(clean_data$educ)
+  clean_data[[dim]] <- factor(clean_data[[dim]])
+
+  # Create contingency table
+  tab <- table(clean_data$educ, clean_data[[dim]])
+
+  # Run chi-square test
+  chi_test <- chisq.test(tab)
+
+  # Store results
+  respondent_results[[paste0("educ_", dim)]] <- list(
+    contingency_table = tab,
+    chi_square_test = chi_test
+  )
+}
+
 # Store all results in a single list for easy access
 all_check_results <- list(
   randomization = list(
@@ -209,7 +255,8 @@ all_check_results <- list(
     summary = randomization_summary
   ),
   order_effect = order_effect_results,
-  response_time = response_time_results
+  response_time = response_time_results,
+  respondent_characteristics = respondent_results
 )
 
 # Function to get a summary of significant findings
@@ -233,6 +280,27 @@ get_significant_findings <- function(results) {
     "duration", "Pr(>|t|)"
   ] < 0.05
 
+  # Extract significant respondent characteristic effects
+  sig_age_effects <- names(results$respondent_characteristics)[
+    grepl("^age_", names(results$respondent_characteristics)) &
+      sapply(
+        results$respondent_characteristics[
+          grepl("^age_", names(results$respondent_characteristics))
+        ],
+        function(x) x$anova_summary[[1]]["get(dim)", "Pr(>F)"] < 0.05
+      )
+  ]
+
+  sig_educ_effects <- names(results$respondent_characteristics)[
+    grepl("^educ_", names(results$respondent_characteristics)) &
+      sapply(
+        results$respondent_characteristics[
+          grepl("^educ_", names(results$respondent_characteristics))
+        ],
+        function(x) x$chi_square_test$p.value < 0.05
+      )
+  ]
+
   # Return summary
   list(
     significant_randomization_pairs = sig_pairs,
@@ -243,6 +311,10 @@ get_significant_findings <- function(results) {
     significant_time_effects = list(
       dating = sig_time_date,
       marriage = sig_time_marriage
+    ),
+    significant_respondent_effects = list(
+      age = sig_age_effects,
+      education = sig_educ_effects
     )
   )
 }
@@ -250,4 +322,4 @@ get_significant_findings <- function(results) {
 # Create summary of significant findings
 significant_findings <- get_significant_findings(all_check_results)
 
-message("✓ Checks completed\n")
+message("✓ All checks completed\n")
