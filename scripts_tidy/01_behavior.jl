@@ -73,11 +73,13 @@ select!(post_behavior, :id, :post_duration)
 
 # 5 Merge -----------------------------------------------------------------
 
-data_behavior = innerjoin(ip_address, demo_behavior, on = :id)
-data_behavior = innerjoin(data_behavior, vignette_behavior, on = :id)
-data_behavior = innerjoin(data_behavior, post_behavior, on = :id)
+data_behavior = innerjoin(ip_address, demo_behavior, on=:id)
+data_behavior = innerjoin(data_behavior, vignette_behavior, on=:id)
+data_behavior = innerjoin(data_behavior, post_behavior, on=:id)
 
-data_behavior.total_duration = data_behavior.demo_duration + data_behavior.vignette_duration + data_behavior.post_duration
+data_behavior.total_duration = data_behavior.demo_duration +
+                               data_behavior.vignette_duration +
+                               data_behavior.post_duration
 
 # Save
 Arrow.write("data/processed/data_behavior.arrow", data_behavior)
