@@ -22,7 +22,6 @@ message("Checking randomization...")
 
 # Select dimension columns
 dim_cols <- grep("^v_", colnames(sample_vignette), value = TRUE)
-dim_cols <- setdiff(dim_cols, "vignette")
 
 # Initialize storage for randomization results
 randomization_results <- list()
@@ -32,13 +31,13 @@ order_dimension_results <- list()
 for (dim in dim_cols) {
   # Remove NA values and ensure proper factor levels
   clean_data <- sample_vignette[
-    !is.na(sample_vignette$vignette) & !is.na(sample_vignette[[dim]]),
+    !is.na(sample_vignette$order) & !is.na(sample_vignette[[dim]]),
   ]
-  clean_data$vignette <- factor(clean_data$vignette)
+  clean_data$order <- factor(clean_data$order)
   clean_data[[dim]] <- factor(clean_data[[dim]])
 
   # Create a contingency table between vignette order and current dimension
-  tab <- table(clean_data$vignette, clean_data[[dim]])
+  tab <- table(clean_data$order, clean_data[[dim]])
 
   # Run chi-square test
   chi_test <- chisq.test(tab)
@@ -95,11 +94,8 @@ map(sample_vignette %>% select(starts_with("v_")), tabyl)
 
 # 2 Check order -----------------------------------------------------------
 
-# Factorize vignette order
-sample_vignette$vignette <- as.factor(sample_vignette$vignette)
-
 # Create plots but don't display them
-p_order_date <- ggplot(sample_vignette, aes(x = vignette, y = r_date)) +
+p_order_date <- ggplot(sample_vignette, aes(x = order, y = r_date)) +
   geom_boxplot(fill = "lightblue") +
   labs(
     title = "Dating rating",
@@ -107,7 +103,7 @@ p_order_date <- ggplot(sample_vignette, aes(x = vignette, y = r_date)) +
     y = "Dating rating"
   )
 
-p_order_marriage <- ggplot(sample_vignette, aes(x = vignette, y = r_marriage)) +
+p_order_marriage <- ggplot(sample_vignette, aes(x = order, y = r_marriage)) +
   geom_boxplot(fill = "lightgreen") +
   labs(
     title = "Marriage rating",
@@ -127,11 +123,11 @@ ggsave(
 )
 
 # ANOVA to test if vignette order predicts r_date
-anova_date <- aov(r_date ~ vignette, data = sample_vignette)
+anova_date <- aov(r_date ~ order, data = sample_vignette)
 anova_date_summary <- summary(anova_date)
 
 # ANOVA to test if vignette order predicts r_marriage
-anova_marriage <- aov(r_marriage ~ vignette, data = sample_vignette)
+anova_marriage <- aov(r_marriage ~ order, data = sample_vignette)
 anova_marriage_summary <- summary(anova_marriage)
 
 # Store order effect results
@@ -145,7 +141,7 @@ order_effect_results <- list(
 # 3 Check response time ---------------------------------------------------
 
 p_time_date <- ggplot(
-  sample_vignette %>% filter(duration < 150),
+  sample_vignette,
   aes(x = duration, y = r_date)
 ) +
   geom_point(alpha = 0.7) +
@@ -158,7 +154,7 @@ p_time_date <- ggplot(
   theme_minimal()
 
 p_time_marriage <- ggplot(
-  sample_vignette %>% filter(duration < 150),
+  sample_vignette,
   aes(x = duration, y = r_marriage)
 ) +
   geom_point(alpha = 0.7) +
@@ -184,13 +180,13 @@ ggsave(
 # Regression
 lm_date <- lm(
   r_date ~ duration,
-  data = sample_vignette %>% filter(duration < 150)
+  data = sample_vignette
 )
 lm_date_summary <- summary(lm_date)
 
 lm_marriage <- lm(
   r_marriage ~ duration,
-  data = sample_vignette %>% filter(duration < 150)
+  data = sample_vignette
 )
 lm_marriage_summary <- summary(lm_marriage)
 
@@ -266,10 +262,10 @@ get_significant_findings <- function(results) {
 
   # Extract significant order effects
   sig_order_date <- results$order_effect$anova_date_summary[[1]][
-    "vignette", "Pr(>F)"
+    "order", "Pr(>F)"
   ] < 0.05
   sig_order_marriage <- results$order_effect$anova_marriage_summary[[1]][
-    "vignette", "Pr(>F)"
+    "order", "Pr(>F)"
   ] < 0.05
 
   # Extract significant response time effects

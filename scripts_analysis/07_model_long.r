@@ -23,6 +23,7 @@ f_type <- as.formula(
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
+    order +
     (1 | id)"
 )
 
@@ -31,6 +32,7 @@ f_gender <- as.formula(
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
+    order +
     (1 | id)"
 )
 

@@ -184,7 +184,9 @@ sample_answer <- sample_answer %>%
       "8000-15000",
       "above 15000"
     ))
-  )
+  ) %>%
+  # Cateogrize vignette order
+  mutate(order = factor(order))
 
 # Sample behavior
 sample_behavior <- data_behavior %>%
@@ -198,6 +200,7 @@ sample_vignette <- sample_answer %>%
   select(
     id,
     gender,
+    order,
     starts_with("v"),
     starts_with("r")
   )
@@ -205,15 +208,15 @@ sample_vignette <- sample_answer %>%
 response_time_df <- sample_behavior %>%
   pivot_longer(
     cols = matches("^v\\d+_duration$"),
-    names_to = "vignette",
+    names_to = "order",
     values_to = "duration"
   ) %>%
-  mutate(vignette = str_extract(vignette, "\\d+")) %>%
-  select(id, vignette, duration)
+  mutate(order = str_extract(order, "\\d+")) %>%
+  select(id, order, duration)
 
 sample_vignette <- merge(
   sample_vignette, response_time_df,
-  by = c("id", "vignette")
+  by = c("id", "order")
 )
 
 # Transform to long format (for comparing marriage and dating)

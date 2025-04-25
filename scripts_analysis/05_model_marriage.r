@@ -31,6 +31,7 @@ f_pooled <- as.formula(
     v_housework + v_career + v_emotion + v_fertility +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
+    order +
     (1 | id)"
 )
 
@@ -50,6 +51,7 @@ f_pooled_gender <- as.formula(
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
+    order +
     (1 | id)"
 )
 
@@ -58,6 +60,7 @@ f_pooled_educ <- as.formula(
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
+    order +
     (1 | id)"
 )
 
@@ -86,6 +89,7 @@ f <- as.formula(
     v_housework + v_career + v_emotion + v_fertility +
     age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
+    order +
     (1 | id)"
 )
 
@@ -112,6 +116,7 @@ f_educ <- as.formula(
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
+    order +
     (1 | id)"
 )
 
