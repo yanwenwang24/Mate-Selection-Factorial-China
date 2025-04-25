@@ -2,7 +2,7 @@
 
 Replication package
 
-Wang, Yanwen, Anni Ni, Zheng Mu, and Chan Zhang. 2025. “Mate Selection in First-Tier Cities in China: A Factorial Survey Approach.” (Working Paper)
+Wang, Yanwen, Anni Ni, Zheng Mu, and Chan Zhang. 2025. “What Do Men and Women Value in a Romantic Partner? A Factorial Survey Experiment in Urban China.” (Working Paper)
 
 ## Replication procedures
 
