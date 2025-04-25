@@ -410,7 +410,7 @@ p_marriage_educ <- ggplot(
     ),
     breaks = c("some college", "college", "graduate"),
     labels = c("Some college", "College", "Graduate"),
-    name = "Education"
+    name = "Education\n(ref: high school)"
   ) +
   scale_y_discrete(labels = rev(unique_labels$level)) +
   facet_wrap(~gender) +
@@ -470,7 +470,7 @@ p_dating_educ <- ggplot(
     ),
     breaks = c("some college", "college", "graduate"),
     labels = c("Some college", "College", "Graduate"),
-    name = "Education"
+    name = "Education\n(ref: high school)"
   ) +
   scale_y_discrete(labels = rev(unique_labels$level)) +
   facet_wrap(~gender) +
