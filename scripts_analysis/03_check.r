@@ -9,10 +9,10 @@
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
-## 1. Check randomization
+## 1. Check randomization (order and pairwise independence)
 ## 2. Check order effect
 ## 3. Check response time effect
-## 4. Check respondent characteristics
+## 4. Check age/education distribution by vignette dimension
 ##
 ## ------------------------------------------------------------------------
 
