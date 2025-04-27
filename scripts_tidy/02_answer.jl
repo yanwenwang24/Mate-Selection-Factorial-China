@@ -33,7 +33,11 @@ data_answer.birthym = month.(data_answer.Q3)
 const_date = Date(2025, 4, 1)
 data_answer.age = [
     year(const_date) - year(b) -
-    ((month(const_date) < month(b)) || (month(const_date) == month(b) && day(const_date) < day(b)) ? 1 : 0)
+    (
+        (month(const_date) < month(b)) ||
+        (month(const_date) == month(b) &&
+         day(const_date) < day(b)) ? 1 : 0
+    )
     for b in data_answer.Q3
 ]
 
@@ -72,7 +76,14 @@ transform!(data_answer, :Q8 => ByRow(x -> cohabit_dict[x]) => :cohabit)
 transform!(data_answer, :Q9 => ByRow(x -> agemar_dict[x]) => :agemar)
 data_answer.agemar = categorical(
     data_answer.agemar,
-    levels=["27 and below", "28-30", "31-35", "36-40", "above 40", "against marraige"]
+    levels=[
+        "27 and below",
+        "28-30",
+        "31-35",
+        "36-40",
+        "above 40",
+        "against marriage"
+    ]
 )
 
 # Hukou at age 12 (Q10)
@@ -86,7 +97,14 @@ data_answer.hukou = categorical(
 transform!(data_answer, :Q11 => ByRow(x -> peduc_dict[x]) => :peduc)
 data_answer.peduc = categorical(
     data_answer.peduc,
-    levels=["primary or less", "middle school", "high school", "some college", "college", "graduate"]
+    levels=[
+        "primary or less",
+        "middle school",
+        "high school",
+        "some college",
+        "college",
+        "graduate"
+    ]
 )
 
 # Education (Q12)
@@ -107,7 +125,14 @@ data_answer.empstat = categorical(
 transform!(data_answer, :Q14 => ByRow(x -> income_dict[x]) => :income)
 data_answer.income = categorical(
     data_answer.income,
-    levels=["below 3000", "3001-5000", "5001-8000", "8001-15000", "15001-25000", "above 25000"]
+    levels=[
+        "below 3000",
+        "3001-5000",
+        "5001-8000",
+        "8001-15000",
+        "15001-25000",
+        "above 25000"
+    ]
 )
 
 # Siblings (Q15)
@@ -193,7 +218,10 @@ data_answer.fertility = categorical(
 )
 
 # Appearance (Q27)
-transform!(data_answer, :Q27 => ByRow(x -> pv_appearance_dict[x]) => :appearance)
+transform!(
+    data_answer,
+    :Q27 => ByRow(x -> pv_appearance_dict[x]) => :appearance
+)
 data_answer.appearance = categorical(
     data_answer.appearance,
     levels=["average", "below average", "above average"]
@@ -241,10 +269,19 @@ vignette_df = select(data_answer, :id, Between("M1_1_1", "Q23_2"))
 # Select the dimensions
 dim_cols = filter(col -> startswith(col, "M"), names(vignette_df))
 
-stacked_dims = stack(vignette_df, dim_cols, variable_name="dim_col", value_name="dim_value")
+stacked_dims = stack(
+    vignette_df,
+    dim_cols,
+    variable_name="dim_col",
+    value_name="dim_value"
+)
 
-stacked_dims[!, :order] = [parse(Int, split(col, "_")[1][2:end]) for col in stacked_dims.dim_col]
-stacked_dims[!, :dimension] = [parse(Int, split(col, "_")[3]) for col in stacked_dims.dim_col]
+stacked_dims[!, :order] = [
+    parse(Int, split(col, "_")[1][2:end]) for col in stacked_dims.dim_col
+]
+stacked_dims[!, :dimension] = [
+    parse(Int, split(col, "_")[3]) for col in stacked_dims.dim_col
+]
 
 long_dims = unstack(stacked_dims, [:id, :order], :dimension, :dim_value)
 
@@ -263,33 +300,92 @@ rename!(long_dims,
 )
 
 # Recode the dimensions
-transform!(long_dims, :v_age => ByRow(x -> v_age_dict[x]) => :v_age)
-transform!(long_dims, :v_educ => ByRow(x -> v_educ_dict[x]) => :v_educ)
-transform!(long_dims, :v_income => ByRow(x -> v_income_dict[x]) => :v_income)
-transform!(long_dims, :v_nativity => ByRow(x -> v_nativity_dict[x]) => :v_nativity)
-transform!(long_dims, :v_appearance => ByRow(x -> v_appearance_dict[x]) => :v_appearance)
-transform!(long_dims, :v_housework => ByRow(x -> v_housework_dict[x]) => :v_housework)
-transform!(long_dims, :v_career => ByRow(x -> v_career_dict[x]) => :v_career)
-transform!(long_dims, :v_emotion => ByRow(x -> v_emotion_dict[x]) => :v_emotion)
-transform!(long_dims, :v_fertility => ByRow(x -> v_fertility_dict[x]) => :v_fertility)
+transform!(
+    long_dims,
+    :v_age => ByRow(x -> v_age_dict[x]) => :v_age
+)
+transform!(
+    long_dims,
+    :v_educ => ByRow(x -> v_educ_dict[x]) => :v_educ
+)
+transform!(
+    long_dims,
+    :v_income => ByRow(x -> v_income_dict[x]) => :v_income
+)
+transform!(
+    long_dims,
+    :v_nativity => ByRow(x -> v_nativity_dict[x]) => :v_nativity
+)
+transform!(
+    long_dims,
+    :v_appearance => ByRow(x -> v_appearance_dict[x]) => :v_appearance
+)
+transform!(
+    long_dims,
+    :v_housework => ByRow(x -> v_housework_dict[x]) => :v_housework
+)
+transform!(
+    long_dims,
+    :v_career => ByRow(x -> v_career_dict[x]) => :v_caree
+)
+transform!(
+    long_dims,
+    :v_emotion => ByRow(x -> v_emotion_dict[x]) => :v_emotion
+)
+transform!(
+    long_dims,
+    :v_fertility => ByRow(x -> v_fertility_dict[x]) => :v_fertility
+)
 
 # Categorize the dimensions
-long_dims.v_age = categorical(long_dims.v_age, levels=["similar", "older", "younger"])
-long_dims.v_educ = categorical(long_dims.v_educ, levels=["secondary", "bachelor", "graduate"])
-long_dims.v_income = categorical(long_dims.v_income, levels=["average", "below average", "above average"])
-long_dims.v_nativity = categorical(long_dims.v_nativity, levels=["local", "migrant"])
-long_dims.v_appearance = categorical(long_dims.v_appearance, levels=["average", "below average", "above average"])
-long_dims.v_housework = categorical(long_dims.v_housework, levels=["equal", "women do more", "men do more"])
-long_dims.v_career = categorical(long_dims.v_career, levels=["moderate", "low", "strong"])
-long_dims.v_emotion = categorical(long_dims.v_emotion, levels=["moderate", "low", "strong"])
-long_dims.v_fertility = categorical(long_dims.v_fertility, levels=["uncertain", "yes", "no"])
+long_dims.v_age = categorical(
+    long_dims.v_age,
+    levels=["similar", "older", "younger"]
+)
+long_dims.v_educ = categorical(
+    long_dims.v_educ,
+    levels=["secondary", "bachelor", "graduate"]
+)
+long_dims.v_income = categorical(
+    long_dims.v_income,
+    levels=["average", "below average", "above average"]
+)
+long_dims.v_nativity = categorical(
+    long_dims.v_nativity,
+    levels=["local", "migrant"]
+)
+long_dims.v_appearance = categorical(
+    long_dims.v_appearance,
+    levels=["average", "below average", "above average"]
+)
+long_dims.v_housework = categorical(
+    long_dims.v_housework,
+    levels=["equal", "women do more", "men do more"]
+)
+long_dims.v_career = categorical(
+    long_dims.v_career,
+    levels=["moderate", "low", "strong"]
+)
+long_dims.v_emotion = categorical(
+    long_dims.v_emotion,
+    levels=["moderate", "low", "strong"]
+)
+long_dims.v_fertility = categorical(
+    long_dims.v_fertility,
+    levels=["uncertain", "yes", "no"]
+)
 
 # 3.2 Responses -----------------------------------------------------------
 
 # Select the responses
 resp_cols = filter(col -> startswith(col, "Q"), names(vignette_df))
 
-stacked_resp = stack(vignette_df, resp_cols, variable_name="resp_col", value_name="resp_value")
+stacked_resp = stack(
+    vignette_df,
+    resp_cols,
+    variable_name="resp_col",
+    value_name="resp_value"
+)
 
 function parse_response_info(colname::String)
     parts = split(colname, "_")
