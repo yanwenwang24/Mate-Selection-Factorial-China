@@ -92,12 +92,6 @@ mod_dating_women <- mods_dating$mod_women
 mod_dating_men_educ <- mods_dating$mod_men_educ # Interaction
 mod_dating_women_educ <- mods_dating$mod_women_educ # Interaction
 
-# 3.3 Long model ----------------------------------------------------------
-
-mods_long <- readRDS("models/mods_long.rds")
-mod_long_gender <- mods_long$mod_gender
-mod_long_type <- mods_long$mod_type
-
 message("✓ Models loaded\n")
 
 # 4 Source scripts --------------------------------------------------------
