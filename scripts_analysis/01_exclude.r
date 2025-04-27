@@ -148,16 +148,15 @@ sample_answer <- sample_answer %>%
   ) %>%
   mutate(
     peduc = case_when(
-      peduc == "primary or less" ~ "primary or less",
-      peduc == "middle school" ~ "middle school",
+      peduc == "primary or less" ~ "middle or less",
+      peduc == "middle school" ~ "middle or less",
       peduc == "high school" ~ "high school",
       peduc == "some college" ~ "some college",
       peduc == "college" ~ "college and above",
       peduc == "graduate" ~ "college and above"
     ),
     peduc = factor(peduc, levels = c(
-      "primary or less",
-      "middle school",
+      "middle or less",
       "high school",
       "some college",
       "college and above"

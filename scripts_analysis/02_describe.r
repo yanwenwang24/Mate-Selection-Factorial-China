@@ -62,13 +62,7 @@ sample_demo %>%
     sd_age   = sd(age, na.rm = TRUE)
   )
 
-ggplot(sample_demo, aes(x = age, fill = gender)) +
-  geom_histogram(binwidth = 1, alpha = 0.5, position = "dodge") +
-  labs(
-    x = "Age",
-    y = "Count",
-    fill = "Gender"
-  )
+t.test(age ~ gender, data = sample_demo)
 
 # City
 tabyl(sample_demo, city) %>%
@@ -78,6 +72,8 @@ tabyl(sample_demo, city, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_demo$city, sample_demo$gender)
+
 # Nativity
 tabyl(sample_demo, nativity) %>%
   adorn_pct_formatting(2)
@@ -85,6 +81,8 @@ tabyl(sample_demo, nativity) %>%
 tabyl(sample_demo, nativity, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
+
+chisq.test(sample_demo$nativity, sample_demo$gender)
 
 # Romance
 tabyl(sample_demo, romance) %>%
@@ -94,6 +92,8 @@ tabyl(sample_demo, romance, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_demo$romance, sample_demo$gender)
+
 # Cohabitation
 tabyl(sample_demo, cohabit) %>%
   adorn_pct_formatting(2)
@@ -101,6 +101,8 @@ tabyl(sample_demo, cohabit) %>%
 tabyl(sample_demo, cohabit, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
+
+chisq.test(sample_demo$cohabit, sample_demo$gender)
 
 # Age of marriage
 tabyl(sample_demo, agemar) %>%
@@ -110,6 +112,8 @@ tabyl(sample_demo, agemar, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_demo$agemar, sample_demo$gender)
+
 # Hukou
 tabyl(sample_demo, hukou) %>%
   adorn_pct_formatting(2)
@@ -117,6 +121,8 @@ tabyl(sample_demo, hukou) %>%
 tabyl(sample_demo, hukou, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
+
+chisq.test(sample_demo$hukou, sample_demo$gender)
 
 # Parental education
 tabyl(sample_demo, peduc) %>%
@@ -126,6 +132,8 @@ tabyl(sample_demo, peduc, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_demo$peduc, sample_demo$gender)
+
 # Education
 tabyl(sample_demo, educ) %>%
   adorn_pct_formatting(2)
@@ -133,6 +141,8 @@ tabyl(sample_demo, educ) %>%
 tabyl(sample_demo, educ, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
+
+chisq.test(sample_demo$educ, sample_demo$gender)
 
 # Income
 tabyl(sample_demo, income) %>%
@@ -142,6 +152,8 @@ tabyl(sample_demo, income, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_demo$income, sample_demo$gender)
+
 # Employment (full-time) status
 tabyl(sample_demo, fulltime) %>%
   adorn_pct_formatting(2)
@@ -150,6 +162,8 @@ tabyl(sample_demo, fulltime, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_demo$fulltime, sample_demo$gender)
+
 # Siblings
 tabyl(sample_demo, sibling) %>%
   adorn_pct_formatting(2)
@@ -157,6 +171,8 @@ tabyl(sample_demo, sibling) %>%
 tabyl(sample_demo, sibling, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
+
+chisq.test(sample_demo$sibling, sample_demo$gender)
 
 # 3 Post-vignette information ---------------------------------------------
 
@@ -194,6 +210,8 @@ tabyl(sample_pv, housework_cat, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_pv$housework_cat, sample_pv$gender)
+
 # Career
 mean(sample_pv$career_scale)
 sd(sample_pv$career_scale)
@@ -211,6 +229,8 @@ tabyl(sample_pv, career_cat) %>%
 tabyl(sample_pv, career_cat, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
+
+chisq.test(sample_pv$career_cat, sample_pv$gender)
 
 # Emotion
 mean(sample_pv$emotion_scale)
@@ -230,6 +250,8 @@ tabyl(sample_pv, emotion_cat, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_pv$emotion_cat, sample_pv$gender)
+
 # Fertility
 tabyl(sample_pv, fertility) %>%
   adorn_pct_formatting(2)
@@ -246,6 +268,8 @@ tabyl(sample_pv, appearance, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
 
+chisq.test(sample_pv$appearance, sample_pv$gender)
+
 # Media use
 mean(sample_pv$media_time)
 sd(sample_pv$media_time)
@@ -257,6 +281,8 @@ sample_pv %>%
     sd_media_time = sd(media_time, na.rm = TRUE)
   )
 
+t.test(media_time ~ gender, data = sample_pv)
+
 # Media comparison (income)
 mean(sample_pv$media_compare_income)
 sd(sample_pv$media_compare_income)
@@ -267,6 +293,8 @@ sample_pv %>%
     mean_media_compare_income = mean(media_compare_income, na.rm = TRUE),
     sd_media_compare_income = sd(media_compare_income, na.rm = TRUE)
   )
+
+t.test(media_compare_income ~ gender, data = sample_pv)
 
 # Media comparison (appearance)
 mean(sample_pv$media_compare_appearance)
@@ -282,6 +310,8 @@ sample_pv %>%
     sd_media_compare_appearance = sd(media_compare_appearance, na.rm = TRUE)
   )
 
+t.test(media_compare_appearance ~ gender, data = sample_pv)
+
 # Media comparison (education)
 mean(sample_pv$media_compare_educ)
 sd(sample_pv$media_compare_educ)
@@ -293,6 +323,8 @@ sample_pv %>%
     sd_media_compare_educ = sd(media_compare_educ, na.rm = TRUE)
   )
 
+t.test(media_compare_educ ~ gender, data = sample_pv)
+
 # Media mobility (income)
 mean(sample_pv$media_mobility_income)
 sd(sample_pv$media_mobility_income)
@@ -303,6 +335,8 @@ sample_pv %>%
     mean_media_mobility_income = mean(media_mobility_income, na.rm = TRUE),
     sd_media_mobility_income = sd(media_mobility_income, na.rm = TRUE)
   )
+
+t.test(media_mobility_income ~ gender, data = sample_pv)
 
 # Media mobility (appearance)
 mean(sample_pv$media_mobility_appearance)
@@ -318,6 +352,8 @@ sample_pv %>%
     sd_media_mobility_appearance = sd(media_mobility_appearance, na.rm = TRUE)
   )
 
+t.test(media_mobility_appearance ~ gender, data = sample_pv)
+
 # Media mobility (education)
 mean(sample_pv$media_mobility_educ)
 sd(sample_pv$media_mobility_educ)
@@ -328,6 +364,8 @@ sample_pv %>%
     mean_media_mobility_educ = mean(media_mobility_educ, na.rm = TRUE),
     sd_media_mobility_educ = sd(media_mobility_educ, na.rm = TRUE)
   )
+
+t.test(media_mobility_educ ~ gender, data = sample_pv)
 
 # 4 Vignettes -------------------------------------------------------------
 
@@ -346,6 +384,8 @@ sample_vignette %>%
     sd_r_date = sd(r_date, na.rm = TRUE)
   )
 
+t.test(r_date ~ gender, data = sample_vignette)
+
 # Rating for marriage
 mean(sample_vignette$r_marriage)
 sd(sample_vignette$r_marriage)
@@ -356,6 +396,8 @@ sample_vignette %>%
     mean_r_marriage = mean(r_marriage, na.rm = TRUE),
     sd_r_marriage = sd(r_marriage, na.rm = TRUE)
   )
+
+t.test(r_marriage ~ gender, data = sample_vignette)
 
 # Visualize distributions for dating
 p_r_date <- ggplot(sample_vignette, aes(x = r_date, fill = gender)) +
