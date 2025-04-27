@@ -64,6 +64,19 @@ r2_dating <- r2_dating_full$R2 %>%
 r2_df <- bind_rows(r2_marriage, r2_dating) %>%
   mutate(
     type = factor(type, levels = c("Marriage", "Dating"))
+  ) %>%
+  mutate(
+    term = case_when(
+      term == "Educ" ~ "Education",
+      term == "Housework" ~ "Housework",
+      term == "Emotion" ~ "Emotional support",
+      term == "Appearance" ~ "Appearance",
+      term == "Income" ~ "Income/career",
+      term == "Fertility" ~ "Fertility",
+      term == "Nativity" ~ "Nativity",
+      term == "Career" ~ "Career support",
+      term == "Age" ~ "Age"
+    )
   )
 
 message("✓ R² for dating calculated\n")
@@ -78,30 +91,29 @@ p_importance <- ggplot(
   scale_x_reordered() +
   coord_flip() +
   facet_wrap(~type, scales = "free_y") +
+  theme_bw(base_family = "Roboto") +
   labs(
     x = NULL,
     y = "Semi-partial R² (Unique variance explained)"
   ) +
-  theme_bw() +
   theme(
     legend.position = "right",
-    legend.title = element_text(size = 11),
-    legend.text = element_text(size = 10),
-    axis.text.y = element_markdown(size = 10),
-    axis.text.x = element_text(size = 10),
-    axis.title.x = element_text(size = 10),
+    legend.title = element_text(size = 9),
+    legend.text = element_text(size = 9),
+    axis.text.y = element_markdown(size = 9),
+    axis.text.x = element_text(size = 9),
+    axis.title.x = element_text(size = 9),
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank(),
-    panel.grid.major.y = element_blank(),
-    plot.margin = margin(12, 20, 12, 10)
+    panel.grid.major.y = element_blank()
   )
 
 # Save
 ggsave(
   "graphs/importance.png",
   p_importance,
-  width = 10,
-  height = 8,
+  width = 8,
+  height = 6,
   dpi = 300
 )
 

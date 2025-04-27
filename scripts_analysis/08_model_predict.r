@@ -129,91 +129,76 @@ pred_dating_women <- predict(
 # Organize predicted values
 pred_marriage_df <- bind_rows(
   tibble(
-    gender = "men",
+    gender = "Men",
     pred = pred_marriage_men
   ),
   tibble(
-    gender = "women",
+    gender = "Women",
     pred = pred_marriage_women
   )
-)
+) %>%
+  mutate(type = "Marriage")
 
 pred_dating_df <- bind_rows(
   tibble(
-    gender = "men",
+    gender = "Men",
     pred = pred_dating_men
   ),
   tibble(
-    gender = "women",
+    gender = "Women",
     pred = pred_dating_women
   )
-)
+) %>%
+  mutate(type = "Dating")
+
+# Combine
+pred_df <- bind_rows(
+  pred_marriage_df,
+  pred_dating_df
+) %>%
+  mutate(
+    type = factor(type, levels = c("Marriage", "Dating")),
+    gender = factor(gender, levels = c("Women", "Men"))
+  )
 
 # 4 Visualize -------------------------------------------------------------
 
-# Marriage
-p_pred_marriage <- ggplot(
-  pred_marriage_df, aes(x = gender, y = pred, fill = gender)
+p_pred <- ggplot(
+  pred_df,
+  aes(x = gender, y = pred, fill = gender)
 ) +
   geom_violin(trim = FALSE) +
   geom_boxplot(width = 0.1, fill = "white") +
+  facet_wrap(~type) +
   labs(
-    title = "Marriage",
     x = NULL,
-    y = NULL
+    y = "Predicted attractiveness"
   ) +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 2.5)) +
   scale_fill_manual(
     values = c(
-      "men" = "#fd7f6f",
-      "women" = "#7eb0d5"
+      "Men" = "#fd7f6f",
+      "Women" = "#7eb0d5"
     )
   ) +
   guides(fill = "none") +
+  theme_bw() +
   theme(
-    axis.text.x = element_text(size = 12),
-    axis.text.y = element_text(size = 12),
-    axis.title.x = element_text(size = 12),
-    axis.title.y = element_text(size = 12)
+    axis.text.x = element_text(size = 9),
+    axis.text.y = element_text(size = 9),
+    axis.title.x = element_text(size = 9),
+    axis.title.y = element_text(size = 9),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank()
   )
-
-# Dating
-p_pred_dating <- ggplot(
-  pred_dating_df, aes(x = gender, y = pred, fill = gender)
-) +
-  geom_violin(trim = FALSE) +
-  geom_boxplot(width = 0.1, fill = "white") +
-  labs(
-    title = "Dating",
-    x = NULL,
-    y = NULL
-  ) +
-  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 2.5)) +
-  scale_fill_manual(
-    values = c(
-      "men" = "#fd7f6f",
-      "women" = "#7eb0d5"
-    )
-  ) +
-  guides(fill = "none") +
-  theme(
-    axis.text.x = element_text(size = 12),
-    axis.text.y = element_text(size = 12),
-    axis.title.x = element_text(size = 12),
-    axis.title.y = element_text(size = 12)
-  )
-
-p_pred <- p_pred_marriage + p_pred_dating + plot_annotation(
-  title = "Predicted rating of marriage and dating",
-  subtitle = "Based on respondents' real characteristics"
-)
 
 # Save
 ggsave(
   "graphs/predicted.png",
   p_pred,
-  width = 10,
-  height = 8,
+  width = 8,
+  height = 6,
   dpi = 300
 )
 

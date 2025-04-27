@@ -20,12 +20,12 @@ message("Plotting gender-specific effects...")
 vignette_dims <- c(
   "age",
   "education",
-  "income",
+  "income/career",
   "nativity",
   "appearance",
   "housework",
-  "career",
-  "emotion",
+  "career support",
+  "emotional support",
   "fertility"
 )
 
@@ -68,12 +68,12 @@ coef_marriage_men_df <- tidy(
     dim = case_when(
       grepl("^v_age", term) ~ "age",
       grepl("^v_educ", term) ~ "education",
-      grepl("^v_income", term) ~ "income",
+      grepl("^v_income", term) ~ "income/career",
       grepl("^v_nativity", term) ~ "nativity",
       grepl("^v_appearance", term) ~ "appearance",
       grepl("^v_housework", term) ~ "housework",
-      grepl("^v_career", term) ~ "career",
-      grepl("^v_emotion", term) ~ "emotion",
+      grepl("^v_career", term) ~ "career support",
+      grepl("^v_emotion", term) ~ "emotional support",
       grepl("^v_fertility", term) ~ "fertility",
       TRUE ~ NA_character_
     )
@@ -83,12 +83,12 @@ coef_marriage_men_df <- tidy(
     level = case_when(
       dim == "age" ~ sub("^v_age", "", term),
       dim == "education" ~ sub("^v_educ", "", term),
-      dim == "income" ~ sub("^v_income", "", term),
+      dim == "income/career" ~ sub("^v_income", "", term),
       dim == "nativity" ~ sub("^v_nativity", "", term),
       dim == "appearance" ~ sub("^v_appearance", "", term),
       dim == "housework" ~ sub("^v_housework", "", term),
-      dim == "career" ~ sub("^v_career", "", term),
-      dim == "emotion" ~ sub("^v_emotion", "", term),
+      dim == "career support" ~ sub("^v_career", "", term),
+      dim == "emotional support" ~ sub("^v_emotion", "", term),
       dim == "fertility" ~ sub("^v_fertility", "", term),
       TRUE ~ NA_character_
     )
@@ -132,12 +132,12 @@ coef_marriage_women_df <- tidy(
     dim = case_when(
       grepl("^v_age", term) ~ "age",
       grepl("^v_educ", term) ~ "education",
-      grepl("^v_income", term) ~ "income",
+      grepl("^v_income", term) ~ "income/career",
       grepl("^v_nativity", term) ~ "nativity",
       grepl("^v_appearance", term) ~ "appearance",
       grepl("^v_housework", term) ~ "housework",
-      grepl("^v_career", term) ~ "career",
-      grepl("^v_emotion", term) ~ "emotion",
+      grepl("^v_career", term) ~ "career support",
+      grepl("^v_emotion", term) ~ "emotional support",
       grepl("^v_fertility", term) ~ "fertility",
       TRUE ~ NA_character_
     )
@@ -147,12 +147,12 @@ coef_marriage_women_df <- tidy(
     level = case_when(
       dim == "age" ~ sub("^v_age", "", term),
       dim == "education" ~ sub("^v_educ", "", term),
-      dim == "income" ~ sub("^v_income", "", term),
+      dim == "income/career" ~ sub("^v_income", "", term),
       dim == "nativity" ~ sub("^v_nativity", "", term),
       dim == "appearance" ~ sub("^v_appearance", "", term),
       dim == "housework" ~ sub("^v_housework", "", term),
-      dim == "career" ~ sub("^v_career", "", term),
-      dim == "emotion" ~ sub("^v_emotion", "", term),
+      dim == "career support" ~ sub("^v_career", "", term),
+      dim == "emotional support" ~ sub("^v_emotion", "", term),
       dim == "fertility" ~ sub("^v_fertility", "", term),
       TRUE ~ NA_character_
     )
@@ -201,12 +201,12 @@ coef_dating_men_df <- tidy(
     dim = case_when(
       grepl("^v_age", term) ~ "age",
       grepl("^v_educ", term) ~ "education",
-      grepl("^v_income", term) ~ "income",
+      grepl("^v_income", term) ~ "income/career",
       grepl("^v_nativity", term) ~ "nativity",
       grepl("^v_appearance", term) ~ "appearance",
       grepl("^v_housework", term) ~ "housework",
-      grepl("^v_career", term) ~ "career",
-      grepl("^v_emotion", term) ~ "emotion",
+      grepl("^v_career", term) ~ "career support",
+      grepl("^v_emotion", term) ~ "emotional support",
       grepl("^v_fertility", term) ~ "fertility",
       TRUE ~ NA_character_
     )
@@ -216,12 +216,12 @@ coef_dating_men_df <- tidy(
     level = case_when(
       dim == "age" ~ sub("^v_age", "", term),
       dim == "education" ~ sub("^v_educ", "", term),
-      dim == "income" ~ sub("^v_income", "", term),
+      dim == "income/career" ~ sub("^v_income", "", term),
       dim == "nativity" ~ sub("^v_nativity", "", term),
       dim == "appearance" ~ sub("^v_appearance", "", term),
       dim == "housework" ~ sub("^v_housework", "", term),
-      dim == "career" ~ sub("^v_career", "", term),
-      dim == "emotion" ~ sub("^v_emotion", "", term),
+      dim == "career support" ~ sub("^v_career", "", term),
+      dim == "emotional support" ~ sub("^v_emotion", "", term),
       dim == "fertility" ~ sub("^v_fertility", "", term),
       TRUE ~ NA_character_
     )
@@ -262,12 +262,12 @@ coef_dating_women_df <- tidy(
     dim = case_when(
       grepl("^v_age", term) ~ "age",
       grepl("^v_educ", term) ~ "education",
-      grepl("^v_income", term) ~ "income",
+      grepl("^v_income", term) ~ "income/career",
       grepl("^v_nativity", term) ~ "nativity",
       grepl("^v_appearance", term) ~ "appearance",
       grepl("^v_housework", term) ~ "housework",
-      grepl("^v_career", term) ~ "career",
-      grepl("^v_emotion", term) ~ "emotion",
+      grepl("^v_career", term) ~ "career support",
+      grepl("^v_emotion", term) ~ "emotional support",
       grepl("^v_fertility", term) ~ "fertility",
       TRUE ~ NA_character_
     )
@@ -277,12 +277,12 @@ coef_dating_women_df <- tidy(
     level = case_when(
       dim == "age" ~ sub("^v_age", "", term),
       dim == "education" ~ sub("^v_educ", "", term),
-      dim == "income" ~ sub("^v_income", "", term),
+      dim == "income/career" ~ sub("^v_income", "", term),
       dim == "nativity" ~ sub("^v_nativity", "", term),
       dim == "appearance" ~ sub("^v_appearance", "", term),
       dim == "housework" ~ sub("^v_housework", "", term),
-      dim == "career" ~ sub("^v_career", "", term),
-      dim == "emotion" ~ sub("^v_emotion", "", term),
+      dim == "career support" ~ sub("^v_career", "", term),
+      dim == "emotional support" ~ sub("^v_emotion", "", term),
       dim == "fertility" ~ sub("^v_fertility", "", term),
       TRUE ~ NA_character_
     )
@@ -314,12 +314,16 @@ forest_dating_df <- bind_rows(
 ) %>%
   mutate(gender = ifelse(is_ref, "ref", gender))
 
+# Combine marriage and dating data
+forest_df <- bind_rows(
+  forest_marriage_df, forest_dating_df
+) %>%
+  mutate(type = factor(type, levels = c("Marriage", "Dating")))
+
 # 3 Visualize --------------------------------------------------------------
 
-# 3.1 Marriage -------------------------------------------------------------
-
-p_marriage <- ggplot(
-  forest_marriage_df,
+p_gender <- ggplot(
+  forest_df,
   aes(x = estimate, y = fct_rev(y_pos), color = gender, group = gender)
 ) +
   geom_point(size = 1, position = position_dodge) +
@@ -343,74 +347,30 @@ p_marriage <- ggplot(
   ) +
   scale_y_discrete(labels = rev(custom_labels)) +
   labs(
-    x = "Marriage rating",
+    x = "Attractiveness rating",
     y = NULL
   ) +
+  facet_wrap(~type, scales = "free_x") +
+  theme_bw() +
   theme(
-    legend.position = "right",
-    legend.title = element_text(size = 11),
-    legend.text = element_text(size = 10),
-    axis.text.y = element_markdown(size = 10),
-    axis.text.x = element_text(size = 10),
-    axis.title.x = element_text(size = 10),
+    legend.position = "bottom",
+    legend.title = element_text(size = 9),
+    legend.text = element_text(size = 9),
+    axis.text.y = element_markdown(size = 9),
+    axis.text.x = element_text(size = 9),
+    axis.title.x = element_text(size = 9),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
     plot.margin = margin(12, 20, 12, 10)
   )
 
 # Save
 ggsave(
-  "graphs/marriage_gender.png",
-  p_marriage,
+  "graphs/gender.png",
+  p_gender,
   width = 8,
-  height = 12,
-  dpi = 300
-)
-
-# 3.2 Dating --------------------------------------------------------------
-
-p_dating <- ggplot(
-  forest_dating_df,
-  aes(x = estimate, y = fct_rev(y_pos), color = gender, group = gender)
-) +
-  geom_point(size = 1, position = position_dodge) +
-  geom_errorbarh(
-    aes(xmin = conf.low, xmax = conf.high), # type already in main aes
-    position = position_dodge,
-    height = 0.3
-  ) +
-  geom_vline(
-    xintercept = 0, linetype = "dashed", color = "gray70"
-  ) +
-  scale_color_manual(
-    values = c(
-      "ref" = "white",
-      "men" = "#fd7f6f",
-      "women" = "#7eb0d5"
-    ),
-    breaks = c("women", "men"),
-    labels = c("Women", "Men"),
-    name = "Gender"
-  ) +
-  scale_y_discrete(labels = rev(custom_labels)) +
-  labs(
-    x = "Dating rating",
-    y = NULL
-  ) +
-  theme(
-    legend.position = "right",
-    legend.title = element_text(size = 11),
-    legend.text = element_text(size = 10),
-    axis.text.y = element_markdown(size = 10),
-    axis.text.x = element_text(size = 10),
-    axis.title.x = element_text(size = 10),
-    plot.margin = margin(12, 20, 12, 10)
-  )
-
-# Save
-ggsave(
-  "graphs/dating_gender.png",
-  p_dating,
-  width = 8,
-  height = 12,
+  height = 8,
   dpi = 300
 )
 
