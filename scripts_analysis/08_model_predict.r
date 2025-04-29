@@ -63,7 +63,7 @@ saveRDS(
     mod_marriage_women = mod_marriage_women,
     mod_dating_women = mod_dating_women
   ),
-  file = "models/mods_predict.rds"
+  file = "app/mods_predict.rds"
 )
 
 message("✓ Models for prediction saved.\n")
@@ -173,6 +173,12 @@ pred_df <- bind_rows(
     type = factor(type, levels = c("Marriage", "Dating")),
     gender = factor(gender, levels = c("Women", "Men"))
   )
+
+# Save predicted values
+saveRDS(
+  pred_df,
+  file = "app/pred_df.rds"
+)
 
 # 4 Visualize -------------------------------------------------------------
 
