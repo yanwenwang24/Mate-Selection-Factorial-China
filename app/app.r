@@ -14,6 +14,8 @@
 
 # 1 Load packages and models ----------------------------------------------
 
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+
 # List of packages to check/install
 library(arrow)
 library(shiny)
