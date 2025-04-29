@@ -31,7 +31,7 @@ mod_dating_women <- mods_predict$mod_dating_women
 
 # Load percentile data
 pred_df <- readRDS("pred_df.rds")
-install.packages("rsconnect")
+
 # 2 Define UI -------------------------------------------------------------
 
 ui <- fluidPage(
@@ -58,9 +58,12 @@ ui <- fluidPage(
         border-color: #6a9bc0;
       }
       h2 {
-        font-weight: 600;
+        font-weight: 500;
         color: #333;
         margin-bottom: 20px;
+      }
+      .main-heading-adjust {
+        margin-top: 40px;
       }
       h3 {
         font-weight: 500;
@@ -84,27 +87,25 @@ ui <- fluidPage(
       .dating {
         color: #fd7f6f;
       }
-    ")),
-    tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css")
+    "))
   ),
 
   # Title
-  titlePanel("Mate Selection Predictor"),
+  titlePanel("How Attractive Are You as a Romantic Partner?"),
 
   # Sidebar with inputs
   sidebarLayout(
     sidebarPanel(
-      h3("About You"),
-      p("Please describe yourself."),
+      h2("About You"),
 
-      # Gender selection
+      # Gender
       radioButtons("gender", "Gender:",
         choices = c("Man" = "men", "Woman" = "women"),
         selected = "men"
       ),
 
       # Age
-      selectInput("v_age", "Age relative to partner:",
+      selectInput("v_age", "Age vs. potential partner:",
         choices = c(
           "About the same" = "similar",
           "Older" = "older",
@@ -118,13 +119,13 @@ ui <- fluidPage(
         choices = c(
           "Secondary or below" = "secondary",
           "Bachelor's degree" = "bachelor",
-          "Graduate degree" = "graduate"
+          "Graduate degree or above" = "graduate"
         ),
         selected = "bachelor"
       ),
 
       # Income
-      selectInput("v_income", "Income:",
+      selectInput("v_income", "Income level:",
         choices = c(
           "Below average" = "below average",
           "Average" = "average",
@@ -134,7 +135,7 @@ ui <- fluidPage(
       ),
 
       # Nativity
-      radioButtons("v_nativity", "Nativity status:",
+      radioButtons("v_nativity", "Are you a local or a migrant?",
         choices = c(
           "Local" = "local",
           "Migrant" = "migrant"
@@ -153,7 +154,7 @@ ui <- fluidPage(
       ),
 
       # Housework
-      selectInput("v_housework", "Attitude on housework sharing:",
+      selectInput("v_housework", "Attitude on housework division:",
         choices = c(
           "Equal sharing" = "equal",
           "Women do more" = "women do more",
@@ -163,7 +164,7 @@ ui <- fluidPage(
       ),
 
       # Career support
-      selectInput("v_career", "Level of career support you provide to partner:",
+      selectInput("v_career", "Career support for partner:",
         choices = c(
           "Low" = "low",
           "Moderate" = "moderate",
@@ -173,7 +174,7 @@ ui <- fluidPage(
       ),
 
       # Emotional support
-      selectInput("v_emotion", "Level of emotional support you provide to partner:",
+      selectInput("v_emotion", "Emotional support for partner:",
         choices = c(
           "Low" = "low",
           "Moderate" = "moderate",
@@ -292,9 +293,9 @@ server <- function(input, output, session) {
       # Initial state
       return(
         div(
-          h2("Your Attractiveness Prediction"),
-          p("Fill in your characteristics on the left and click 'Predict Attractiveness' to see how attractive you might be perceived by the opposite sex for marriage and dating."),
-          p("The prediction is based on a factorial survey experiment conducted in urban China.")
+          h2("Your Attractiveness Prediction", class = "main-heading-adjust"),
+          p("Enter your characteristics on the left, then click 'Predict Attractiveness' to see how attractive you might be perceived by the opposite sex for marriage and dating."),
+          p("This prediction is based on a population-based factorial survey experiment conducted in four major Chinese cities: Beijing, Shanghai, Guangzhou, and Shenzhen.")
         )
       )
     } else {
@@ -303,7 +304,7 @@ server <- function(input, output, session) {
 
       return(
         div(
-          h2("Your Attractiveness Prediction"),
+          h2("Your Attractiveness Prediction", class = "main-heading-adjust"),
           p(paste0("Here's how you might be perceived by ", opposite_gender, ":")),
           fluidRow(
             column(
@@ -332,9 +333,9 @@ server <- function(input, output, session) {
           div(
             style = "margin-top: 30px;",
             h3("Understanding Your Score"),
-            p("These scores predict how members of the opposite sex might rate your attractiveness for marriage or dating based on the characteristics you've entered."),
-            p("The percentile rank shows how your attractiveness compares to others of your gender in our sample."),
-            p("Remember that these predictions are based on general patterns and individual preferences may vary significantly.")
+            p("These scores predict how members of the opposite sex might rate your attractiveness for marriage or dating based on the characteristics you entered."),
+            p("The percentile rank indicates how your predicted attractiveness compares to others of the same gender within the study sample."),
+            p("Remember, these predictions reflect general patterns observed in the study sample. Individual preferences can vary significantly.")
           )
         )
       )
