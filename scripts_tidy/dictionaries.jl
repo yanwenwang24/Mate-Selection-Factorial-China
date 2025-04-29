@@ -71,7 +71,7 @@ agemar_dict = Dict(
     3 => "31-35",
     4 => "36-40",
     5 => "above 40",
-    6 => "against marraige"
+    6 => "against marriage"
 )
 
 # Hukou at age 12 (Q10)

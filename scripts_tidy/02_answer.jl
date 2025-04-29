@@ -30,7 +30,7 @@ data_answer.birthy = year.(data_answer.Q3)
 data_answer.birthym = month.(data_answer.Q3)
 
 # Age
-const_date = Date(2025, 4, 1)
+const_date = Date(2025, 5, 1)
 data_answer.age = [
     year(const_date) - year(b) -
     (
@@ -326,7 +326,7 @@ transform!(
 )
 transform!(
     long_dims,
-    :v_career => ByRow(x -> v_career_dict[x]) => :v_caree
+    :v_career => ByRow(x -> v_career_dict[x]) => :v_career
 )
 transform!(
     long_dims,
