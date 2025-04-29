@@ -18,6 +18,7 @@ options(repos = c(CRAN = "https://cloud.r-project.org/"))
 
 # List of packages to check/install
 library(arrow)
+library(lme4)
 library(shiny)
 library(tidyverse)
 
