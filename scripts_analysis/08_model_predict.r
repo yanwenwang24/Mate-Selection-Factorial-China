@@ -55,6 +55,19 @@ mod_dating_women <- lmer(
   data = sample_answer %>% filter(gender == "women")
 )
 
+# Save models
+saveRDS(
+  list(
+    mod_marriage_men = mod_marriage_men,
+    mod_dating_men = mod_dating_men,
+    mod_marriage_women = mod_marriage_women,
+    mod_dating_women = mod_dating_women
+  ),
+  file = "models/mods_predict.rds"
+)
+
+message("✓ Models for prediction saved.\n")
+
 # 2 Create new data -------------------------------------------------------
 
 # Create new data
