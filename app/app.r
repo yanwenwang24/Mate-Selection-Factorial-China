@@ -15,6 +15,7 @@
 # 1 Load packages and models ----------------------------------------------
 
 # List of packages to check/install
+library(arrow)
 library(shiny)
 library(tidyverse)
 
