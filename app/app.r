@@ -294,6 +294,12 @@ server <- function(input, output, session) {
       actionButton(
         "predict", t_("predict_button"),
         class = "btn-primary btn-block"
+      ),
+      # Add reset button
+      actionButton(
+        "reset", t_("reset_button"),
+        class = "btn-default btn-block",
+        style = "margin-top: 10px;"
       )
     )
   })
@@ -423,6 +429,27 @@ server <- function(input, output, session) {
         mean(results$dating_score > women_dating_scores) * 100
       )
     }
+  })
+
+  # Reset Button Logic
+  observeEvent(input$reset, {
+    # Reset all input fields to their initial state
+    updateRadioButtons(session, "gender", selected = character(0))
+    updateSelectInput(session, "v_age", selected = "")
+    updateSelectInput(session, "v_educ", selected = "")
+    updateSelectInput(session, "v_income", selected = "")
+    updateRadioButtons(session, "v_nativity", selected = character(0))
+    updateSelectInput(session, "v_appearance", selected = "")
+    updateSelectInput(session, "v_housework", selected = "")
+    updateSelectInput(session, "v_career", selected = "")
+    updateSelectInput(session, "v_emotion", selected = "")
+    updateSelectInput(session, "v_fertility", selected = "")
+
+    # Clear the prediction results
+    results$marriage_score <- NULL
+    results$dating_score <- NULL
+    results$marriage_percentile <- NULL
+    results$dating_percentile <- NULL
   })
 
   # Generate results panel

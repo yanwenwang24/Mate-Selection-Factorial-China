@@ -167,6 +167,10 @@ translations <- list(
     en = "Predict Attractiveness",
     cn = "测测吸引力"
   ),
+  reset_button = list(
+    en = "Reset",
+    cn = "重置"
+  ),
   results_panel_initial_title = list(
     en = "Your Attractiveness Prediction",
     cn = "您的吸引力评估"
