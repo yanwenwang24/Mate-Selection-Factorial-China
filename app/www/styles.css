@@ -1,0 +1,63 @@
+.container-fluid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.well {
+  background-color: #f8f9fa;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.btn-primary {
+  background-color: #7eb0d5;
+  border-color: #7eb0d5;
+}
+.btn-primary:hover {
+  background-color: #6a9bc0;
+  border-color: #6a9bc0;
+}
+.btn-primary[disabled] {
+  background-color: #cccccc;
+  border-color: #bbbbbb;
+}
+h2 {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
+.main-heading-adjust {
+  margin-top: 40px;
+}
+h3 {
+  font-weight: 500;
+  color: #444;
+}
+.score-box {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.big-number {
+  font-size: 3em;
+  font-weight: bold;
+}
+.marriage {
+  color: #7eb0d5;
+}
+.dating {
+  color: #fd7f6f;
+}
+.required-note {
+  color: #d9534f;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+/* Style for active language button */
+.btn-lang-active {
+  font-weight: bold;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}

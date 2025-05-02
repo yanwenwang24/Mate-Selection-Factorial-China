@@ -9,14 +9,16 @@
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
+## Web app predicting attractiveness of individuals as romantic partners
 ##
 ## ------------------------------------------------------------------------
 
-# 1 Load packages and models ----------------------------------------------
+# 1 Load packages, models, and translations -------------------------------
 
+# Set CRAN mirror
 options(repos = c(CRAN = "https://cloud.r-project.org/"))
 
-# List of packages to check/install
+# Load packages
 library(arrow)
 library(lme4)
 library(shiny)
@@ -33,193 +35,33 @@ mod_dating_women <- mods_predict$mod_dating_women
 # Load percentile data
 pred_df <- readRDS("pred_df.rds")
 
+# Source translations
+source("translations.r", local = TRUE)
+
 # 2 Define UI -------------------------------------------------------------
 
 ui <- fluidPage(
   # Enable shinyjs
   useShinyjs(),
-  # Custom CSS
+  # Add head tag to link the CSS file
   tags$head(
-    tags$style(HTML("
-      .container-fluid {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-      .well {
-        background-color: #f8f9fa;
-        border: none;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-      .btn-primary {
-        background-color: #7eb0d5;
-        border-color: #7eb0d5;
-      }
-      .btn-primary:hover {
-        background-color: #6a9bc0;
-        border-color: #6a9bc0;
-      }
-      .btn-primary[disabled] {
-        background-color: #cccccc;
-        border-color: #bbbbbb;
-      }
-      h2 {
-        font-weight: 500;
-        color: #333;
-        margin-bottom: 20px;
-      }
-      .main-heading-adjust {
-        margin-top: 40px;
-      }
-      h3 {
-        font-weight: 500;
-        color: #444;
-      }
-      .score-box {
-        text-align: center;
-        padding: 20px;
-        margin-bottom: 15px;
-        border-radius: 8px;
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      }
-      .big-number {
-        font-size: 3em;
-        font-weight: bold;
-      }
-      .marriage {
-        color: #7eb0d5;
-      }
-      .dating {
-        color: #fd7f6f;
-      }
-      .required-note {
-        color: #d9534f;
-        font-style: italic;
-        margin-bottom: 15px;
-      }
-    "))
+    tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
+  ),
+  # Language switcher
+  div(
+    style = "position: absolute; top: 10px; right: 20px; z-index: 1000;",
+    actionButton("lang_en", "English", style = "margin-left: 5px;"),
+    actionButton("lang_cn", "中文", style = "margin-left: 5px;")
   ),
 
   # Title
-  titlePanel("How Attractive Are You as a Romantic Partner?"),
+  uiOutput("title_panel_ui"),
 
-  # Sidebar with inputs
+  # Sidebar
   sidebarLayout(
     sidebarPanel(
-      h2("About You"),
-
-      # Add note about required fields
-      div(class = "required-note", "All fields are required"),
-
-      # Gender
-      radioButtons("gender", "Gender:",
-        choices = c("Man" = "men", "Woman" = "women"),
-        selected = NULL
-      ),
-
-      # Age
-      selectInput("v_age", "Age vs. potential partner:",
-        choices = c(
-          "Choose one" = "",
-          "About the same" = "similar",
-          "Older" = "older",
-          "Younger" = "younger"
-        ),
-        selected = ""
-      ),
-
-      # Education
-      selectInput("v_educ", "Highest education:",
-        choices = c(
-          "Choose one" = "",
-          "Secondary or below" = "secondary",
-          "Bachelor's degree" = "bachelor",
-          "Graduate degree or above" = "graduate"
-        ),
-        selected = ""
-      ),
-
-      # Income
-      selectInput("v_income", "Income level:",
-        choices = c(
-          "Choose one" = "",
-          "Below average" = "below average",
-          "Average" = "average",
-          "Above average" = "above average"
-        ),
-        selected = ""
-      ),
-
-      # Nativity
-      radioButtons("v_nativity", "Are you a local or a migrant?",
-        choices = c(
-          "Local" = "local",
-          "Migrant" = "migrant"
-        ),
-        selected = NULL
-      ),
-
-      # Appearance
-      selectInput("v_appearance", "Appearance:",
-        choices = c(
-          "Choose one" = "",
-          "Below average" = "below average",
-          "Average" = "average",
-          "Above average" = "above average"
-        ),
-        selected = ""
-      ),
-
-      # Housework
-      selectInput("v_housework", "Attitude on housework division:",
-        choices = c(
-          "Choose one" = "",
-          "Equal sharing" = "equal",
-          "Women do more" = "women do more",
-          "Men do more" = "men do more"
-        ),
-        selected = ""
-      ),
-
-      # Career support
-      selectInput("v_career", "Career support for partner:",
-        choices = c(
-          "Choose one" = "",
-          "Low" = "low",
-          "Moderate" = "moderate",
-          "Strong" = "strong"
-        ),
-        selected = ""
-      ),
-
-      # Emotional support
-      selectInput("v_emotion", "Emotional support for partner:",
-        choices = c(
-          "Choose one" = "",
-          "Low" = "low",
-          "Moderate" = "moderate",
-          "Strong" = "strong"
-        ),
-        selected = ""
-      ),
-
-      # Fertility
-      selectInput("v_fertility", "Desire for children:",
-        choices = c(
-          "Choose one" = "",
-          "Yes" = "yes",
-          "No" = "no",
-          "Uncertain" = "uncertain"
-        ),
-        selected = ""
-      ),
-
-      # Predict button
-      actionButton("predict", "Predict Attractiveness",
-        class = "btn-primary btn-block"
-      )
+      # Use uiOutput for dynamic labels/choices
+      uiOutput("sidebar_content_ui")
     ),
 
     # Main panel with results
@@ -232,7 +74,231 @@ ui <- fluidPage(
 # 3 Define server logic ---------------------------------------------------
 
 server <- function(input, output, session) {
-  # Reactive values to store predictions
+  # Reactive value for current language, default to Chinese ('cn')
+  current_lang <- reactiveVal("cn")
+
+  # Translator function
+  t_ <- function(key) {
+    translation <- translations[[key]]
+    if (is.null(translation)) {
+      warning(paste("Translation key not found:", key))
+      return(key) # Return key if translation missing
+    }
+    lang_val <- current_lang()
+    # Fallback: if translation missing, use 'en', if 'en' missing, return key
+    selected_translation <- translation[[lang_val]]
+    if (is.null(selected_translation)) {
+      warning(
+        paste(
+          "Translation for lang '",
+          lang_val,
+          "' not found for key: '",
+          key, "'. ",
+          "Falling back to 'en'.",
+          sep = ""
+        )
+      )
+      selected_translation <- translation[["en"]]
+      if (is.null(selected_translation)) {
+        warning(
+          paste(
+            "Fallback 'en' translation not found for key: '",
+            key, "'. Returning key.",
+            sep = ""
+          )
+        )
+        return(key)
+      }
+    }
+    selected_translation
+  }
+
+  # Update language when buttons are clicked
+  observeEvent(input$lang_en, {
+    current_lang("en")
+    # Add/remove active class
+    shinyjs::removeClass(selector = "#lang_cn", class = "btn-lang-active")
+    shinyjs::addClass(selector = "#lang_en", class = "btn-lang-active")
+  })
+  observeEvent(input$lang_cn, {
+    current_lang("cn")
+    # Add/remove active class
+    shinyjs::removeClass(selector = "#lang_en", class = "btn-lang-active")
+    shinyjs::addClass(selector = "#lang_cn", class = "btn-lang-active")
+  })
+
+  # Set initial active button class and ensure it updates on language change
+  observe({
+    if (current_lang() == "cn") {
+      shinyjs::addClass(selector = "#lang_cn", class = "btn-lang-active")
+      shinyjs::removeClass(selector = "#lang_en", class = "btn-lang-active")
+    } else {
+      shinyjs::addClass(selector = "#lang_en", class = "btn-lang-active")
+      shinyjs::removeClass(selector = "#lang_cn", class = "btn-lang-active")
+    }
+  }) |> bindEvent(current_lang(), ignoreInit = FALSE)
+
+
+  # Render Title Panel dynamically
+  output$title_panel_ui <- renderUI({
+    req(current_lang())
+    titlePanel(t_("app_title"))
+  })
+
+  # Render Sidebar Content dynamically
+  output$sidebar_content_ui <- renderUI({
+    req(current_lang())
+    lang <- current_lang() # Get current language
+
+    # Define choices dynamically
+    age_choices <- setNames(
+      c("", "similar", "older", "younger"),
+      c(
+        t_("choose_one"),
+        t_("age_similar"),
+        t_("age_older"),
+        t_("age_younger")
+      )
+    )
+    educ_choices <- setNames(
+      c("", "secondary", "bachelor", "graduate"),
+      c(
+        t_("choose_one"),
+        t_("educ_secondary"),
+        t_("educ_bachelor"),
+        t_("educ_graduate")
+      )
+    )
+    income_choices <- setNames(
+      c("", "below average", "average", "above average"),
+      c(
+        t_("choose_one"),
+        t_("income_below"),
+        t_("income_average"),
+        t_("income_above")
+      )
+    )
+    appearance_choices <- setNames(
+      c("", "below average", "average", "above average"),
+      c(
+        t_("choose_one"),
+        t_("appearance_below"),
+        t_("appearance_average"),
+        t_("appearance_above")
+      )
+    )
+    housework_choices <- setNames(
+      c("", "equal", "women do more", "men do more"),
+      c(
+        t_("choose_one"),
+        t_("housework_equal"),
+        t_("housework_women_do_more"),
+        t_("housework_men_do_more")
+      )
+    )
+    career_choices <- setNames(
+      c("", "low", "moderate", "strong"),
+      c(
+        t_("choose_one"),
+        t_("support_low"),
+        t_("support_moderate"),
+        t_("support_strong")
+      )
+    )
+    emotion_choices <- setNames(
+      c("", "low", "moderate", "strong"),
+      c(
+        t_("choose_one"),
+        t_("support_low"),
+        t_("support_moderate"),
+        t_("support_strong")
+      )
+    )
+    fertility_choices <- setNames(
+      c("", "yes", "no", "uncertain"),
+      c(
+        t_("choose_one"),
+        t_("fertility_yes"),
+        t_("fertility_no"),
+        t_("fertility_uncertain")
+      )
+    )
+
+    # Keep track of selected values
+    selected_gender <- isolate(input$gender)
+    selected_age <- isolate(input$v_age)
+    selected_educ <- isolate(input$v_educ)
+    selected_income <- isolate(input$v_income)
+    selected_nativity <- isolate(input$v_nativity)
+    selected_appearance <- isolate(input$v_appearance)
+    selected_housework <- isolate(input$v_housework)
+    selected_career <- isolate(input$v_career)
+    selected_emotion <- isolate(input$v_emotion)
+    selected_fertility <- isolate(input$v_fertility)
+
+    tagList(
+      h2(t_("about_you")),
+      div(class = "required-note", t_("required_note")),
+      radioButtons("gender", t_("gender"),
+        choices = setNames(c("men", "women"), c(t_("man"), t_("woman"))),
+        selected = selected_gender %||% character(0)
+      ),
+      selectInput(
+        "v_age", t_("v_age"),
+        choices = age_choices,
+        selected = selected_age %||% ""
+      ),
+      selectInput(
+        "v_educ", t_("v_educ"),
+        choices = educ_choices,
+        selected = selected_educ %||% ""
+      ),
+      selectInput(
+        "v_income", t_("v_income"),
+        choices = income_choices,
+        selected = selected_income %||% ""
+      ),
+      radioButtons(
+        "v_nativity", t_("v_nativity"),
+        choices = setNames(
+          c("local", "migrant"),
+          c(t_("nativity_local"), t_("nativity_migrant"))
+        ),
+        selected = selected_nativity %||% character(0)
+      ),
+      selectInput(
+        "v_appearance", t_("v_appearance"),
+        choices = appearance_choices,
+        selected = selected_appearance %||% ""
+      ),
+      selectInput(
+        "v_housework", t_("v_housework"),
+        choices = housework_choices,
+        selected = selected_housework %||% ""
+      ),
+      selectInput(
+        "v_career", t_("v_career"),
+        choices = career_choices,
+        selected = selected_career %||% ""
+      ),
+      selectInput(
+        "v_emotion", t_("v_emotion"),
+        choices = emotion_choices,
+        selected = selected_emotion %||% ""
+      ),
+      selectInput(
+        "v_fertility", t_("v_fertility"),
+        choices = fertility_choices,
+        selected = selected_fertility %||% ""
+      ),
+      actionButton(
+        "predict", t_("predict_button"),
+        class = "btn-primary btn-block"
+      )
+    )
+  })
+
+  # Store predictions
   results <- reactiveValues(
     marriage_score = NULL,
     dating_score = NULL,
@@ -242,6 +308,20 @@ server <- function(input, output, session) {
 
   # Check if all fields are filled
   all_inputs_filled <- reactive({
+    req(
+      input$gender,
+      input$v_age,
+      input$v_educ,
+      input$v_income,
+      input$v_nativity,
+      input$v_appearance,
+      input$v_housework,
+      input$v_career,
+      input$v_emotion,
+      input$v_fertility
+    )
+
+    # Check specifically for non-empty string selections in dropdowns
     !is.null(input$gender) && input$gender != "" &&
       !is.null(input$v_age) && input$v_age != "" &&
       !is.null(input$v_educ) && input$v_educ != "" &&
@@ -256,7 +336,20 @@ server <- function(input, output, session) {
 
   # Enable/disable predict button based on input validation
   observe({
-    shinyjs::toggleState(id = "predict", condition = all_inputs_filled())
+    # Need current_lang() to update button text
+    current_lang()
+    # Update button text explicitly if it exists
+    session$sendCustomMessage(type = "jsCode", list(code = paste0(
+      "if ($('#predict').length) { ",
+      "  $('#predict').text('", t_("predict_button"), "');",
+      "}"
+    )))
+
+    # Toggle state
+    shinyjs::toggleState(
+      id = "predict",
+      condition = all_inputs_filled()
+    )
   })
 
   # Calculate predictions when button is clicked
@@ -334,53 +427,102 @@ server <- function(input, output, session) {
 
   # Generate results panel
   output$results_panel <- renderUI({
+    req(current_lang())
+    lang <- current_lang()
+
     if (is.null(results$marriage_score)) {
       # Initial state
       return(
         div(
-          h2("Your Attractiveness Prediction", class = "main-heading-adjust"),
-          p("Enter your characteristics on the left, then click 'Predict Attractiveness' to see how attractive you might be perceived by the opposite sex for marriage and dating."),
-          p("This prediction is based on a population-based factorial survey experiment conducted in four major Chinese cities: Beijing, Shanghai, Guangzhou, and Shenzhen.")
+          h2(
+            t_("results_panel_initial_title"),
+            class = "main-heading-adjust"
+          ),
+          p(t_("results_panel_initial_p1")),
+          p(t_("results_panel_initial_p2"))
         )
       )
     } else {
       # Results state
-      opposite_gender <- ifelse(input$gender == "men", "women", "men")
+      req(input$gender)
+
+      # Prepare percentile messages
+      marriage_percentile_msg <- t_("percentile_msg") |>
+        str_replace(
+          fixed("__percentile__"),
+          as.character(results$marriage_percentile)
+        ) |>
+        str_replace(
+          fixed("__gender__"),
+          t_(input$gender)
+        ) |>
+        str_replace(
+          fixed("__potential_type__"),
+          t_("potential_type_marriage")
+        )
+
+      dating_percentile_msg <- t_("percentile_msg") |>
+        str_replace(
+          fixed("__percentile__"),
+          as.character(results$dating_percentile)
+        ) |>
+        str_replace(
+          fixed("__gender__"),
+          t_(input$gender)
+        ) |>
+        str_replace(
+          fixed("__potential_type__"),
+          t_("potential_type_dating")
+        )
+
+      perceived_by_msg <- t_("results_panel_perceived_by")
+
 
       return(
         div(
-          h2("Your Attractiveness Prediction", class = "main-heading-adjust"),
-          p(paste0("Here's how you might be perceived by ", opposite_gender, ":")),
+          h2(
+            t_("results_panel_results_title"),
+            class = "main-heading-adjust"
+          ),
+          p(perceived_by_msg),
           fluidRow(
             column(
               6,
               div(
                 class = "score-box",
-                h3("Marriage Potential", class = "marriage"),
-                div(class = "big-number marriage", round(results$marriage_score, 1)),
-                p("out of 10"),
+                h3(t_("marriage_potential"), class = "marriage"),
+                div(
+                  class = "big-number marriage",
+                  round(results$marriage_score, 1)
+                ),
+                p(t_("out_of_10")),
                 hr(),
-                p(paste0("You score higher than ", results$marriage_percentile, "% of other ", input$gender, " in marriage potential"))
+                p(marriage_percentile_msg)
               )
             ),
             column(
               6,
               div(
                 class = "score-box",
-                h3("Dating Potential", class = "dating"),
-                div(class = "big-number dating", round(results$dating_score, 1)),
-                p("out of 10"),
+                h3(t_("dating_potential"), class = "dating"),
+                div(
+                  class = "big-number dating", round(results$dating_score, 1)
+                ),
+                p(t_("out_of_10")),
                 hr(),
-                p(paste0("You score higher than ", results$dating_percentile, "% of other ", input$gender, " in dating potential"))
+                p(dating_percentile_msg)
               )
             )
           ),
           div(
             style = "margin-top: 30px;",
-            h3("Understanding Your Score"),
-            p("These scores predict how members of the opposite sex might rate your attractiveness for marriage or dating based on the characteristics you entered."),
-            p("The percentile rank indicates how your predicted attractiveness compares to others of the same gender within the study sample."),
-            p(strong("Disclaimer:"), "These scores are provided for reference only and by no means indicate your true attractiveness. Attractiveness is subjective and influenced by many factors beyond those captured in this study.")
+            h3(t_("understanding_score_title")),
+            p(t_("understanding_score_p1")),
+            p(t_("understanding_score_p2")),
+            p(
+              strong(t_("understanding_score_disclaimer_strong")),
+              t_("understanding_score_disclaimer")
+            )
           )
         )
       )
