@@ -11,3 +11,4 @@ Install [Julia](https://julialang.org/downloads/), [R](https://cran.r-project.or
 1. Clean survey data using the scripts in the [scripts_tidy](./scripts_tidy/) directory.
 2. Run analysis using the scripts in the [scripts_analysis](./scripts_analysis/) directory.
 3. Visualize results using the scripts in the [scripts_visualize](./script_visualize) directory.
+4. Initialize the web app by running `shiny::runApp("app/app.r")` via R interface or visiting [Posit Cloud](https://yanwenwang24-predict-attractiveness.share.connect.posit.cloud/).
