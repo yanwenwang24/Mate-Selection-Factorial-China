@@ -20,6 +20,7 @@ options(repos = c(CRAN = "https://cloud.r-project.org/"))
 library(arrow)
 library(lme4)
 library(shiny)
+library(shinyjs)
 library(tidyverse)
 
 # Load models
@@ -35,6 +36,8 @@ pred_df <- readRDS("pred_df.rds")
 # 2 Define UI -------------------------------------------------------------
 
 ui <- fluidPage(
+  # Enable shinyjs
+  useShinyjs(),
   # Custom CSS
   tags$head(
     tags$style(HTML("
@@ -56,6 +59,10 @@ ui <- fluidPage(
       .btn-primary:hover {
         background-color: #6a9bc0;
         border-color: #6a9bc0;
+      }
+      .btn-primary[disabled] {
+        background-color: #cccccc;
+        border-color: #bbbbbb;
       }
       h2 {
         font-weight: 500;
@@ -87,6 +94,11 @@ ui <- fluidPage(
       .dating {
         color: #fd7f6f;
       }
+      .required-note {
+        color: #d9534f;
+        font-style: italic;
+        margin-bottom: 15px;
+      }
     "))
   ),
 
@@ -98,40 +110,46 @@ ui <- fluidPage(
     sidebarPanel(
       h2("About You"),
 
+      # Add note about required fields
+      div(class = "required-note", "All fields are required"),
+
       # Gender
       radioButtons("gender", "Gender:",
         choices = c("Man" = "men", "Woman" = "women"),
-        selected = "men"
+        selected = NULL
       ),
 
       # Age
       selectInput("v_age", "Age vs. potential partner:",
         choices = c(
+          "Choose one" = "",
           "About the same" = "similar",
           "Older" = "older",
           "Younger" = "younger"
         ),
-        selected = "similar"
+        selected = ""
       ),
 
       # Education
       selectInput("v_educ", "Highest education:",
         choices = c(
+          "Choose one" = "",
           "Secondary or below" = "secondary",
           "Bachelor's degree" = "bachelor",
           "Graduate degree or above" = "graduate"
         ),
-        selected = "bachelor"
+        selected = ""
       ),
 
       # Income
       selectInput("v_income", "Income level:",
         choices = c(
+          "Choose one" = "",
           "Below average" = "below average",
           "Average" = "average",
           "Above average" = "above average"
         ),
-        selected = "average"
+        selected = ""
       ),
 
       # Nativity
@@ -140,57 +158,62 @@ ui <- fluidPage(
           "Local" = "local",
           "Migrant" = "migrant"
         ),
-        selected = "local"
+        selected = NULL
       ),
 
       # Appearance
       selectInput("v_appearance", "Appearance:",
         choices = c(
+          "Choose one" = "",
           "Below average" = "below average",
           "Average" = "average",
           "Above average" = "above average"
         ),
-        selected = "average"
+        selected = ""
       ),
 
       # Housework
       selectInput("v_housework", "Attitude on housework division:",
         choices = c(
+          "Choose one" = "",
           "Equal sharing" = "equal",
           "Women do more" = "women do more",
           "Men do more" = "men do more"
         ),
-        selected = "equal"
+        selected = ""
       ),
 
       # Career support
       selectInput("v_career", "Career support for partner:",
         choices = c(
+          "Choose one" = "",
           "Low" = "low",
           "Moderate" = "moderate",
           "Strong" = "strong"
         ),
-        selected = "moderate"
+        selected = ""
       ),
 
       # Emotional support
       selectInput("v_emotion", "Emotional support for partner:",
         choices = c(
+          "Choose one" = "",
           "Low" = "low",
           "Moderate" = "moderate",
           "Strong" = "strong"
         ),
-        selected = "moderate"
+        selected = ""
       ),
 
       # Fertility
       selectInput("v_fertility", "Desire for children:",
         choices = c(
+          "Choose one" = "",
           "Yes" = "yes",
           "No" = "no",
           "Uncertain" = "uncertain"
         ),
-        selected = "uncertain"
+        selected = ""
       ),
 
       # Predict button
@@ -217,8 +240,30 @@ server <- function(input, output, session) {
     dating_percentile = NULL
   )
 
+  # Check if all fields are filled
+  all_inputs_filled <- reactive({
+    !is.null(input$gender) && input$gender != "" &&
+      !is.null(input$v_age) && input$v_age != "" &&
+      !is.null(input$v_educ) && input$v_educ != "" &&
+      !is.null(input$v_income) && input$v_income != "" &&
+      !is.null(input$v_nativity) && input$v_nativity != "" &&
+      !is.null(input$v_appearance) && input$v_appearance != "" &&
+      !is.null(input$v_housework) && input$v_housework != "" &&
+      !is.null(input$v_career) && input$v_career != "" &&
+      !is.null(input$v_emotion) && input$v_emotion != "" &&
+      !is.null(input$v_fertility) && input$v_fertility != ""
+  })
+
+  # Enable/disable predict button based on input validation
+  observe({
+    shinyjs::toggleState(id = "predict", condition = all_inputs_filled())
+  })
+
   # Calculate predictions when button is clicked
   observeEvent(input$predict, {
+    # Validate all fields are filled
+    req(all_inputs_filled())
+
     # Create new data frame for prediction
     new_data <- data.frame(
       id = 1,
@@ -335,7 +380,7 @@ server <- function(input, output, session) {
             h3("Understanding Your Score"),
             p("These scores predict how members of the opposite sex might rate your attractiveness for marriage or dating based on the characteristics you entered."),
             p("The percentile rank indicates how your predicted attractiveness compares to others of the same gender within the study sample."),
-            p("Remember, these predictions reflect general patterns observed in the study sample. Individual preferences can vary significantly.")
+            p(strong("Disclaimer:"), "These scores are provided for reference only and by no means indicate your true attractiveness. Attractiveness is subjective and influenced by many factors beyond those captured in this study.")
           )
         )
       )
