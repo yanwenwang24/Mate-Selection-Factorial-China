@@ -138,67 +138,7 @@ order_effect_results <- list(
   anova_marriage_summary = anova_marriage_summary
 )
 
-# 3 Check response time ---------------------------------------------------
-
-p_time_date <- ggplot(
-  sample_vignette,
-  aes(x = duration, y = r_date)
-) +
-  geom_point(alpha = 0.7) +
-  geom_smooth(method = "lm", formula = y ~ x, se = TRUE) +
-  labs(
-    title = "Dating rating",
-    x = "Response time (seconds)",
-    y = "Dating rating"
-  ) +
-  theme_minimal()
-
-p_time_marriage <- ggplot(
-  sample_vignette,
-  aes(x = duration, y = r_marriage)
-) +
-  geom_point(alpha = 0.7) +
-  geom_smooth(method = "lm", formula = y ~ x, se = TRUE) +
-  labs(
-    title = "Marriage rating",
-    x = "Response time (seconds)",
-    y = "Marriage rating"
-  ) +
-  theme_minimal()
-
-p_check_time <- p_time_date + p_time_marriage
-
-# Save
-ggsave(
-  "graphs/check_time.png",
-  p_check_time,
-  width = 12,
-  height = 8,
-  dpi = 300
-)
-
-# Regression
-lm_date <- lm(
-  r_date ~ duration,
-  data = sample_vignette
-)
-lm_date_summary <- summary(lm_date)
-
-lm_marriage <- lm(
-  r_marriage ~ duration,
-  data = sample_vignette
-)
-lm_marriage_summary <- summary(lm_marriage)
-
-# Store response time results
-response_time_results <- list(
-  lm_date = lm_date,
-  lm_date_summary = lm_date_summary,
-  lm_marriage = lm_marriage,
-  lm_marriage_summary = lm_marriage_summary
-)
-
-# 4 Check respondent characteristics --------------------------------------
+# 3 Check respondent characteristics --------------------------------------
 
 # Initialize storage for respondent characteristic results
 respondent_results <- list()
@@ -251,7 +191,6 @@ all_check_results <- list(
     summary = randomization_summary
   ),
   order_effect = order_effect_results,
-  response_time = response_time_results,
   respondent_characteristics = respondent_results
 )
 
@@ -266,14 +205,6 @@ get_significant_findings <- function(results) {
   ] < 0.05
   sig_order_marriage <- results$order_effect$anova_marriage_summary[[1]][
     "order", "Pr(>F)"
-  ] < 0.05
-
-  # Extract significant response time effects
-  sig_time_date <- results$response_time$lm_date_summary$coefficients[
-    "duration", "Pr(>|t|)"
-  ] < 0.05
-  sig_time_marriage <- results$response_time$lm_marriage_summary$coefficients[
-    "duration", "Pr(>|t|)"
   ] < 0.05
 
   # Extract significant respondent characteristic effects
@@ -303,10 +234,6 @@ get_significant_findings <- function(results) {
     significant_order_effects = list(
       dating = sig_order_date,
       marriage = sig_order_marriage
-    ),
-    significant_time_effects = list(
-      dating = sig_time_date,
-      marriage = sig_time_marriage
     ),
     significant_respondent_effects = list(
       age = sig_age_effects,

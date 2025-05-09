@@ -289,8 +289,8 @@ t.test(media_mobility_educ ~ gender, data = sample_pv)
 # 4 Vignettes -------------------------------------------------------------
 
 # Response time
-mean(sample_vignette$duration)
-sd(sample_vignette$duration)
+mean(sample_vignette$duration, na.rm = TRUE)
+sd(sample_vignette$duration, na.rm = TRUE)
 
 # Rating for dating
 sample_vignette %>%
