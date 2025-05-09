@@ -76,7 +76,7 @@ vignette_behavior.vignette_duration = [
 post_behavior = select(data_behavior, :id, r"^page(2[4-5])_duration$")
 
 post_behavior.post_duration = [
-    sum(skipmissing(row)) for row in eachrow(post_behavior[:, 2:end])
+    sum(skipmissing(row); init=0) for row in eachrow(post_behavior[:, 2:end])
 ]
 
 select!(post_behavior, :id, :post_duration)
