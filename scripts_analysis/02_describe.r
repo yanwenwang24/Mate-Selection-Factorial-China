@@ -111,6 +111,9 @@ tabyl(sample_demo, peduc, gender) %>%
 chisq.test(sample_demo$peduc, sample_demo$gender)
 
 # Education
+tabyl(sample_demo, educ) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, educ, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
