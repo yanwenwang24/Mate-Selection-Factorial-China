@@ -54,6 +54,8 @@ message("Loading samples...")
 
 samples <- readRDS("data/processed/samples.rds")
 sample_answer <- samples$sample_answer
+sample_answer_men <- filter(sample_answer, gender == "men")
+sample_answer_women <- filter(sample_answer, gender == "women")
 sample_behavior <- samples$sample_behavior
 sample_vignette <- samples$sample_vignette
 sample_long <- samples$sample_long
