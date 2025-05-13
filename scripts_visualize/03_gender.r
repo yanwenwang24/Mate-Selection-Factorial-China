@@ -26,7 +26,7 @@ vignette_dims <- c(
   "housework",
   "career support",
   "emotional support",
-  "fertility"
+  "fertility intention"
 )
 
 # Reference levels for each vignette dimension
@@ -74,7 +74,7 @@ coef_marriage_men_df <- tidy(
       grepl("^v_housework", term) ~ "housework",
       grepl("^v_career", term) ~ "career support",
       grepl("^v_emotion", term) ~ "emotional support",
-      grepl("^v_fertility", term) ~ "fertility",
+      grepl("^v_fertility", term) ~ "fertility intention",
       TRUE ~ NA_character_
     )
   ) %>%
@@ -89,7 +89,7 @@ coef_marriage_men_df <- tidy(
       dim == "housework" ~ sub("^v_housework", "", term),
       dim == "career support" ~ sub("^v_career", "", term),
       dim == "emotional support" ~ sub("^v_emotion", "", term),
-      dim == "fertility" ~ sub("^v_fertility", "", term),
+      dim == "fertility intention" ~ sub("^v_fertility", "", term),
       TRUE ~ NA_character_
     )
   ) %>%
@@ -138,7 +138,7 @@ coef_marriage_women_df <- tidy(
       grepl("^v_housework", term) ~ "housework",
       grepl("^v_career", term) ~ "career support",
       grepl("^v_emotion", term) ~ "emotional support",
-      grepl("^v_fertility", term) ~ "fertility",
+      grepl("^v_fertility", term) ~ "fertility intention",
       TRUE ~ NA_character_
     )
   ) %>%
@@ -153,7 +153,7 @@ coef_marriage_women_df <- tidy(
       dim == "housework" ~ sub("^v_housework", "", term),
       dim == "career support" ~ sub("^v_career", "", term),
       dim == "emotional support" ~ sub("^v_emotion", "", term),
-      dim == "fertility" ~ sub("^v_fertility", "", term),
+      dim == "fertility intention" ~ sub("^v_fertility", "", term),
       TRUE ~ NA_character_
     )
   ) %>%
@@ -207,7 +207,7 @@ coef_dating_men_df <- tidy(
       grepl("^v_housework", term) ~ "housework",
       grepl("^v_career", term) ~ "career support",
       grepl("^v_emotion", term) ~ "emotional support",
-      grepl("^v_fertility", term) ~ "fertility",
+      grepl("^v_fertility", term) ~ "fertility intention",
       TRUE ~ NA_character_
     )
   ) %>%
@@ -222,7 +222,7 @@ coef_dating_men_df <- tidy(
       dim == "housework" ~ sub("^v_housework", "", term),
       dim == "career support" ~ sub("^v_career", "", term),
       dim == "emotional support" ~ sub("^v_emotion", "", term),
-      dim == "fertility" ~ sub("^v_fertility", "", term),
+      dim == "fertility intention" ~ sub("^v_fertility", "", term),
       TRUE ~ NA_character_
     )
   ) %>%
@@ -268,7 +268,7 @@ coef_dating_women_df <- tidy(
       grepl("^v_housework", term) ~ "housework",
       grepl("^v_career", term) ~ "career support",
       grepl("^v_emotion", term) ~ "emotional support",
-      grepl("^v_fertility", term) ~ "fertility",
+      grepl("^v_fertility", term) ~ "fertility intention",
       TRUE ~ NA_character_
     )
   ) %>%
@@ -283,7 +283,7 @@ coef_dating_women_df <- tidy(
       dim == "housework" ~ sub("^v_housework", "", term),
       dim == "career support" ~ sub("^v_career", "", term),
       dim == "emotional support" ~ sub("^v_emotion", "", term),
-      dim == "fertility" ~ sub("^v_fertility", "", term),
+      dim == "fertility intention" ~ sub("^v_fertility", "", term),
       TRUE ~ NA_character_
     )
   ) %>%

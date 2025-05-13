@@ -71,11 +71,12 @@ r2_df <- bind_rows(r2_marriage, r2_dating) %>%
       term == "Emotion" ~ "Emotional support",
       term == "Appearance" ~ "Appearance",
       term == "Income" ~ "Income/career",
-      term == "Fertility" ~ "Fertility",
+      term == "Fertility" ~ "Fertility intention",
       term == "Nativity" ~ "Nativity",
       term == "Career" ~ "Career support",
       term == "Age" ~ "Age"
-    )
+    ),
+    term = str_to_title(term)
   )
 
 message("✓ R² for dating calculated\n")
@@ -231,11 +232,12 @@ r2_gender_df <- bind_rows(
       term == "Emotion" ~ "Emotional support",
       term == "Appearance" ~ "Appearance",
       term == "Income" ~ "Income/career",
-      term == "Fertility" ~ "Fertility",
+      term == "Fertility" ~ "Fertility intention",
       term == "Nativity" ~ "Nativity",
       term == "Career" ~ "Career support",
       term == "Age" ~ "Age"
-    )
+    ),
+    term = str_to_title(term)
   )
 
 # 3.4 Visualize by gender ------------------------------------------------------
@@ -244,7 +246,7 @@ r2_gender_df <- bind_rows(
 message("Creating plots by gender...")
 
 # Calculate max value for consistent y-axis scaling
-max_r2 <- max(r2_gender_df$estimate) * 1.05  # Add 5% padding
+max_r2 <- max(r2_gender_df$estimate) * 1.05 # Add 5% padding
 
 # Common theme settings
 common_theme <- theme_bw() +
@@ -266,9 +268,9 @@ p_men_marriage <- ggplot(
   coord_flip() +
   scale_y_continuous(limits = c(0, max_r2)) +
   labs(
-    title = "Marriage - Men",
+    title = "Marriage - Men evaluating women",
     x = NULL,
-    y = NULL  # Will add a common y-axis label with patchwork
+    y = NULL # Will add a common y-axis label with patchwork
   ) +
   common_theme
 
@@ -281,9 +283,9 @@ p_women_marriage <- ggplot(
   coord_flip() +
   scale_y_continuous(limits = c(0, max_r2)) +
   labs(
-    title = "Marriage - Women",
+    title = "Marriage - Women evaluating men",
     x = NULL,
-    y = NULL  # Will add a common y-axis label with patchwork
+    y = NULL # Will add a common y-axis label with patchwork
   ) +
   common_theme
 
@@ -296,9 +298,9 @@ p_men_dating <- ggplot(
   coord_flip() +
   scale_y_continuous(limits = c(0, max_r2)) +
   labs(
-    title = "Dating - Men",
+    title = "Dating - Men evaluating women",
     x = NULL,
-    y = NULL  # Will add a common y-axis label with patchwork
+    y = NULL # Will add a common y-axis label with patchwork
   ) +
   common_theme
 
@@ -311,16 +313,16 @@ p_women_dating <- ggplot(
   coord_flip() +
   scale_y_continuous(limits = c(0, max_r2)) +
   labs(
-    title = "Dating - Women",
+    title = "Dating - Women evaluating men",
     x = NULL,
-    y = NULL  # Will add a common y-axis label with patchwork
+    y = NULL # Will add a common y-axis label with patchwork
   ) +
   common_theme
 
 # Combine plots
 p_importance_gender <- (
-  (p_men_marriage | p_women_marriage) /
-    (p_men_dating | p_women_dating)
+  (p_women_marriage | p_men_marriage) /
+    (p_women_dating | p_men_dating)
 ) +
   plot_annotation(caption = "Semi-partial R² (Unique variance explained)") +
   plot_layout(guides = "collect") &
