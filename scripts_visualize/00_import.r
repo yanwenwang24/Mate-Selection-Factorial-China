@@ -56,6 +56,47 @@ samples <- readRDS("data/processed/samples.rds")
 sample_answer <- samples$sample_answer
 sample_answer_men <- filter(sample_answer, gender == "men")
 sample_answer_women <- filter(sample_answer, gender == "women")
+sample_answer_men_educ_1 <- filter(
+  sample_answer,
+  gender == "men",
+  educ == "high school or less"
+)
+sample_answer_men_educ_2 <- filter(
+  sample_answer,
+  gender == "men",
+  educ == "some college"
+)
+sample_answer_men_educ_3 <- filter(
+  sample_answer,
+  gender == "men",
+  educ == "college"
+)
+sample_answer_men_educ_4 <- filter(
+  sample_answer,
+  gender == "men",
+  educ == "graduate"
+)
+sample_answer_women_educ_1 <- filter(
+  sample_answer,
+  gender == "women",
+  educ == "high school or less"
+)
+sample_answer_women_educ_2 <- filter(
+  sample_answer,
+  gender == "women",
+  educ == "some college"
+)
+sample_answer_women_educ_3 <- filter(
+  sample_answer,
+  gender == "women",
+  educ == "college"
+)
+sample_answer_women_educ_4 <- filter(
+  sample_answer,
+  gender == "women",
+  educ == "graduate"
+)
+
 sample_behavior <- samples$sample_behavior
 sample_vignette <- samples$sample_vignette
 sample_long <- samples$sample_long
@@ -79,6 +120,14 @@ mod_marriage_men <- mods_marriage$mod_men
 mod_marriage_women <- mods_marriage$mod_women
 mod_marriage_men_educ <- mods_marriage$mod_men_educ # Interaction
 mod_marriage_women_educ <- mods_marriage$mod_women_educ # Interaction
+mod_marriage_men_educ_1 <- mods_marriage$mod_men_educ_1
+mod_marriage_men_educ_2 <- mods_marriage$mod_men_educ_2
+mod_marriage_men_educ_3 <- mods_marriage$mod_men_educ_3
+mod_marriage_men_educ_4 <- mods_marriage$mod_men_educ_4
+mod_marriage_women_educ_1 <- mods_marriage$mod_women_educ_1
+mod_marriage_women_educ_2 <- mods_marriage$mod_women_educ_2
+mod_marriage_women_educ_3 <- mods_marriage$mod_women_educ_3
+mod_marriage_women_educ_4 <- mods_marriage$mod_women_educ_4
 
 # 3.2 Dating --------------------------------------------------------------
 
@@ -93,6 +142,14 @@ mod_dating_men <- mods_dating$mod_men
 mod_dating_women <- mods_dating$mod_women
 mod_dating_men_educ <- mods_dating$mod_men_educ # Interaction
 mod_dating_women_educ <- mods_dating$mod_women_educ # Interaction
+mod_dating_men_educ_1 <- mods_dating$mod_men_educ_1
+mod_dating_men_educ_2 <- mods_dating$mod_men_educ_2
+mod_dating_men_educ_3 <- mods_dating$mod_men_educ_3
+mod_dating_men_educ_4 <- mods_dating$mod_men_educ_4
+mod_dating_women_educ_1 <- mods_dating$mod_women_educ_1
+mod_dating_women_educ_2 <- mods_dating$mod_women_educ_2
+mod_dating_women_educ_3 <- mods_dating$mod_women_educ_3
+mod_dating_women_educ_4 <- mods_dating$mod_women_educ_4
 
 message("✓ Models loaded\n")
 
@@ -114,5 +171,8 @@ source("scripts_visualize/04_gender_diff.r")
 
 # Education-specific effects
 source("scripts_visualize/05_educ.r")
+
+# Gender-education-specific relative importance
+source("scripts_visualize/06_importance_educ.r")
 
 message("\n--- Visualization completed ---\n")

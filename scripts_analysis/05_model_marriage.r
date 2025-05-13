@@ -134,7 +134,76 @@ mod_women_educ <- lmer(
 summ(mod_men_educ)
 summ(mod_women_educ)
 
-# 3 Save models -----------------------------------------------------------
+# 3 By gender and education -----------------------------------------------
+
+# Define formula
+f <- as.formula(
+  "r_marriage ~ v_age + v_educ + v_income + v_nativity + v_appearance +
+    v_housework + v_career + v_emotion + v_fertility +
+    age + city + nativity + romance + cohabit + agemar +
+    hukou + peduc + fulltime + income + sibling +
+    order +
+    (1 | id)"
+)
+
+# Fit models
+mod_men_educ_1 <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "men") %>%
+    filter(educ == "high school or less")
+)
+
+mod_men_educ_2 <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "men") %>%
+    filter(educ == "some college")
+)
+
+mod_men_educ_3 <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "men") %>%
+    filter(educ == "college")
+)
+
+mod_men_educ_4 <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "men") %>%
+    filter(educ == "graduate")
+)
+
+mod_women_educ_1 <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "women") %>%
+    filter(educ == "high school or less")
+)
+
+mod_women_educ_2 <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "women") %>%
+    filter(educ == "some college")
+)
+
+mod_women_educ_3 <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "women") %>%
+    filter(educ == "college")
+)
+
+mod_women_educ_4 <- lmer(
+  f,
+  data = sample_answer %>%
+    filter(gender == "women") %>%
+    filter(educ == "graduate")
+)
+
+# 4 Save models -----------------------------------------------------------
 
 saveRDS(
   list(
@@ -144,7 +213,15 @@ saveRDS(
     mod_men = mod_men,
     mod_women = mod_women,
     mod_men_educ = mod_men_educ,
-    mod_women_educ = mod_women_educ
+    mod_women_educ = mod_women_educ,
+    mod_men_educ_1 = mod_men_educ_1,
+    mod_men_educ_2 = mod_men_educ_2,
+    mod_men_educ_3 = mod_men_educ_3,
+    mod_men_educ_4 = mod_men_educ_4,
+    mod_women_educ_1 = mod_women_educ_1,
+    mod_women_educ_2 = mod_women_educ_2,
+    mod_women_educ_3 = mod_women_educ_3,
+    mod_women_educ_4 = mod_women_educ_4
   ),
   file = "models/mods_marriage.rds"
 )
