@@ -284,6 +284,8 @@ r2_dating_men_educ_4 <- r2_dating_men_educ_4_full$R2 %>%
     educ = "Graduate"
   )
 
+message("✓ R² for dating (men) calculated\n")
+
 # 2.2 Women ---------------------------------------------------------------
 
 message("Calculating R² for dating (women)...")
