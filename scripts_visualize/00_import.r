@@ -172,7 +172,10 @@ source("scripts_visualize/04_gender_diff.r")
 # Education-specific effects
 source("scripts_visualize/05_educ.r")
 
+# Educational difference
+source("scripts_visualize/06_educ_diff.r")
+
 # Gender-education-specific relative importance
-source("scripts_visualize/06_importance_educ.r")
+source("scripts_visualize/07_importance_educ.r")
 
 message("\n--- Visualization completed ---\n")
