@@ -11,8 +11,7 @@
 ## Notes:
 ## 1. Check randomization (order and pairwise independence)
 ## 2. Check order effect
-## 3. Check response time effect
-## 4. Check age/education distribution by vignette dimension
+## 3. Check age/education distribution by vignette dimension
 ##
 ## ------------------------------------------------------------------------
 
