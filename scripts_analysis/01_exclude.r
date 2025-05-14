@@ -47,8 +47,10 @@ duration_summary <- data_behavior %>%
   )
 
 # Define duration threshold
-vignette_duration_threshold <- 50
-total_duration_threshold <- 100
+vignette_duration_threshold <- duration_summary$vignette_mean -
+  1.5 * duration_summary$vignette_sd
+total_duration_threshold <- duration_summary$total_mean -
+  1.5 * duration_summary$total_sd
 
 # Exclude respondents with short response duration
 drop_duration <- data_behavior %>%
@@ -72,23 +74,6 @@ drop_straight_lining <- data_answer %>%
   filter(same_r_date | same_r_marriage) %>%
   select(id) %>%
   pull()
-
-# Check duplicated vignettes per respondent
-duplicated_vignettes <- data_answer %>%
-  group_by(
-    id,
-    v_age,
-    v_educ,
-    v_income,
-    v_nativity,
-    v_appearance,
-    v_housework,
-    v_career,
-    v_emotion,
-    v_fertility
-  ) %>%
-  summarise(count = n(), .groups = "drop") %>%
-  filter(count > 1)
 
 # 4 Exclude these respondents ---------------------------------------------
 
