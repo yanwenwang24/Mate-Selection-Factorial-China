@@ -106,8 +106,8 @@ mod_women <- lmer(
     filter(gender == "women")
 )
 
-summ(mod_men)
-summ(mod_women)
+summ(mod_men, digits = 3)
+summ(mod_women, digits = 3)
 
 # 2.2 Interaction models --------------------------------------------------
 
