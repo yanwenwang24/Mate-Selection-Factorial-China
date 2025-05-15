@@ -45,6 +45,7 @@ sample_demo <- sample_answer %>%
     sibling,
     oldest
   ) %>%
+  mutate(gender = factor(gender, levels = c("women", "men"))) %>%
   distinct()
 
 # Gender
@@ -157,6 +158,7 @@ sample_pv <- sample_answer %>%
     appearance,
     starts_with("media")
   ) %>%
+  mutate(gender = factor(gender, levels = c("women", "men"))) %>%
   distinct()
 
 # Housework
@@ -205,6 +207,8 @@ chisq.test(sample_pv$emotion_cat, sample_pv$gender)
 tabyl(sample_pv, fertility, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
+
+chisq.test(sample_pv$fertility, sample_pv$gender)
 
 # Appearance
 tabyl(sample_pv, appearance, gender) %>%
