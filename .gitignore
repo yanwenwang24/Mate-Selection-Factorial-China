@@ -2,11 +2,5 @@
 .DS_Store
 .vscode/
 
-# Data
-data/
-
-# Graphs
-graphs/
-
 # Models
 models/
