@@ -8,7 +8,7 @@ Wang, Yanwen, Zheng Mu, Anni Ni, and Chan Zhang. 2025. “What Do Men and Women 
 
 **Objective:** This study investigates factors influencing perceived attractiveness of a romantic partner in urban China.
 
-**Background:** As marriage becomes increasingly deinstitutionalized, ideational factors have become more important in partner selection. Concurrently, tensions between genders surrounding relationship expectations have intensified.
+**Background:** As marriage becomes increasingly deinstitutionalized, ideational factors have gained prominence in partner selection. Concurrently, tensions between genders surrounding relationship expectations have intensified.
 
 **Method:** A factorial survey was conducted to investigate how sociodemographic and ideational attributes influence perceptions of partner attractiveness in both marital and dating contexts. Data were collected between April and May 2025 from a sample of 1,200 never-married heterosexual respondents aged 25-34 across four major cities: Beijing, Shanghai, Guangzhou, and Shenzhen.
 
