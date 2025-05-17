@@ -53,6 +53,9 @@ tabyl(sample_demo, gender) %>%
   adorn_pct_formatting(2)
 
 # Age
+mean(sample_demo$age, na.rm = TRUE)
+sd(sample_demo$age, na.rm = TRUE)
+
 sample_demo %>%
   group_by(gender) %>%
   summarise(
@@ -63,6 +66,9 @@ sample_demo %>%
 t.test(age ~ gender, data = sample_demo)
 
 # City
+tabyl(sample_demo, city) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, city, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -70,6 +76,9 @@ tabyl(sample_demo, city, gender) %>%
 chisq.test(sample_demo$city, sample_demo$gender)
 
 # Nativity
+tabyl(sample_demo, nativity) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, nativity, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -77,6 +86,9 @@ tabyl(sample_demo, nativity, gender) %>%
 chisq.test(sample_demo$nativity, sample_demo$gender)
 
 # Romance
+tabyl(sample_demo, romance) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, romance, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -84,6 +96,9 @@ tabyl(sample_demo, romance, gender) %>%
 chisq.test(sample_demo$romance, sample_demo$gender)
 
 # Cohabitation
+tabyl(sample_demo, cohabit) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, cohabit, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -91,6 +106,12 @@ tabyl(sample_demo, cohabit, gender) %>%
 chisq.test(sample_demo$cohabit, sample_demo$gender)
 
 # Age of marriage
+tabyl(sample_demo, agemar) %>%
+  adorn_pct_formatting(2)
+
+tabyl(sample_demo, agemar) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, agemar, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -98,6 +119,12 @@ tabyl(sample_demo, agemar, gender) %>%
 chisq.test(sample_demo$agemar, sample_demo$gender)
 
 # Hukou
+tabyl(sample_demo, hukou) %>%
+  adorn_pct_formatting(2)
+
+tabyl(sample_demo, hukou) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, hukou, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -105,6 +132,9 @@ tabyl(sample_demo, hukou, gender) %>%
 chisq.test(sample_demo$hukou, sample_demo$gender)
 
 # Parental education
+tabyl(sample_demo, peduc) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, peduc, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -122,6 +152,12 @@ tabyl(sample_demo, educ, gender) %>%
 chisq.test(sample_demo$educ, sample_demo$gender)
 
 # Income
+tabyl(sample_demo, income) %>%
+  adorn_pct_formatting(2)
+
+tabyl(sample_demo, income) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, income, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -129,6 +165,9 @@ tabyl(sample_demo, income, gender) %>%
 chisq.test(sample_demo$income, sample_demo$gender)
 
 # Employment (full-time) status
+tabyl(sample_demo, fulltime) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, fulltime, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -136,6 +175,9 @@ tabyl(sample_demo, fulltime, gender) %>%
 chisq.test(sample_demo$fulltime, sample_demo$gender)
 
 # Siblings
+tabyl(sample_demo, sibling) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_demo, sibling, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -169,6 +211,9 @@ sample_pv %>%
     sd_housework = sd(housework_scale, na.rm = TRUE)
   )
 
+tabyl(sample_pv, housework_cat) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_pv, housework_cat, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -182,6 +227,9 @@ sample_pv %>%
     mean_career = mean(career_scale, na.rm = TRUE),
     sd_career = sd(career_scale, na.rm = TRUE)
   )
+
+tabyl(sample_pv, career_cat) %>%
+  adorn_pct_formatting(2)
 
 tabyl(sample_pv, career_cat, gender) %>%
   adorn_percentages("col") %>%
@@ -197,6 +245,9 @@ sample_pv %>%
     sd_emotion = sd(emotion_scale, na.rm = TRUE)
   )
 
+tabyl(sample_pv, emotion_cat) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_pv, emotion_cat, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -204,6 +255,9 @@ tabyl(sample_pv, emotion_cat, gender) %>%
 chisq.test(sample_pv$emotion_cat, sample_pv$gender)
 
 # Fertility
+tabyl(sample_pv, fertility) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_pv, fertility, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -211,6 +265,9 @@ tabyl(sample_pv, fertility, gender) %>%
 chisq.test(sample_pv$fertility, sample_pv$gender)
 
 # Appearance
+tabyl(sample_pv, appearance) %>%
+  adorn_pct_formatting(2)
+
 tabyl(sample_pv, appearance, gender) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(2)
@@ -300,6 +357,9 @@ mean(sample_vignette$duration, na.rm = TRUE)
 sd(sample_vignette$duration, na.rm = TRUE)
 
 # Rating for dating
+mean(sample_vignette$r_date, na.rm = TRUE)
+sd(sample_vignette$r_date, na.rm = TRUE)
+
 sample_vignette %>%
   group_by(gender) %>%
   summarise(
@@ -310,6 +370,9 @@ sample_vignette %>%
 t.test(r_date ~ gender, data = sample_vignette)
 
 # Rating for marriage
+mean(sample_vignette$r_marriage, na.rm = TRUE)
+sd(sample_vignette$r_marriage, na.rm = TRUE)
+
 sample_vignette %>%
   group_by(gender) %>%
   summarise(
