@@ -773,20 +773,20 @@ p_dating_women_educ_4 <- ggplot(
 # 4.3 Combine plots -------------------------------------------------------
 
 p_importance_marriage <- (
-  (p_marriage_men_educ_1 | p_marriage_women_educ_1) /
-    (p_marriage_men_educ_2 | p_marriage_women_educ_2) /
-    (p_marriage_men_educ_3 | p_marriage_women_educ_3) /
-    (p_marriage_men_educ_4 | p_marriage_women_educ_4)
+  (p_marriage_women_educ_1 | p_marriage_men_educ_1) /
+    (p_marriage_women_educ_2 | p_marriage_men_educ_2) /
+    (p_marriage_women_educ_3 | p_marriage_men_educ_3) /
+    (p_marriage_women_educ_4 | p_marriage_men_educ_4)
 ) +
   plot_annotation(caption = "Semi-partial R² (Unique variance explained)") +
   plot_layout(guides = "collect") &
   theme(plot.caption = element_text(hjust = 0.5, size = 10))
 
 p_importance_dating <- (
-  (p_dating_men_educ_1 | p_dating_women_educ_1) /
-    (p_dating_men_educ_2 | p_dating_women_educ_2) /
-    (p_dating_men_educ_3 | p_dating_women_educ_3) /
-    (p_dating_men_educ_4 | p_dating_women_educ_4)
+  (p_dating_women_educ_1 | p_dating_men_educ_1) /
+    (p_dating_women_educ_2 | p_dating_men_educ_2) /
+    (p_dating_women_educ_3 | p_dating_men_educ_3) /
+    (p_dating_women_educ_4 | p_dating_men_educ_4)
 ) +
   plot_annotation(caption = "Semi-partial R² (Unique variance explained)") +
   plot_layout(guides = "collect") &
