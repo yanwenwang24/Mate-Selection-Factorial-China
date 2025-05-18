@@ -16,21 +16,12 @@
 
 # 1.1 Define formula ------------------------------------------------------
 
-message("Fitting models for comparing marriage and dating...")
+message("Fitting models for comparing marriage and dating by gender...")
 
-f_type <- as.formula(
+f <- as.formula(
   "rate ~ type * (v_age + v_educ + v_income + v_nativity +
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
-    gender + age + city + nativity + romance + cohabit + agemar +
-    hukou + peduc + educ + fulltime + income + sibling +
-    order +
-    (1 | id)"
-)
-
-f_gender <- as.formula(
-  "rate ~ gender * type * (v_age + v_educ + v_income + v_nativity +
-    v_appearance + v_housework + v_career + v_emotion + v_fertility) +
-    gender + age + city + nativity + romance + cohabit + agemar +
+    age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
     order +
     (1 | id)"
@@ -38,26 +29,28 @@ f_gender <- as.formula(
 
 # 1.2 Fit models -----------------------------------------------------------
 
-mod_type <- lmer(
-  f_type,
-  data = sample_long
+mod_men <- lmer(
+  f,
+  data = sample_long %>%
+    filter(gender == "men")
 )
 
-summ(mod_type)
+summ(mod_men)
 
-mod_gender <- lmer(
-  f_gender,
-  data = sample_long
+mod_women <- lmer(
+  f,
+  data = sample_long %>%
+    filter(gender == "women")
 )
 
-summ(mod_gender)
+summ(mod_women)
 
 # 1.3 Save models -----------------------------------------------------------
 
 saveRDS(
   list(
-    mod_type = mod_type,
-    mod_gender = mod_gender
+    mod_men = mod_men,
+    mod_women = mod_women
   ),
   file = "models/mods_long.rds"
 )

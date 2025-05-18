@@ -180,6 +180,47 @@ saveRDS(
   file = "app/pred_df.rds"
 )
 
+# Summarize
+pred_df %>%
+  group_by(type, gender) %>%
+  summarise(
+    mean = mean(pred),
+    sd = sd(pred)
+  )
+
+# Calculate how many or what percentage of same-gender peers will be surpassed
+# with one point of increase in attractiveness ratings, for marriage and dating
+pred_df %>%
+  group_by(gender, type) %>%
+  summarize(
+    # Calculate the mean percentage of peers surpassed with a 1-unit increase
+    mean_percentage_surpassed = mean(
+      sapply(seq_len(n()), function(i) {
+        # For the current person
+        current_rating <- pred[i]
+
+        # Get ratings of all other people in the same group
+        peers_ratings <- pred[-i]
+
+        # Calculate percentage have ratings between current and current+1
+        mean(
+          peers_ratings > current_rating & peers_ratings <= current_rating + 1
+        ) * 100
+      })
+    ),
+
+    # Also calculate the mean count of peers surpassed
+    mean_count_surpassed = mean(
+      sapply(seq_len(n()), function(i) {
+        current_rating <- pred[i]
+        peers_ratings <- pred[-i]
+        sum(
+          peers_ratings > current_rating & peers_ratings <= current_rating + 1
+        )
+      })
+    )
+  )
+
 # 4 Visualize -------------------------------------------------------------
 
 p_pred <- ggplot(
