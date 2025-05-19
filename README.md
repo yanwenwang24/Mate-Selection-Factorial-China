@@ -6,13 +6,13 @@ Wang, Yanwen, Zheng Mu, Anni Ni, and Chan Zhang. 2025. “What Do Men and Women 
 
 ## Abstract
 
-**Objective:** This study investigates factors influencing perceived attractiveness of a romantic partner in urban China.
+**Objective:** This study investigates the factors influencing perceived attractiveness of a romantic partner in urban China.
 
 **Background:** As marriage becomes increasingly deinstitutionalized, ideational factors have gained prominence in partner selection. Concurrently, tensions between genders surrounding relationship expectations have intensified.
 
 **Method:** A factorial survey was conducted to investigate how sociodemographic and ideational attributes influence perceptions of partner attractiveness in both marital and dating contexts. Data were collected between April and May 2025 from a sample of 1,200 never-married heterosexual respondents aged 25-34 across four major cities: Beijing, Shanghai, Guangzhou, and Shenzhen.
 
-**Results:** Men prioritized partners’ fertility intentions for marriage and physical appearance for dating, whereas women placed greater emphasis on gender role attitudes, socioeconomic prospects, and emotional support. Gender tensions were most pronounced in perceptions of housework arrangements, with neither party willing to bear a greater share; fertility intentions, where a partner’s unwillingness to have children was the strongest deterrent to marital attractiveness for men but inconsequential for women; and educational attainment, which women valued more than men did. Overall, women were perceived as more attractive than men in both marital and dating contexts.
+**Results:** Men prioritized partners’ fertility intentions for marriage and physical appearance for dating, whereas women placed greater emphasis on gender role attitudes, socioeconomic prospects, and emotional support for marriage and additionally, appearance for dating. Tensions between genders were most pronounced in perceptions of housework arrangements, with neither party willing to bear a greater share; fertility intentions, where a partner’s unwillingness to have children was the strongest deterrent to marital attractiveness from men’s perspective but inconsequential for women; and educational attainment, which women valued more than men did. Overall, women were perceived as more attractive in both marital and dating contexts.
 
 **Conclusion:** Profound gender disagreements over relationship ideals likely drive the retreat from marriage in urban China. Bridging these gaps is crucial to alleviating such tensions.
 
