@@ -131,8 +131,8 @@ mod_women_educ <- lmer(
   data = sample_answer %>% filter(gender == "women")
 )
 
-summ(mod_men_educ)
-summ(mod_women_educ)
+summ(mod_men_educ, digits = 3)
+summ(mod_women_educ, digits = 3)
 
 # 3 By gender and education -----------------------------------------------
 
