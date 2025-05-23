@@ -33,7 +33,6 @@ library(tidyverse)
 
 # Load models
 mods_predict <- readRDS("mods_predict.rds")
-Encoding(names(mods_predict)) <- "UTF-8"
 mod_marriage_men <- mods_predict$mod_marriage_men # Men evaluating women
 mod_dating_men <- mods_predict$mod_dating_men
 mod_marriage_women <- mods_predict$mod_marriage_women # Women evaluating men
