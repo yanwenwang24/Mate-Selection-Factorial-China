@@ -19,7 +19,7 @@
 options(repos = c(CRAN = "https://cloud.r-project.org/"))
 
 # Set locale for Chinese characters
-Sys.setlocale("LC_ALL", "en_US.UTF-8")
+Sys.setlocale("LC_ALL", "C.UTF-8")
 
 # Ensure UTF-8 encoding
 options(encoding = "UTF-8")
