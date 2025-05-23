@@ -19,6 +19,7 @@ message("Loading required libraries...")
 # List of packages to check/install
 packages_to_install <- c(
   "arrow",
+  "haven",
   "janitor",
   "jtools",
   "lme4",

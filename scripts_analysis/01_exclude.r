@@ -226,4 +226,8 @@ saveRDS(
   file = "data/processed/samples.rds"
 )
 
+# Save a dta file
+write_dta(sample_answer, "data/processed/sample_answer.dta")
+write_dta(sample_behavior, "data/processed/samples_behavior.dta")
+
 message("✓ Samples saved.\n")
