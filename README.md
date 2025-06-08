@@ -2,19 +2,19 @@
 
 Replication package
 
-Wang, Yanwen, Zheng Mu, Anni Ni, and Chan Zhang. 2025. “What Do Men and Women Value in a Romantic Partner? A Factorial Survey Experiment in Urban China.” (Working Paper)
+Wang, Yanwen, Zheng Mu, Anni Ni, and Chan Zhang. 2025. “What Do Men and Women Value in a Romantic Partner? A Factorial Survey Experiment in Urban China.” (Under Review)
 
 ## Abstract
 
 **Objective:** This study investigates the factors influencing perceived attractiveness of a romantic partner in urban China.
 
-**Background:** As marriage becomes increasingly deinstitutionalized, ideational factors have gained prominence in partner selection. Concurrently, tensions between genders surrounding relationship expectations have intensified.
+**Background:** Amidst the deinstitutionalization of marriage, ideational factors have come to play a more central role in partner selection. Concurrently, gender differences in relationship expectations have intensified.
 
-**Method:** A factorial survey was conducted to investigate how sociodemographic and ideational attributes influence perceptions of partner attractiveness in both marital and dating contexts. Data were collected between April and May 2025 from a sample of 1,200 never-married heterosexual respondents aged 25-34 across four major cities: Beijing, Shanghai, Guangzhou, and Shenzhen.
+**Method:** A factorial survey experiment was conducted to investigate how sociodemographic and ideational attributes influence perceptions of partner attractiveness in both marital and dating contexts. Data were collected between April and May 2025 from a sample of 1,225 never-married heterosexual respondents aged 25–34 across four metropolises: Beijing, Shanghai, Guangzhou, and Shenzhen.
 
-**Results:** Men prioritized partners’ fertility intentions for marriage and physical appearance for dating, whereas women placed greater emphasis on gender role attitudes, socioeconomic prospects, and emotional support for marriage and additionally, appearance for dating. Tensions between genders were most pronounced in perceptions of housework arrangements, with neither party willing to bear a greater share; fertility intentions, where a partner’s unwillingness to have children was the strongest deterrent to marital attractiveness from men’s perspective but inconsequential for women; and educational attainment, which women valued more than men did. Overall, women were perceived as more attractive in both marital and dating contexts.
+**Results:** Men prioritized fertility intentions of marriage partners and physical appearance of dating partners, whereas women placed greater emphasis on gender role attitudes, socioeconomic prospects, and emotional support of marriage partners as well as physical appearance of dating partners. Gender differences were most evident in perceptions of housework arrangements, with neither gender willing to assume a greater share; in fertility intentions, where a partner’s unwillingness to have children was the strongest deterrent to marital attractiveness from men’s perspective but inconsequential to women; and in educational attainment, which women valued more than men did. Overall, women were perceived as more attractive in both marital and dating contexts.
 
-**Conclusion:** Profound gender disagreements over relationship ideals likely drive the retreat from marriage in urban China. Bridging these gaps is crucial to alleviating such tensions.
+**Conclusion:** Profound gender differences in relationship ideals are likely driving the retreat from marriage in urban China. Bridging these gaps is crucial to alleviating such tensions.
 
 ## Replication procedures
 
