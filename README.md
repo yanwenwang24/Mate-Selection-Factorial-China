@@ -2,7 +2,7 @@
 
 Replication package
 
-Wang, Yanwen, Zheng Mu, Anni Ni, and Chan Zhang. 2025. “What Do Men and Women Value in a Romantic Partner? A Factorial Survey Experiment in Urban China.” (Under Review)
+Wang, Yanwen, Zheng Mu, Anni Ni, and Chan Zhang. 2025. “Partner Preferences Among Never-Married Adults: A Factorial Survey Experiment in Urban China.” (Under Review)
 
 ## Abstract
 
