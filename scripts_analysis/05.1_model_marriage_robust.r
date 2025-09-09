@@ -9,11 +9,20 @@
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
-## Repeat models for marriage with vignettes 5 & 6 removed
+## Repeat models for implausible combinations removed
 ##
 ## ------------------------------------------------------------------------
 
 # 1 Both genders ----------------------------------------------------------
+
+id_vector <- sample_answer %>%
+  filter(
+    v_educ == "graduate",
+    v_age == "younger"
+  ) %>%
+  filter(age - 5 < 24) %>%
+  pull(id) %>%
+  unique()
 
 # 1.1 Main models ---------------------------------------------------------
 
@@ -32,7 +41,8 @@ f_pooled <- as.formula(
 # Fit model
 mod_pooled <- lmer(
   f_pooled,
-  data = sample_answer
+  data = sample_answer %>%
+    filter(!id %in% id_vector)
 )
 
 summ(mod_pooled)
@@ -62,7 +72,7 @@ f_pooled_educ <- as.formula(
 mod_pooled_gender <- lmer(
   f_pooled_gender,
   data = sample_answer %>%
-    filter(order != 5, order != 6)
+    filter(!id %in% id_vector)
 )
 
 summ(mod_pooled_gender)
@@ -70,7 +80,7 @@ summ(mod_pooled_gender)
 mod_pooled_educ <- lmer(
   f_pooled_educ,
   data = sample_answer %>%
-    filter(order != 5, order != 6)
+    filter(!id %in% id_vector)
 )
 
 summ(mod_pooled_educ)
@@ -93,14 +103,14 @@ f <- as.formula(
 mod_men <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "men")
 )
 
 mod_women <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "women")
 )
 
@@ -122,14 +132,14 @@ f_educ <- as.formula(
 mod_men_educ <- lmer(
   f_educ,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "men")
 )
 
 mod_women_educ <- lmer(
   f_educ,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "women")
 )
 
@@ -152,7 +162,7 @@ f <- as.formula(
 mod_men_educ_1 <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "men") %>%
     filter(educ == "high school or less")
 )
@@ -160,7 +170,7 @@ mod_men_educ_1 <- lmer(
 mod_men_educ_2 <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "men") %>%
     filter(educ == "some college")
 )
@@ -168,7 +178,7 @@ mod_men_educ_2 <- lmer(
 mod_men_educ_3 <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "men") %>%
     filter(educ == "college")
 )
@@ -176,7 +186,7 @@ mod_men_educ_3 <- lmer(
 mod_men_educ_4 <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "men") %>%
     filter(educ == "graduate")
 )
@@ -184,7 +194,7 @@ mod_men_educ_4 <- lmer(
 mod_women_educ_1 <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "women") %>%
     filter(educ == "high school or less")
 )
@@ -192,7 +202,7 @@ mod_women_educ_1 <- lmer(
 mod_women_educ_2 <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "women") %>%
     filter(educ == "some college")
 )
@@ -200,7 +210,7 @@ mod_women_educ_2 <- lmer(
 mod_women_educ_3 <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "women") %>%
     filter(educ == "college")
 )
@@ -208,7 +218,7 @@ mod_women_educ_3 <- lmer(
 mod_women_educ_4 <- lmer(
   f,
   data = sample_answer %>%
-    filter(order != 5, order != 6) %>%
+    filter(!id %in% id_vector) %>%
     filter(gender == "women") %>%
     filter(educ == "graduate")
 )

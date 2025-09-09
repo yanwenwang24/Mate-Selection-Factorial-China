@@ -2,19 +2,11 @@
 
 Replication package
 
-Wang, Yanwen, Zheng Mu, Anni Ni, and Chan Zhang. 2025. “Partner Preferences Among Never-Married Adults: A Factorial Survey Experiment in Urban China.” (Under Review)
+Wang, Yanwen, Zheng Mu, Anni Ni, and Chan Zhang. 2025. “What Do Men and Women Value in a Romantic Partner? A Factorial Survey Experiment in Urban China.” (Under Review)
 
 ## Abstract
 
-**Objective:** This study investigates the factors influencing perceived attractiveness of a romantic partner in urban China.
-
-**Background:** Amidst the deinstitutionalization of marriage, ideational factors have come to play a more central role in partner selection. Concurrently, gender differences in relationship expectations have intensified.
-
-**Method:** A factorial survey experiment was conducted to investigate how sociodemographic and ideational attributes influence perceptions of partner attractiveness in both marital and dating contexts. Data were collected between April and May 2025 from a sample of 1,225 never-married heterosexual respondents aged 25–34 across four metropolises: Beijing, Shanghai, Guangzhou, and Shenzhen.
-
-**Results:** When seeking marriage partners, men prioritized fertility intentions, whereas women emphasized gender role attitudes, socioeconomic prospects, and emotional support; however, in dating contexts, both genders prioritized physical appearance, although men did so by a wider margin relative to other attributes. Gender differences were most evident in perceptions of housework arrangements, with neither gender willing to assume a greater share; in fertility intentions, where a partner’s unwillingness to have children was the strongest deterrent to marital attractiveness from men’s perspective but inconsequential to women; and in educational attainment, which women valued more than men did. Overall, women were perceived as more attractive in both marital and dating contexts.
-
-**Conclusion:** Profound gender differences in relationship ideals are likely driving the retreat from marriage in urban China. Bridging these gaps is crucial to alleviating such tensions.
+Amidst the deinstitutionalization of marriage, ideational factors have become more prominent in partner selection. However, the relative importance of ideations compared to sociodemographic characteristics, as well as their differences between genders, remains unclear. This study uses a factorial survey experiment with 1,225 never-married heterosexual respondents across four Chinese metropolises—Beijing, Shanghai, Guangzhou, and Shenzhen—to investigate how sociodemographic and ideational attributes influence perceptions of partner desirability in marital versus dating contexts. Results indicate that when seeking marriage partners, men prioritize fertility intention, whereas women emphasize gender role attitudes, socioeconomic prospects, and emotional support. In dating, however, both genders prioritize physical appearance. Gender differences were most pronounced regarding housework arrangements, with neither gender willing to assume a greater share; fertility intention, where a partner's unwillingness to have children is the strongest deterrent for men but inconsequential to women; and education, which women value more than men did. Overall, women are perceived as more desirable partners. These findings offer valuable insights into gender differences in relationship ideals and can inform interventions designed to bridge these divides.
 
 ## Replication procedures
 

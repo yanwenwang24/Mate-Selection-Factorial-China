@@ -128,6 +128,11 @@ mod_marriage_women_educ_2 <- mods_marriage$mod_women_educ_2
 mod_marriage_women_educ_3 <- mods_marriage$mod_women_educ_3
 mod_marriage_women_educ_4 <- mods_marriage$mod_women_educ_4
 
+# Robustness check
+mods_marriage_rb <- readRDS("models/mods_marriage_robust.rds")
+mod_marriage_men_rb <- mods_marriage_rb$mod_men
+mod_marriage_women_rb <- mods_marriage_rb$mod_women
+
 # 3.2 Dating --------------------------------------------------------------
 
 # Pooled models
@@ -149,6 +154,11 @@ mod_dating_women_educ_1 <- mods_dating$mod_women_educ_1
 mod_dating_women_educ_2 <- mods_dating$mod_women_educ_2
 mod_dating_women_educ_3 <- mods_dating$mod_women_educ_3
 mod_dating_women_educ_4 <- mods_dating$mod_women_educ_4
+
+# Robustness check
+mods_dating_rb <- readRDS("models/mods_dating_robust.rds")
+mod_dating_men_rb <- mods_dating_rb$mod_men
+mod_dating_women_rb <- mods_dating_rb$mod_women
 
 message("✓ Models loaded\n")
 
