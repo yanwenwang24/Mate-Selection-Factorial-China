@@ -794,19 +794,17 @@ p_importance_dating <- (
 
 # Save combined plot
 ggsave(
-  "graphs/importance_marriage.png",
+  "graphs/importance_marriage.pdf",
   p_importance_marriage,
   width = 10,
-  height = 10,
-  dpi = 300
+  height = 10
 )
 
 ggsave(
-  "graphs/importance_dating.png",
+  "graphs/importance_dating.pdf",
   p_importance_dating,
   width = 10,
-  height = 10,
-  dpi = 300
+  height = 10
 )
 
 message("✓ Gender-education-specific importance plot saved\n")

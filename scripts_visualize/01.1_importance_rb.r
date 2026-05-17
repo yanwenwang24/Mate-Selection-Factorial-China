@@ -223,11 +223,10 @@ p_importance_gender_rb <- (
 
 # Save combined plot
 ggsave(
-  "graphs/importance_gender_rb.png",
+  "graphs/importance_gender_rb.pdf",
   p_importance_gender_rb,
   width = 10,
-  height = 10,
-  dpi = 300
+  height = 10
 )
 
 message("✓ Gender-specific importance plot saved\n")

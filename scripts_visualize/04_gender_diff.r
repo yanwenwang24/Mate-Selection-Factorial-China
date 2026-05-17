@@ -226,11 +226,10 @@ p_gender_diff <- ggplot(
 
 # Save
 ggsave(
-  "graphs/gender_diff.png",
+  "graphs/gender_diff.pdf",
   p_gender_diff,
   width = 8,
-  height = 8,
-  dpi = 300
+  height = 8
 )
 
 message("✓ Gender difference plotted\n")

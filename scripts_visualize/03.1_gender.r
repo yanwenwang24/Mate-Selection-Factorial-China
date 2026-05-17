@@ -367,11 +367,10 @@ p_gender_rb <- ggplot(
 
 # Save
 ggsave(
-  "graphs/gender_rb.png",
+  "graphs/gender_rb.pdf",
   p_gender_rb,
   width = 8,
-  height = 8,
-  dpi = 300
+  height = 8
 )
 
 message("✓ Gender-specific effects plotted\n")

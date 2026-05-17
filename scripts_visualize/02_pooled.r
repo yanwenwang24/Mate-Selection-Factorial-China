@@ -225,11 +225,10 @@ p_pooled <- ggplot(
 
 # Save
 ggsave(
-  "graphs/pooled.png",
+  "graphs/pooled.pdf",
   p_pooled,
   width = 8,
-  height = 8,
-  dpi = 300
+  height = 8
 )
 
 message("✓ Pooled effects plotted\n")

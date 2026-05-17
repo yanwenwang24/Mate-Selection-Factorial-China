@@ -9,11 +9,30 @@
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
-## Repeat models for dating with vignettes 5 & 6 removeds
+## Repeat models with two robustness exclusions:
+## 1. Implausible vignette combinations (graduate-educated respondents whose
+##    "younger" partner would be under 24).
+## 2. Respondents who selected "against marriage" in agemar.
 ##
 ## ------------------------------------------------------------------------
 
 # 1 Both genders ----------------------------------------------------------
+
+id_vector_implausible <- sample_answer %>%
+  filter(
+    v_educ == "graduate",
+    v_age == "younger"
+  ) %>%
+  filter(age - 5 < 24) %>%
+  pull(id) %>%
+  unique()
+
+id_vector_agemar <- sample_answer %>%
+  filter(agemar == "against marriage") %>%
+  pull(id) %>%
+  unique()
+
+id_vector <- union(id_vector_implausible, id_vector_agemar)
 
 # 1.1 Main models ---------------------------------------------------------
 

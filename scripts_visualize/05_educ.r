@@ -1226,11 +1226,10 @@ p_educ <- ggplot(
 
 # Save
 ggsave(
-  "graphs/educ.png",
+  "graphs/educ.pdf",
   p_educ,
   width = 8,
-  height = 8,
-  dpi = 300
+  height = 8
 )
 
 message("✓ Education-specific effects plotted\n")

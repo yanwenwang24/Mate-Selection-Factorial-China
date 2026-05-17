@@ -255,11 +255,10 @@ p_pred <- ggplot(
 
 # Save
 ggsave(
-  "graphs/predicted.png",
+  "graphs/predicted.pdf",
   p_pred,
   width = 8,
-  height = 6,
-  dpi = 300
+  height = 6
 )
 
 message("✓ Predictions saved.\n")

@@ -68,11 +68,11 @@ source("scripts_analysis/04_model_null.r")
 
 # Fit models for marriages
 source("scripts_analysis/05_model_marriage.r")
-source("scripts_analysis/05.1_model_marriage_robust.r") # Remove vignettes 5 & 6
+source("scripts_analysis/05.1_model_marriage_robust.r")
 
 # Fit models for dating
 source("scripts_analysis/06_model_dating.r")
-source("scripts_analysis/06.1_model_dating_robust.r") # Remove vignettes 5 & 6
+source("scripts_analysis/06.1_model_dating_robust.r")
 
 # Fit models for comparing marriage and dating
 source("scripts_analysis/07_model_long.r")

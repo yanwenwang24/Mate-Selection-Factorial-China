@@ -169,11 +169,17 @@ message("\n--- Visualizing data... ---\n")
 # Relative importance
 source("scripts_visualize/01_importance.r")
 
+# Relative importance (robustness)
+source("scripts_visualize/01.1_importance_rb.r")
+
 # Pooled effects
 source("scripts_visualize/02_pooled.r")
 
 # Gender-specific effects
 source("scripts_visualize/03_gender.r")
+
+# Gender-specific effects (robustness)
+source("scripts_visualize/03.1_gender.r")
 
 # Gender difference
 source("scripts_visualize/04_gender_diff.r")

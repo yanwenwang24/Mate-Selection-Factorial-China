@@ -439,11 +439,10 @@ p_educ_diff <- ggplot(
 
 # Save
 ggsave(
-  "graphs/educ_diff.png",
+  "graphs/educ_diff.pdf",
   p_educ_diff,
   width = 8,
-  height = 8,
-  dpi = 300
+  height = 8
 )
 
 message("✓ Education-difference effects plotted\n")

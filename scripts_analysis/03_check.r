@@ -114,11 +114,10 @@ p_check_order <- p_order_date + p_order_marriage
 
 # Save
 ggsave(
-  "graphs/check_order.png",
+  "graphs/check_order.pdf",
   p_check_order,
   width = 12,
-  height = 8,
-  dpi = 300
+  height = 8
 )
 
 # ANOVA to test if vignette order predicts r_date

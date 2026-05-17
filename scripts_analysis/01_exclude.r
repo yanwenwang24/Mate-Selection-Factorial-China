@@ -14,6 +14,7 @@
 ## 2. Exclude respondents with response duration (vignette < 50s, total < 100s)
 ## 3. Exclude respondents with straight lining
 ## 4. Exclude respondents with duplicated vignettes
+## (Optional robustness: exclude respondents against marriage — see drop_agemar)
 ##
 ## Prepare samples
 ## 1. Sample answer
@@ -75,7 +76,18 @@ drop_straight_lining <- data_answer %>%
   select(id) %>%
   pull()
 
-# 4 Exclude these respondents ---------------------------------------------
+# 4 Identify respondents against marriage --------------------------------
+
+# Kept for use as a robustness check (not applied in main analysis).
+# drop_agemar <- data_answer %>%
+#   filter(
+#     !agemar %in% c("27 and below", "28-30", "31-35", "36-40", "above 40")
+#   ) %>%
+#   select(id) %>%
+#   distinct() %>%
+#   pull()
+
+# 5 Exclude these respondents ---------------------------------------------
 
 # Drop source first
 data_answer <- data_answer %>%
@@ -93,6 +105,7 @@ n_dropped <- data_answer %>%
   filter(
     id %in% drop_duration |
       id %in% drop_straight_lining
+    # | id %in% drop_agemar  # robustness check only
   ) %>%
   select(id) %>%
   distinct() %>%
@@ -107,6 +120,7 @@ sample_answer <- data_answer %>%
   filter(
     !id %in% drop_duration,
     !id %in% drop_straight_lining
+    # !id %in% drop_agemar  # robustness check only
   )
 
 # Transform variables
@@ -177,6 +191,7 @@ sample_behavior <- data_behavior %>%
   filter(
     !id %in% drop_duration,
     !id %in% drop_straight_lining
+    # !id %in% drop_agemar  # robustness check only
   )
 
 # Sample vignette
