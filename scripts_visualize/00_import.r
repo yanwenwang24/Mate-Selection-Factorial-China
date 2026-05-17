@@ -55,6 +55,24 @@ samples <- readRDS("data/processed/samples.rds")
 sample_answer <- samples$sample_answer
 sample_answer_men <- filter(sample_answer, gender == "men")
 sample_answer_women <- filter(sample_answer, gender == "women")
+
+# Robustness subset (matches the exclusions in scripts_analysis/05.1 & 06.1):
+# drop implausible vignettes (graduate respondent rating a partner > 5y younger
+# than 24) and respondents who selected "against marriage" in agemar.
+id_vector_implausible <- sample_answer %>%
+  filter(v_educ == "graduate", v_age == "younger") %>%
+  filter(age - 5 < 24) %>%
+  pull(id) %>%
+  unique()
+id_vector_agemar <- sample_answer %>%
+  filter(agemar == "against marriage") %>%
+  pull(id) %>%
+  unique()
+id_vector_rb <- union(id_vector_implausible, id_vector_agemar)
+
+sample_answer_rb <- filter(sample_answer, !id %in% id_vector_rb)
+sample_answer_men_rb <- filter(sample_answer_rb, gender == "men")
+sample_answer_women_rb <- filter(sample_answer_rb, gender == "women")
 sample_answer_men_educ_1 <- filter(
   sample_answer,
   gender == "men",

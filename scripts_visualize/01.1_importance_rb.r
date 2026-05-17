@@ -22,7 +22,7 @@ message("Calculating R² for marriages by gender...")
 r2_marriage_men_full <- partR2(
   mod_marriage_men_rb,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
-  data = sample_answer_men
+  data = sample_answer_men_rb
 )
 
 r2_marriage_men <- r2_marriage_men_full$R2 %>%
@@ -42,7 +42,7 @@ r2_marriage_men <- r2_marriage_men_full$R2 %>%
 r2_marriage_women_full <- partR2(
   mod_marriage_women_rb,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
-  data = sample_answer_women,
+  data = sample_answer_women_rb,
 )
 
 r2_marriage_women <- r2_marriage_women_full$R2 %>%
@@ -68,7 +68,7 @@ message("Calculating R² for dating by gender...")
 r2_dating_men_full <- partR2(
   mod_dating_men_rb,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
-  data = sample_answer_men,
+  data = sample_answer_men_rb,
 )
 
 r2_dating_men <- r2_dating_men_full$R2 %>%
@@ -88,7 +88,7 @@ r2_dating_men <- r2_dating_men_full$R2 %>%
 r2_dating_women_full <- partR2(
   mod_dating_women_rb,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
-  data = sample_answer_women,
+  data = sample_answer_women_rb,
 )
 
 r2_dating_women <- r2_dating_women_full$R2 %>%
