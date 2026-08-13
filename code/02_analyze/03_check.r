@@ -114,7 +114,7 @@ p_check_order <- p_order_date + p_order_marriage
 
 # Save
 ggsave(
-  "graphs/check_order.pdf",
+  "outputs/figures/check_order.pdf",
   p_check_order,
   width = 12,
   height = 8

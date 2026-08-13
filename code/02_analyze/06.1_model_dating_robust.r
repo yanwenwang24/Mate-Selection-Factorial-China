@@ -1,7 +1,7 @@
 ## ------------------------------------------------------------------------
 ##
-## Script name: 05.1_model_marriage_robust.r
-## Purpose: Fit models for marriage
+## Script name: 06.1_model_dating_robust.r
+## Purpose: Fit models for dating
 ## Author: Yanwen Wang
 ## Date Created: 2025-05-15
 ## Email: yanwenwang@u.nus.edu
@@ -36,11 +36,11 @@ id_vector <- union(id_vector_implausible, id_vector_agemar)
 
 # 1.1 Main models ---------------------------------------------------------
 
-message("Fitting models for marriages...")
+message("Fitting models for dating...")
 
 # Define formula
 f_pooled <- as.formula(
-  "r_marriage ~ v_age + v_educ + v_income + v_nativity + v_appearance +
+  "r_date ~ v_age + v_educ + v_income + v_nativity + v_appearance +
     v_housework + v_career + v_emotion + v_fertility +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
@@ -61,7 +61,7 @@ summ(mod_pooled)
 
 # Define formula
 f_pooled_gender <- as.formula(
-  "r_marriage ~ gender * (v_age + v_educ + v_income + v_nativity +
+  "r_date ~ gender * (v_age + v_educ + v_income + v_nativity +
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
@@ -70,7 +70,7 @@ f_pooled_gender <- as.formula(
 )
 
 f_pooled_educ <- as.formula(
-  "r_marriage ~ educ * (v_age + v_educ + v_income + v_nativity +
+  "r_date ~ educ * (v_age + v_educ + v_income + v_nativity +
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     gender + age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
@@ -101,7 +101,7 @@ summ(mod_pooled_educ)
 
 # Define formula
 f <- as.formula(
-  "r_marriage ~ v_age + v_educ + v_income + v_nativity + v_appearance +
+  "r_date ~ v_age + v_educ + v_income + v_nativity + v_appearance +
     v_housework + v_career + v_emotion + v_fertility +
     age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
@@ -130,7 +130,7 @@ summ(mod_women, digits = 3)
 # 2.2 Interaction models --------------------------------------------------
 
 f_educ <- as.formula(
-  "r_marriage ~ educ * (v_age + v_educ + v_income + v_nativity +
+  "r_date ~ educ * (v_age + v_educ + v_income + v_nativity +
     v_appearance + v_housework + v_career + v_emotion + v_fertility) +
     age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + educ + fulltime + income + sibling +
@@ -160,7 +160,7 @@ summ(mod_women_educ)
 
 # Define formula
 f <- as.formula(
-  "r_marriage ~ v_age + v_educ + v_income + v_nativity + v_appearance +
+  "r_date ~ v_age + v_educ + v_income + v_nativity + v_appearance +
     v_housework + v_career + v_emotion + v_fertility +
     age + city + nativity + romance + cohabit + agemar +
     hukou + peduc + fulltime + income + sibling +
@@ -233,7 +233,7 @@ mod_women_educ_4 <- lmer(
     filter(educ == "graduate")
 )
 
-# 4 Save models -----------------------------------------------------------
+# 3 Save models -----------------------------------------------------------
 
 saveRDS(
   list(
@@ -253,7 +253,7 @@ saveRDS(
     mod_women_educ_3 = mod_women_educ_3,
     mod_women_educ_4 = mod_women_educ_4
   ),
-  file = "models/mods_marriage_robust.rds"
+  file = "outputs/models/mods_dating_robust.rds"
 )
 
-message("✓ Models for marriage saved.\n")
+message("✓ Models for dating saved.\n")

@@ -1,22 +1,20 @@
 ##
-## Script name: 04_educ.r
-## Purpose: Visualize the education interaction terms of models for marriage
-##          and dating, separately.
+## Script name: 02_main.r
+## Purpose: Visualize the main effects of vignette dimensions
 ## Author: Yanwen Wang
-## Date Created: 2025-03-31
+## Date Created: 2025-03-30
 ## Email: yanwenwang@u.nus.edu
 ##
 ## ------------------------------------------------------------------------
 ##
-## Notes: Coefficient and CIs are extracted from education interaction terms
-##        of models for marriage and dating separately. Forest plot is used for
-##        visualization.
+## Notes: Coefficient and CIs are extracted from the models, for marriage and
+##        dating separately. Forest plot is used for visualization.
 ##
 ## ------------------------------------------------------------------------
 
 # 1 Set levels ------------------------------------------------------------
 
-message("Plotting education-specific effects...")
+message("Plotting gender-specific effects...")
 
 # Define vignette variables
 vignette_dims <- c(
@@ -51,24 +49,20 @@ ref_levels <- tibble(
     row_num = row_number() # For ordering
   )
 
-# 2 Prepare data -----------------------------------------------------------
+# 2 Prepare data ----------------------------------------------------------
 
-# 2.1 Marriage -------------------------------------------------------------
+# 2.1 Marriage ------------------------------------------------------------
 
-# 2.1.1 Men ----------------------------------------------------------------
+# 2.1.1 Men ---------------------------------------------------------------
 
-coef_marriage_men_educ_df <- tidy(
-  mod_marriage_men_educ,
-  effects = "fixed",
-  conf.int = TRUE
+# Coefficients and CIs for vignette dimensions
+coef_marriage_men_df <- tidy(
+  mod_marriage_men,
+  conf.int = TRUE,
+  effects = "fixed"
 ) %>%
-  filter(str_detect(term, ":")) %>%
-  mutate(
-    educ = str_extract(term, "(?<=educ).*?(?=:)")
-  ) %>%
-  mutate(
-    term = str_extract(term, "(?<=:).*")
-  ) %>%
+  # Select vignette dimensions
+  filter(grepl("^v_", term)) %>%
   # Extract dimensions and levels
   mutate(
     dim = case_when(
@@ -103,53 +97,36 @@ coef_marriage_men_educ_df <- tidy(
     dim = str_to_title(dim),
     row_num = row_number() + nrow(ref_levels) # For ordering
   ) %>%
-  select(dim, level, educ, estimate, std.error, conf.low, conf.high, row_num)
+  select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
 
 # Prepare data for forest plot
-forest_marriage_men_educ_df <- bind_rows(
-  coef_marriage_men_educ_df, ref_levels
-) %>%
+forest_marriage_men_df <- bind_rows(coef_marriage_men_df, ref_levels) %>%
+  mutate(type = "Marriage") %>%
   mutate(dim = factor(dim, levels = str_to_title(vignette_dims))) %>%
-  arrange(dim, row_num)
-
-unique_labels <- forest_marriage_men_educ_df %>%
-  distinct(dim, level) %>%
-  mutate(row_num = row_number())
-
-forest_marriage_men_educ_df <- forest_marriage_men_educ_df %>%
-  select(-row_num) %>%
-  left_join(unique_labels, by = c("dim", "level")) %>%
+  arrange(dim, row_num) %>%
+  mutate(row_num = row_number()) %>% # Set new row numbers
   mutate(
-    educ = ifelse(is.na(educ), "ref", educ),
-    educ = factor(
-      educ,
-      levels = c("ref", "some college", "college", "graduate")
-    ),
     is_ref = is.na(estimate), # Identify reference levels
     estimate = ifelse(is.na(estimate), 0, estimate),
     conf.low = ifelse(is.na(conf.low), 0, conf.low),
     conf.high = ifelse(is.na(conf.high), 0, conf.high),
-    y_pos = factor(row_num)
+    y_pos = factor(row_num) # For ordering
   ) %>%
-  mutate(
-    type = "Marriage",
-    gender = "Men"
-  )
+  mutate(gender = "men")
+
+# Custom labels
+custom_labels <- forest_marriage_men_df$level
 
 # 2.1.2 Women -------------------------------------------------------------
 
-coef_marriage_women_educ_df <- tidy(
-  mod_marriage_women_educ,
-  effects = "fixed",
-  conf.int = TRUE
+# Coefficients and CIs for vignette dimensions
+coef_marriage_women_df <- tidy(
+  mod_marriage_women,
+  conf.int = TRUE,
+  effects = "fixed"
 ) %>%
-  filter(str_detect(term, ":")) %>%
-  mutate(
-    educ = str_extract(term, "(?<=educ).*?(?=:)")
-  ) %>%
-  mutate(
-    term = str_extract(term, "(?<=:).*")
-  ) %>%
+  # Select vignette dimensions
+  filter(grepl("^v_", term)) %>%
   # Extract dimensions and levels
   mutate(
     dim = case_when(
@@ -184,56 +161,41 @@ coef_marriage_women_educ_df <- tidy(
     dim = str_to_title(dim),
     row_num = row_number() + nrow(ref_levels) # For ordering
   ) %>%
-  select(dim, level, educ, estimate, std.error, conf.low, conf.high, row_num)
+  select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
 
 # Prepare data for forest plot
-forest_marriage_women_educ_df <- bind_rows(
-  coef_marriage_women_educ_df, ref_levels
-) %>%
+forest_marriage_women_df <- bind_rows(coef_marriage_women_df, ref_levels) %>%
+  mutate(type = "Marriage") %>%
   mutate(dim = factor(dim, levels = str_to_title(vignette_dims))) %>%
-  arrange(dim, row_num)
-
-forest_marriage_women_educ_df <- forest_marriage_women_educ_df %>%
-  select(-row_num) %>%
-  left_join(unique_labels, by = c("dim", "level")) %>%
+  arrange(dim, row_num) %>%
+  mutate(row_num = row_number()) %>% # Set new row numbers
   mutate(
-    educ = ifelse(is.na(educ), "ref", educ),
-    educ = factor(
-      educ,
-      levels = c("ref", "some college", "college", "graduate")
-    ),
     is_ref = is.na(estimate), # Identify reference levels
     estimate = ifelse(is.na(estimate), 0, estimate),
     conf.low = ifelse(is.na(conf.low), 0, conf.low),
     conf.high = ifelse(is.na(conf.high), 0, conf.high),
-    y_pos = factor(row_num)
+    y_pos = factor(row_num) # For ordering
   ) %>%
-  mutate(
-    type = "Marriage",
-    gender = "Women"
-  )
+  mutate(gender = "women")
 
-forest_marriage_educ_df <- bind_rows(
-  forest_marriage_men_educ_df,
-  forest_marriage_women_educ_df
-)
+# Combine men and women data
+forest_marriage_df <- bind_rows(
+  forest_marriage_men_df, forest_marriage_women_df
+) %>%
+  mutate(gender = ifelse(is_ref, "ref", gender))
 
 # 2.2 Dating --------------------------------------------------------------
 
-# 2.2.1 Men ----------------------------------------------------------------
+# 2.2.1 Men ---------------------------------------------------------------
 
-coef_dating_men_educ_df <- tidy(
-  mod_dating_men_educ,
-  effects = "fixed",
-  conf.int = TRUE
+# Coefficients and CIs for vignette dimensions
+coef_dating_men_df <- tidy(
+  mod_dating_men,
+  conf.int = TRUE,
+  effects = "fixed"
 ) %>%
-  filter(str_detect(term, ":")) %>%
-  mutate(
-    educ = str_extract(term, "(?<=educ).*?(?=:)")
-  ) %>%
-  mutate(
-    term = str_extract(term, "(?<=:).*")
-  ) %>%
+  # Select vignette dimensions
+  filter(grepl("^v_", term)) %>%
   # Extract dimensions and levels
   mutate(
     dim = case_when(
@@ -268,49 +230,33 @@ coef_dating_men_educ_df <- tidy(
     dim = str_to_title(dim),
     row_num = row_number() + nrow(ref_levels) # For ordering
   ) %>%
-  select(dim, level, educ, estimate, std.error, conf.low, conf.high, row_num)
+  select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
 
 # Prepare data for forest plot
-forest_dating_men_educ_df <- bind_rows(
-  coef_dating_men_educ_df, ref_levels
-) %>%
+forest_dating_men_df <- bind_rows(coef_dating_men_df, ref_levels) %>%
+  mutate(type = "Dating") %>%
   mutate(dim = factor(dim, levels = str_to_title(vignette_dims))) %>%
-  arrange(dim, row_num)
-
-forest_dating_men_educ_df <- forest_dating_men_educ_df %>%
-  select(-row_num) %>%
-  left_join(unique_labels, by = c("dim", "level")) %>%
+  arrange(dim, row_num) %>%
+  mutate(row_num = row_number()) %>% # Set new row numbers
   mutate(
-    educ = ifelse(is.na(educ), "ref", educ),
-    educ = factor(
-      educ,
-      levels = c("ref", "some college", "college", "graduate")
-    ),
     is_ref = is.na(estimate), # Identify reference levels
     estimate = ifelse(is.na(estimate), 0, estimate),
     conf.low = ifelse(is.na(conf.low), 0, conf.low),
     conf.high = ifelse(is.na(conf.high), 0, conf.high),
-    y_pos = factor(row_num)
+    y_pos = factor(row_num) # For ordering
   ) %>%
-  mutate(
-    type = "Dating",
-    gender = "Men"
-  )
+  mutate(gender = "men")
 
-# 2.1.2 Women -------------------------------------------------------------
+# 2.2.2 Women -------------------------------------------------------------
 
-coef_dating_women_educ_df <- tidy(
-  mod_dating_women_educ,
-  effects = "fixed",
-  conf.int = TRUE
+# Coefficients and CIs for vignette dimensions
+coef_dating_women_df <- tidy(
+  mod_dating_women,
+  conf.int = TRUE,
+  effects = "fixed"
 ) %>%
-  filter(str_detect(term, ":")) %>%
-  mutate(
-    educ = str_extract(term, "(?<=educ).*?(?=:)")
-  ) %>%
-  mutate(
-    term = str_extract(term, "(?<=:).*")
-  ) %>%
+  # Select vignette dimensions
+  filter(grepl("^v_", term)) %>%
   # Extract dimensions and levels
   mutate(
     dim = case_when(
@@ -345,61 +291,44 @@ coef_dating_women_educ_df <- tidy(
     dim = str_to_title(dim),
     row_num = row_number() + nrow(ref_levels) # For ordering
   ) %>%
-  select(dim, level, educ, estimate, std.error, conf.low, conf.high, row_num)
+  select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
 
 # Prepare data for forest plot
-forest_dating_women_educ_df <- bind_rows(
-  coef_dating_women_educ_df, ref_levels
-) %>%
+forest_dating_women_df <- bind_rows(coef_dating_women_df, ref_levels) %>%
+  mutate(type = "Dating") %>%
   mutate(dim = factor(dim, levels = str_to_title(vignette_dims))) %>%
-  arrange(dim, row_num)
-
-forest_dating_women_educ_df <- forest_dating_women_educ_df %>%
-  select(-row_num) %>%
-  left_join(unique_labels, by = c("dim", "level")) %>%
+  arrange(dim, row_num) %>%
+  mutate(row_num = row_number()) %>% # Set new row numbers
   mutate(
-    educ = ifelse(is.na(educ), "ref", educ),
-    educ = factor(
-      educ,
-      levels = c("ref", "some college", "college", "graduate")
-    ),
     is_ref = is.na(estimate), # Identify reference levels
     estimate = ifelse(is.na(estimate), 0, estimate),
     conf.low = ifelse(is.na(conf.low), 0, conf.low),
     conf.high = ifelse(is.na(conf.high), 0, conf.high),
-    y_pos = factor(row_num)
+    y_pos = factor(row_num) # For ordering
   ) %>%
-  mutate(
-    type = "Dating",
-    gender = "Women"
-  )
+  mutate(gender = "women")
 
-forest_dating_educ_df <- bind_rows(
-  forest_dating_men_educ_df,
-  forest_dating_women_educ_df
-)
+# Combine men and women data
+forest_dating_df <- bind_rows(
+  forest_dating_men_df, forest_dating_women_df
+) %>%
+  mutate(gender = ifelse(is_ref, "ref", gender))
 
 # Combine marriage and dating data
-forest_educ_df <- bind_rows(
-  forest_marriage_educ_df,
-  forest_dating_educ_df
+forest_df <- bind_rows(
+  forest_marriage_df, forest_dating_df
 ) %>%
   mutate(type = factor(type, levels = c("Marriage", "Dating")))
 
-# 3 Visualize -------------------------------------------------------------
+# 3 Visualize --------------------------------------------------------------
 
-p_educ_diff <- ggplot(
-  forest_educ_df,
-  aes(
-    x = estimate,
-    y = fct_rev(y_pos),
-    color = fct_rev(educ),
-    group = fct_rev(educ)
-  )
+p_gender <- ggplot(
+  forest_df,
+  aes(x = estimate, y = fct_rev(y_pos), color = gender, group = gender)
 ) +
   geom_point(size = 1, position = position_dodge) +
   geom_errorbarh(
-    aes(xmin = conf.low, xmax = conf.high), # educ already in main aes
+    aes(xmin = conf.low, xmax = conf.high), # type already in main aes
     position = position_dodge,
     height = 0.3
   ) +
@@ -409,28 +338,27 @@ p_educ_diff <- ggplot(
   scale_color_manual(
     values = c(
       "ref" = "white",
-      "some college" = "#fd7f6f",
-      "college" = "#7eb0d5",
-      "graduate" = "#b2e061"
+      "men" = "#fd7f6f",
+      "women" = "#7eb0d5"
     ),
-    breaks = c("some college", "college", "graduate"),
-    labels = c("Some college", "College", "Graduate"),
-    name = "Education (ref: high school)"
+    breaks = c("women", "men"),
+    labels = c("Women", "Men"),
+    name = "Gender"
   ) +
-  scale_y_discrete(labels = rev(unique_labels$level)) +
-  facet_grid(~ type + gender) +
+  scale_y_discrete(labels = rev(custom_labels)) +
   labs(
-    x = "Educational difference in attractiveness rating",
+    x = "Attractiveness rating",
     y = NULL
   ) +
+  facet_wrap(~type, scales = "free_x") +
   theme_bw() +
   theme(
     legend.position = "bottom",
-    legend.title = element_text(size = 11),
-    legend.text = element_text(size = 10),
-    axis.text.y = element_markdown(size = 10),
-    axis.text.x = element_text(size = 10),
-    axis.title.x = element_text(size = 10),
+    legend.title = element_text(size = 9),
+    legend.text = element_text(size = 9),
+    axis.text.y = element_markdown(size = 9),
+    axis.text.x = element_text(size = 9),
+    axis.title.x = element_text(size = 9),
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
@@ -439,10 +367,10 @@ p_educ_diff <- ggplot(
 
 # Save
 ggsave(
-  "graphs/educ_diff.pdf",
-  p_educ_diff,
+  "outputs/figures/gender.pdf",
+  p_gender,
   width = 8,
   height = 8
 )
 
-message("✓ Education-difference effects plotted\n")
+message("✓ Gender-specific effects plotted\n")

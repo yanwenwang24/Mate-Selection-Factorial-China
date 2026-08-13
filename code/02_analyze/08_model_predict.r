@@ -255,7 +255,7 @@ p_pred <- ggplot(
 
 # Save
 ggsave(
-  "graphs/predicted.pdf",
+  "outputs/figures/predicted.pdf",
   p_pred,
   width = 8,
   height = 6

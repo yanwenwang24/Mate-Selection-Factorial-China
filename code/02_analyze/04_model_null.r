@@ -34,11 +34,11 @@ saveRDS(
     mod_marriage_null = mod_marriage_null,
     mod_date_null = mod_date_null
   ),
-  file = "models/mods_null.rds"
+  file = "outputs/models/mods_null.rds"
 )
 
 # Read models
-# mods_null <- readRDS("models/mods_null.rds") # nolint
+# mods_null <- readRDS("outputs/models/mods_null.rds") # nolint
 # mod_marriage_null <- mods_null$mod_marriage_null # nolint
 # mod_date_null <- mods_null$mod_date_null # nolint
 

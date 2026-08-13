@@ -20,9 +20,9 @@ message("Calculating R² for marriages by gender...")
 
 # Men's marriage preferences
 r2_marriage_men_full <- partR2(
-  mod_marriage_men_rb,
+  mod_marriage_men,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
-  data = sample_answer_men_rb
+  data = sample_answer_men
 )
 
 r2_marriage_men <- r2_marriage_men_full$R2 %>%
@@ -40,9 +40,9 @@ r2_marriage_men <- r2_marriage_men_full$R2 %>%
 
 # Women's marriage preferences
 r2_marriage_women_full <- partR2(
-  mod_marriage_women_rb,
+  mod_marriage_women,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
-  data = sample_answer_women_rb,
+  data = sample_answer_women,
 )
 
 r2_marriage_women <- r2_marriage_women_full$R2 %>%
@@ -66,9 +66,9 @@ message("Calculating R² for dating by gender...")
 
 # Men's dating preferences
 r2_dating_men_full <- partR2(
-  mod_dating_men_rb,
+  mod_dating_men,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
-  data = sample_answer_men_rb,
+  data = sample_answer_men,
 )
 
 r2_dating_men <- r2_dating_men_full$R2 %>%
@@ -86,9 +86,9 @@ r2_dating_men <- r2_dating_men_full$R2 %>%
 
 # Women's dating preferences
 r2_dating_women_full <- partR2(
-  mod_dating_women_rb,
+  mod_dating_women,
   partvars = grep("^v_", colnames(sample_answer), value = TRUE),
-  data = sample_answer_women_rb,
+  data = sample_answer_women,
 )
 
 r2_dating_women <- r2_dating_women_full$R2 %>%
@@ -213,7 +213,7 @@ p_women_dating <- ggplot(
   common_theme
 
 # Combine plots
-p_importance_gender_rb <- (
+p_importance_gender <- (
   (p_women_marriage | p_men_marriage) /
     (p_women_dating | p_men_dating)
 ) +
@@ -223,8 +223,8 @@ p_importance_gender_rb <- (
 
 # Save combined plot
 ggsave(
-  "graphs/importance_gender_rb.pdf",
-  p_importance_gender_rb,
+  "outputs/figures/importance_gender.pdf",
+  p_importance_gender,
   width = 10,
   height = 10
 )

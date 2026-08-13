@@ -794,14 +794,14 @@ p_importance_dating <- (
 
 # Save combined plot
 ggsave(
-  "graphs/importance_marriage.pdf",
+  "outputs/figures/importance_marriage.pdf",
   p_importance_marriage,
   width = 10,
   height = 10
 )
 
 ggsave(
-  "graphs/importance_dating.pdf",
+  "outputs/figures/importance_dating.pdf",
   p_importance_dating,
   width = 10,
   height = 10

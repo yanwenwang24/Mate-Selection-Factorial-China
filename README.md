@@ -12,7 +12,7 @@ Amidst the deinstitutionalization of marriage, ideational factors have become mo
 
 Install [Julia](https://julialang.org/downloads/), [R](https://cran.r-project.org), and relevant packages. Follow these steps to replicate the study:
 
-1. Clean survey data using the scripts in the [scripts_tidy](./scripts_tidy/) directory.
-2. Run analysis using the scripts in the [scripts_analysis](./scripts_analysis/) directory.
-3. Visualize results using the scripts in the [scripts_visualize](./script_visualize) directory.
+1. Clean survey data using the scripts in the [code/01_clean](./code/01_clean/) directory.
+2. Run analysis using the scripts in the [code/02_analyze](./code/02_analyze/) directory. Fitted models are saved to `outputs/models/`.
+3. Visualize results using the scripts in the [code/03_visualize](./code/03_visualize/) directory. Figures are saved to `outputs/figures/`.
 4. Initialize the web app by running `shiny::runApp("app/app.r")` via R interface or visiting [Posit Cloud](https://yanwenwang24-predict-attractiveness.share.connect.posit.cloud/).

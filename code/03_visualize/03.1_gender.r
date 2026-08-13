@@ -1,4 +1,3 @@
-
 ##
 ## Script name: 02_main.r
 ## Purpose: Visualize the main effects of vignette dimensions
@@ -15,7 +14,7 @@
 
 # 1 Set levels ------------------------------------------------------------
 
-message("Plotting pooled effects...")
+message("Plotting gender-specific effects...")
 
 # Define vignette variables
 vignette_dims <- c(
@@ -54,9 +53,11 @@ ref_levels <- tibble(
 
 # 2.1 Marriage ------------------------------------------------------------
 
+# 2.1.1 Men ---------------------------------------------------------------
+
 # Coefficients and CIs for vignette dimensions
-coef_marriage_df <- tidy(
-  mod_marriage_pooled,
+coef_marriage_men_df <- tidy(
+  mod_marriage_men_rb,
   conf.int = TRUE,
   effects = "fixed"
 ) %>%
@@ -99,7 +100,7 @@ coef_marriage_df <- tidy(
   select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
 
 # Prepare data for forest plot
-forest_marriage_df <- bind_rows(coef_marriage_df, ref_levels) %>%
+forest_marriage_men_df <- bind_rows(coef_marriage_men_df, ref_levels) %>%
   mutate(type = "Marriage") %>%
   mutate(dim = factor(dim, levels = str_to_title(vignette_dims))) %>%
   arrange(dim, row_num) %>%
@@ -110,16 +111,17 @@ forest_marriage_df <- bind_rows(coef_marriage_df, ref_levels) %>%
     conf.low = ifelse(is.na(conf.low), 0, conf.low),
     conf.high = ifelse(is.na(conf.high), 0, conf.high),
     y_pos = factor(row_num) # For ordering
-  )
+  ) %>%
+  mutate(gender = "men")
 
 # Custom labels
-custom_labels <- forest_marriage_df$level
+custom_labels <- forest_marriage_men_df$level
 
-# 2.2 Dating --------------------------------------------------------------
+# 2.1.2 Women -------------------------------------------------------------
 
 # Coefficients and CIs for vignette dimensions
-coef_dating_df <- tidy(
-  mod_dating_pooled,
+coef_marriage_women_df <- tidy(
+  mod_marriage_women_rb,
   conf.int = TRUE,
   effects = "fixed"
 ) %>%
@@ -162,7 +164,76 @@ coef_dating_df <- tidy(
   select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
 
 # Prepare data for forest plot
-forest_dating_df <- bind_rows(coef_dating_df, ref_levels) %>%
+forest_marriage_women_df <- bind_rows(coef_marriage_women_df, ref_levels) %>%
+  mutate(type = "Marriage") %>%
+  mutate(dim = factor(dim, levels = str_to_title(vignette_dims))) %>%
+  arrange(dim, row_num) %>%
+  mutate(row_num = row_number()) %>% # Set new row numbers
+  mutate(
+    is_ref = is.na(estimate), # Identify reference levels
+    estimate = ifelse(is.na(estimate), 0, estimate),
+    conf.low = ifelse(is.na(conf.low), 0, conf.low),
+    conf.high = ifelse(is.na(conf.high), 0, conf.high),
+    y_pos = factor(row_num) # For ordering
+  ) %>%
+  mutate(gender = "women")
+
+# Combine men and women data
+forest_marriage_df <- bind_rows(
+  forest_marriage_men_df, forest_marriage_women_df
+) %>%
+  mutate(gender = ifelse(is_ref, "ref", gender))
+
+# 2.2 Dating --------------------------------------------------------------
+
+# 2.2.1 Men ---------------------------------------------------------------
+
+# Coefficients and CIs for vignette dimensions
+coef_dating_men_df <- tidy(
+  mod_dating_men_rb,
+  conf.int = TRUE,
+  effects = "fixed"
+) %>%
+  # Select vignette dimensions
+  filter(grepl("^v_", term)) %>%
+  # Extract dimensions and levels
+  mutate(
+    dim = case_when(
+      grepl("^v_age", term) ~ "age",
+      grepl("^v_educ", term) ~ "education",
+      grepl("^v_income", term) ~ "income/career",
+      grepl("^v_nativity", term) ~ "nativity",
+      grepl("^v_appearance", term) ~ "appearance",
+      grepl("^v_housework", term) ~ "housework",
+      grepl("^v_career", term) ~ "career support",
+      grepl("^v_emotion", term) ~ "emotional support",
+      grepl("^v_fertility", term) ~ "fertility intention",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  # Extract level by removing variable prefix
+  mutate(
+    level = case_when(
+      dim == "age" ~ sub("^v_age", "", term),
+      dim == "education" ~ sub("^v_educ", "", term),
+      dim == "income/career" ~ sub("^v_income", "", term),
+      dim == "nativity" ~ sub("^v_nativity", "", term),
+      dim == "appearance" ~ sub("^v_appearance", "", term),
+      dim == "housework" ~ sub("^v_housework", "", term),
+      dim == "career support" ~ sub("^v_career", "", term),
+      dim == "emotional support" ~ sub("^v_emotion", "", term),
+      dim == "fertility intention" ~ sub("^v_fertility", "", term),
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  mutate(
+    dim = str_to_title(dim),
+    row_num = row_number() + nrow(ref_levels) # For ordering
+  ) %>%
+  select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
+
+# Prepare data for forest plot
+forest_dating_men_df <- bind_rows(coef_dating_men_df, ref_levels) %>%
   mutate(type = "Dating") %>%
   mutate(dim = factor(dim, levels = str_to_title(vignette_dims))) %>%
   arrange(dim, row_num) %>%
@@ -173,17 +244,87 @@ forest_dating_df <- bind_rows(coef_dating_df, ref_levels) %>%
     conf.low = ifelse(is.na(conf.low), 0, conf.low),
     conf.high = ifelse(is.na(conf.high), 0, conf.high),
     y_pos = factor(row_num) # For ordering
-  )
+  ) %>%
+  mutate(gender = "men")
+
+# 2.2.2 Women -------------------------------------------------------------
+
+# Coefficients and CIs for vignette dimensions
+coef_dating_women_df <- tidy(
+  mod_dating_women_rb,
+  conf.int = TRUE,
+  effects = "fixed"
+) %>%
+  # Select vignette dimensions
+  filter(grepl("^v_", term)) %>%
+  # Extract dimensions and levels
+  mutate(
+    dim = case_when(
+      grepl("^v_age", term) ~ "age",
+      grepl("^v_educ", term) ~ "education",
+      grepl("^v_income", term) ~ "income/career",
+      grepl("^v_nativity", term) ~ "nativity",
+      grepl("^v_appearance", term) ~ "appearance",
+      grepl("^v_housework", term) ~ "housework",
+      grepl("^v_career", term) ~ "career support",
+      grepl("^v_emotion", term) ~ "emotional support",
+      grepl("^v_fertility", term) ~ "fertility intention",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  # Extract level by removing variable prefix
+  mutate(
+    level = case_when(
+      dim == "age" ~ sub("^v_age", "", term),
+      dim == "education" ~ sub("^v_educ", "", term),
+      dim == "income/career" ~ sub("^v_income", "", term),
+      dim == "nativity" ~ sub("^v_nativity", "", term),
+      dim == "appearance" ~ sub("^v_appearance", "", term),
+      dim == "housework" ~ sub("^v_housework", "", term),
+      dim == "career support" ~ sub("^v_career", "", term),
+      dim == "emotional support" ~ sub("^v_emotion", "", term),
+      dim == "fertility intention" ~ sub("^v_fertility", "", term),
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  mutate(
+    dim = str_to_title(dim),
+    row_num = row_number() + nrow(ref_levels) # For ordering
+  ) %>%
+  select(dim, level, estimate, std.error, conf.low, conf.high, row_num)
+
+# Prepare data for forest plot
+forest_dating_women_df <- bind_rows(coef_dating_women_df, ref_levels) %>%
+  mutate(type = "Dating") %>%
+  mutate(dim = factor(dim, levels = str_to_title(vignette_dims))) %>%
+  arrange(dim, row_num) %>%
+  mutate(row_num = row_number()) %>% # Set new row numbers
+  mutate(
+    is_ref = is.na(estimate), # Identify reference levels
+    estimate = ifelse(is.na(estimate), 0, estimate),
+    conf.low = ifelse(is.na(conf.low), 0, conf.low),
+    conf.high = ifelse(is.na(conf.high), 0, conf.high),
+    y_pos = factor(row_num) # For ordering
+  ) %>%
+  mutate(gender = "women")
+
+# Combine men and women data
+forest_dating_df <- bind_rows(
+  forest_dating_men_df, forest_dating_women_df
+) %>%
+  mutate(gender = ifelse(is_ref, "ref", gender))
 
 # Combine marriage and dating data
-forest_df <- bind_rows(forest_marriage_df, forest_dating_df) %>%
-  mutate(type = ifelse(is_ref, "ref", type))
+forest_df <- bind_rows(
+  forest_marriage_df, forest_dating_df
+) %>%
+  mutate(type = factor(type, levels = c("Marriage", "Dating")))
 
 # 3 Visualize --------------------------------------------------------------
 
-p_pooled <- ggplot(
+p_gender_rb <- ggplot(
   forest_df,
-  aes(x = estimate, y = fct_rev(y_pos), color = type, group = type)
+  aes(x = estimate, y = fct_rev(y_pos), color = gender, group = gender)
 ) +
   geom_point(size = 1, position = position_dodge) +
   geom_errorbarh(
@@ -197,18 +338,19 @@ p_pooled <- ggplot(
   scale_color_manual(
     values = c(
       "ref" = "white",
-      "Marriage" = "#fd7f6f",
-      "Dating" = "#7eb0d5"
+      "men" = "#fd7f6f",
+      "women" = "#7eb0d5"
     ),
-    breaks = c("Marriage", "Dating"),
-    labels = c("Marriage", "Dating"),
-    name = "Context"
+    breaks = c("women", "men"),
+    labels = c("Women", "Men"),
+    name = "Gender"
   ) +
   scale_y_discrete(labels = rev(custom_labels)) +
   labs(
     x = "Attractiveness rating",
     y = NULL
   ) +
+  facet_wrap(~type, scales = "free_x") +
   theme_bw() +
   theme(
     legend.position = "bottom",
@@ -225,10 +367,10 @@ p_pooled <- ggplot(
 
 # Save
 ggsave(
-  "graphs/pooled.pdf",
-  p_pooled,
+  "outputs/figures/gender_rb.pdf",
+  p_gender_rb,
   width = 8,
   height = 8
 )
 
-message("✓ Pooled effects plotted\n")
+message("✓ Gender-specific effects plotted\n")

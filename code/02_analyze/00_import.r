@@ -55,29 +55,29 @@ message("✓ Data loaded.\n")
 message("\n--- Analyzing data... ---\n")
 
 # Select samples
-source("scripts_analysis/01_exclude.r")
+source("code/02_analyze/01_exclude.r")
 
 # Describe samples
-source("scripts_analysis/02_describe.r")
+source("code/02_analyze/02_describe.r")
 
 # Check randomization
-source("scripts_analysis/03_check.r")
+source("code/02_analyze/03_check.r")
 
 # Fit null models
-source("scripts_analysis/04_model_null.r")
+source("code/02_analyze/04_model_null.r")
 
 # Fit models for marriages
-source("scripts_analysis/05_model_marriage.r")
-source("scripts_analysis/05.1_model_marriage_robust.r")
+source("code/02_analyze/05_model_marriage.r")
+source("code/02_analyze/05.1_model_marriage_robust.r")
 
 # Fit models for dating
-source("scripts_analysis/06_model_dating.r")
-source("scripts_analysis/06.1_model_dating_robust.r")
+source("code/02_analyze/06_model_dating.r")
+source("code/02_analyze/06.1_model_dating_robust.r")
 
 # Fit models for comparing marriage and dating
-source("scripts_analysis/07_model_long.r")
+source("code/02_analyze/07_model_long.r")
 
 # Predict with real data
-source("scripts_analysis/08_model_predict.r")
+source("code/02_analyze/08_model_predict.r")
 
 message("\n--- All analysis scripts completed successfully! ---\n")

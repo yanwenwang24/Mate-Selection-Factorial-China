@@ -56,7 +56,7 @@ sample_answer <- samples$sample_answer
 sample_answer_men <- filter(sample_answer, gender == "men")
 sample_answer_women <- filter(sample_answer, gender == "women")
 
-# Robustness subset (matches the exclusions in scripts_analysis/05.1 & 06.1):
+# Robustness subset (matches the exclusions in code/02_analyze/05.1 & 06.1):
 # drop implausible vignettes (graduate respondent rating a partner > 5y younger
 # than 24) and respondents who selected "against marriage" in agemar.
 id_vector_implausible <- sample_answer %>%
@@ -127,7 +127,7 @@ message("Loading models...")
 # 3.1 Marriage ------------------------------------------------------------
 
 # Pooled models
-mods_marriage <- readRDS("models/mods_marriage.rds")
+mods_marriage <- readRDS("outputs/models/mods_marriage.rds")
 mod_marriage_pooled <- mods_marriage$mod_pooled
 mod_marriage_pooled_gender <- mods_marriage$mod_pooled_gender # Interaction
 mod_marriage_pooled_educ <- mods_marriage$mod_pooled_educ # Interaction
@@ -147,14 +147,14 @@ mod_marriage_women_educ_3 <- mods_marriage$mod_women_educ_3
 mod_marriage_women_educ_4 <- mods_marriage$mod_women_educ_4
 
 # Robustness check
-mods_marriage_rb <- readRDS("models/mods_marriage_robust.rds")
+mods_marriage_rb <- readRDS("outputs/models/mods_marriage_robust.rds")
 mod_marriage_men_rb <- mods_marriage_rb$mod_men
 mod_marriage_women_rb <- mods_marriage_rb$mod_women
 
 # 3.2 Dating --------------------------------------------------------------
 
 # Pooled models
-mods_dating <- readRDS("models/mods_dating.rds")
+mods_dating <- readRDS("outputs/models/mods_dating.rds")
 mod_dating_pooled <- mods_dating$mod_pooled
 mod_dating_pooled_gender <- mods_dating$mod_pooled_gender # Interaction
 mod_dating_pooled_educ <- mods_dating$mod_pooled_educ # Interaction
@@ -174,7 +174,7 @@ mod_dating_women_educ_3 <- mods_dating$mod_women_educ_3
 mod_dating_women_educ_4 <- mods_dating$mod_women_educ_4
 
 # Robustness check
-mods_dating_rb <- readRDS("models/mods_dating_robust.rds")
+mods_dating_rb <- readRDS("outputs/models/mods_dating_robust.rds")
 mod_dating_men_rb <- mods_dating_rb$mod_men
 mod_dating_women_rb <- mods_dating_rb$mod_women
 
@@ -185,30 +185,30 @@ message("✓ Models loaded\n")
 message("\n--- Visualizing data... ---\n")
 
 # Relative importance
-source("scripts_visualize/01_importance.r")
+source("code/03_visualize/01_importance.r")
 
 # Relative importance (robustness)
-source("scripts_visualize/01.1_importance_rb.r")
+source("code/03_visualize/01.1_importance_rb.r")
 
 # Pooled effects
-source("scripts_visualize/02_pooled.r")
+source("code/03_visualize/02_pooled.r")
 
 # Gender-specific effects
-source("scripts_visualize/03_gender.r")
+source("code/03_visualize/03_gender.r")
 
 # Gender-specific effects (robustness)
-source("scripts_visualize/03.1_gender.r")
+source("code/03_visualize/03.1_gender.r")
 
 # Gender difference
-source("scripts_visualize/04_gender_diff.r")
+source("code/03_visualize/04_gender_diff.r")
 
 # Education-specific effects
-source("scripts_visualize/05_educ.r")
+source("code/03_visualize/05_educ.r")
 
 # Educational difference
-source("scripts_visualize/06_educ_diff.r")
+source("code/03_visualize/06_educ_diff.r")
 
 # Gender-education-specific relative importance
-source("scripts_visualize/07_importance_educ.r")
+source("code/03_visualize/07_importance_educ.r")
 
 message("\n--- Visualization completed ---\n")

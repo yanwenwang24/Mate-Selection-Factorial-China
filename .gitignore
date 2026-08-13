@@ -2,5 +2,5 @@
 .DS_Store
 .vscode/
 
-# Models
-models/
+# Outputs (models, figures)
+outputs/

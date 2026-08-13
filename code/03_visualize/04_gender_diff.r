@@ -226,7 +226,7 @@ p_gender_diff <- ggplot(
 
 # Save
 ggsave(
-  "graphs/gender_diff.pdf",
+  "outputs/figures/gender_diff.pdf",
   p_gender_diff,
   width = 8,
   height = 8

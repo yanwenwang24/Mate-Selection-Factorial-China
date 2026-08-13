@@ -1226,7 +1226,7 @@ p_educ <- ggplot(
 
 # Save
 ggsave(
-  "graphs/educ.pdf",
+  "outputs/figures/educ.pdf",
   p_educ,
   width = 8,
   height = 8

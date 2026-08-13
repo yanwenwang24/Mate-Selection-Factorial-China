@@ -52,7 +52,7 @@ saveRDS(
     mod_men = mod_men,
     mod_women = mod_women
   ),
-  file = "models/mods_long.rds"
+  file = "outputs/models/mods_long.rds"
 )
 
 message("✓ Models for comparing marriage and dating saved.\n")
