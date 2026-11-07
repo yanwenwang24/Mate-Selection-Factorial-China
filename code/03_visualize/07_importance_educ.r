@@ -412,7 +412,7 @@ r2_gender_educ_df <- bind_rows(
       term == "Appearance" ~ "Appearance",
       term == "Income" ~ "Income/career",
       term == "Fertility" ~ "Fertility intention",
-      term == "Nativity" ~ "Nativity",
+      term == "Nativity" ~ "Local-origin",
       term == "Career" ~ "Career support",
       term == "Age" ~ "Age"
     ),

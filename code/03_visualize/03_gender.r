@@ -21,7 +21,7 @@ vignette_dims <- c(
   "age",
   "education",
   "income/career",
-  "nativity",
+  "local-origin",
   "appearance",
   "housework",
   "career support",
@@ -36,7 +36,7 @@ ref_levels <- tibble(
     "similar", # Age
     "secondary", # Education
     "average", # Income
-    "local", # Nativity
+    "local", # Local-origin
     "average", # Appearance
     "equal", # Housework
     "moderate", # Career
@@ -69,7 +69,7 @@ coef_marriage_men_df <- tidy(
       grepl("^v_age", term) ~ "age",
       grepl("^v_educ", term) ~ "education",
       grepl("^v_income", term) ~ "income/career",
-      grepl("^v_nativity", term) ~ "nativity",
+      grepl("^v_nativity", term) ~ "local-origin",
       grepl("^v_appearance", term) ~ "appearance",
       grepl("^v_housework", term) ~ "housework",
       grepl("^v_career", term) ~ "career support",
@@ -84,7 +84,7 @@ coef_marriage_men_df <- tidy(
       dim == "age" ~ sub("^v_age", "", term),
       dim == "education" ~ sub("^v_educ", "", term),
       dim == "income/career" ~ sub("^v_income", "", term),
-      dim == "nativity" ~ sub("^v_nativity", "", term),
+      dim == "local-origin" ~ sub("^v_nativitymigrant$", "non-local", term),
       dim == "appearance" ~ sub("^v_appearance", "", term),
       dim == "housework" ~ sub("^v_housework", "", term),
       dim == "career support" ~ sub("^v_career", "", term),
@@ -133,7 +133,7 @@ coef_marriage_women_df <- tidy(
       grepl("^v_age", term) ~ "age",
       grepl("^v_educ", term) ~ "education",
       grepl("^v_income", term) ~ "income/career",
-      grepl("^v_nativity", term) ~ "nativity",
+      grepl("^v_nativity", term) ~ "local-origin",
       grepl("^v_appearance", term) ~ "appearance",
       grepl("^v_housework", term) ~ "housework",
       grepl("^v_career", term) ~ "career support",
@@ -148,7 +148,7 @@ coef_marriage_women_df <- tidy(
       dim == "age" ~ sub("^v_age", "", term),
       dim == "education" ~ sub("^v_educ", "", term),
       dim == "income/career" ~ sub("^v_income", "", term),
-      dim == "nativity" ~ sub("^v_nativity", "", term),
+      dim == "local-origin" ~ sub("^v_nativitymigrant$", "non-local", term),
       dim == "appearance" ~ sub("^v_appearance", "", term),
       dim == "housework" ~ sub("^v_housework", "", term),
       dim == "career support" ~ sub("^v_career", "", term),
@@ -202,7 +202,7 @@ coef_dating_men_df <- tidy(
       grepl("^v_age", term) ~ "age",
       grepl("^v_educ", term) ~ "education",
       grepl("^v_income", term) ~ "income/career",
-      grepl("^v_nativity", term) ~ "nativity",
+      grepl("^v_nativity", term) ~ "local-origin",
       grepl("^v_appearance", term) ~ "appearance",
       grepl("^v_housework", term) ~ "housework",
       grepl("^v_career", term) ~ "career support",
@@ -217,7 +217,7 @@ coef_dating_men_df <- tidy(
       dim == "age" ~ sub("^v_age", "", term),
       dim == "education" ~ sub("^v_educ", "", term),
       dim == "income/career" ~ sub("^v_income", "", term),
-      dim == "nativity" ~ sub("^v_nativity", "", term),
+      dim == "local-origin" ~ sub("^v_nativitymigrant$", "non-local", term),
       dim == "appearance" ~ sub("^v_appearance", "", term),
       dim == "housework" ~ sub("^v_housework", "", term),
       dim == "career support" ~ sub("^v_career", "", term),
@@ -263,7 +263,7 @@ coef_dating_women_df <- tidy(
       grepl("^v_age", term) ~ "age",
       grepl("^v_educ", term) ~ "education",
       grepl("^v_income", term) ~ "income/career",
-      grepl("^v_nativity", term) ~ "nativity",
+      grepl("^v_nativity", term) ~ "local-origin",
       grepl("^v_appearance", term) ~ "appearance",
       grepl("^v_housework", term) ~ "housework",
       grepl("^v_career", term) ~ "career support",
@@ -278,7 +278,7 @@ coef_dating_women_df <- tidy(
       dim == "age" ~ sub("^v_age", "", term),
       dim == "education" ~ sub("^v_educ", "", term),
       dim == "income/career" ~ sub("^v_income", "", term),
-      dim == "nativity" ~ sub("^v_nativity", "", term),
+      dim == "local-origin" ~ sub("^v_nativitymigrant$", "non-local", term),
       dim == "appearance" ~ sub("^v_appearance", "", term),
       dim == "housework" ~ sub("^v_housework", "", term),
       dim == "career support" ~ sub("^v_career", "", term),

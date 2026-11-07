@@ -126,7 +126,7 @@ r2_gender_df <- bind_rows(
       term == "Appearance" ~ "Appearance",
       term == "Income" ~ "Income/career",
       term == "Fertility" ~ "Fertility intention",
-      term == "Nativity" ~ "Nativity",
+      term == "Nativity" ~ "Local-origin",
       term == "Career" ~ "Career support",
       term == "Age" ~ "Age"
     ),
@@ -142,12 +142,13 @@ message("Creating plots by gender...")
 max_r2 <- max(r2_gender_df$estimate) * 1.05 # Add 5% padding
 
 # Common theme settings
+# Sizes chosen so text stays >= ~8 pt after shrinking to journal column width
 common_theme <- theme_bw() +
   theme(
-    plot.title = element_text(size = 10, face = "bold"),
-    axis.text.y = element_markdown(size = 9),
-    axis.text.x = element_text(size = 9),
-    axis.title.x = element_text(size = 9),
+    plot.title = element_text(size = 13, face = "bold"),
+    axis.text.y = element_markdown(size = 12),
+    axis.text.x = element_text(size = 11),
+    axis.title.x = element_text(size = 12),
     panel.grid.major.y = element_blank(),
     panel.grid.minor = element_blank()
   )
@@ -219,14 +220,14 @@ p_importance_gender <- (
 ) +
   plot_annotation(caption = "Semi-partial R² (Unique variance explained)") +
   plot_layout(guides = "collect") &
-  theme(plot.caption = element_text(hjust = 0.5, size = 10))
+  theme(plot.caption = element_text(hjust = 0.5, size = 12))
 
 # Save combined plot
 ggsave(
   "outputs/figures/importance_gender.pdf",
   p_importance_gender,
   width = 10,
-  height = 10
+  height = 8.5
 )
 
 message("✓ Gender-specific importance plot saved\n")

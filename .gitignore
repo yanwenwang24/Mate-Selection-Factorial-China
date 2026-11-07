@@ -4,3 +4,5 @@
 
 # Outputs (models, figures)
 outputs/
+# LaTeX manuscript (local only)
+tex/
